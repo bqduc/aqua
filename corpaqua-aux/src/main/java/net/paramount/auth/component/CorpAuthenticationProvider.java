@@ -1,5 +1,7 @@
 package net.paramount.auth.component;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -8,10 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import net.paramount.auth.domain.BaseACL;
 import net.paramount.auth.domain.UserProfile;
+import net.paramount.auth.entity.Authority;
 import net.paramount.auth.exception.CorporateAuthenticationException;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonUtility;
+import net.paramount.common.ListUtility;
 import net.paramount.framework.component.CompCore;
 
 /**
@@ -31,6 +36,12 @@ public class CorpAuthenticationProvider extends CompCore implements Authenticati
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		/*BaseACL baseACL = null;
+		if (null != (baseACL = BaseACL.parse(authentication.getName()))) {
+			List<Authority> authorities = ListUtility.createList(Authority.builder().name(baseACL.getAuthority()).build());
+			return new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials().toString(), authorities);
+		}*/
+
 		if (authentication.getName().length() < 150) {
 			return authenticateBySsoId(authentication.getName(), authentication.getCredentials().toString());
 		}

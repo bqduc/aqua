@@ -34,7 +34,7 @@ import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.general.BusinessUnit;
-import net.paramount.exceptions.MspRuntimeException;
+import net.paramount.exceptions.EcosphereRuntimeException;
 import net.paramount.framework.controller.RootController;
 import net.paramount.framework.model.Context;
 import net.paramount.framework.model.ExecutionContext;
@@ -234,7 +234,7 @@ public class UserAccountRegister extends RootController {
 
 			Optional<Configuration> opt = configurationService.getByName(GlobalConstants.CONFIG_APP_ACCESS_URL);
 			if (!opt.isPresent())
-				throw new MspRuntimeException("No configuration of application access link!");
+				throw new EcosphereRuntimeException("No configuration of application access link!");
 
 			definitions.put(GlobalConstants.CONFIG_APP_ACCESS_URL, new StringBuilder(opt.get().getValue())
 					.append("/protected/accountProfile/confirm/")

@@ -22,6 +22,12 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>corpaqua-aux</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>corpaqua-osx</artifactId>
 			<version>${project.version}</version>
 		</dependency>	

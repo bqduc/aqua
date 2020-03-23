@@ -70,4 +70,13 @@ public interface UserAccountRepository extends BaseRepository<UserAccount, Long>
 	 * @return a true if exists
 	 */
 	boolean existsByEmail(String email);
+
+	/**
+	 * Check if a user with the ssoId exists in the system
+	 * 
+	 * @param ssoId
+	 *            the user account's ssoId
+	 * @return a true if exists
+	 */
+	boolean existsBySsoId(String ssoId);
 }

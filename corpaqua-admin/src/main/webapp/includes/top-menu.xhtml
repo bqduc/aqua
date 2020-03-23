@@ -498,16 +498,17 @@
                     </div>
                     <p>
                         Bui Quy. Duc
-                        <small>Software Engineer</small>
+                        <small>SWE</small>
                     </p>
                 </li>
                 <li class="user-footer">
                     <h:form prependId="false">
                         <div class="pull-left">
-                            <p:commandLink  styleClass="btn btn-danger"  value="Change password"/>
+                             <h:outputLink value="${pageContext.request.contextPath}/login.xhtml" target="/"><i class="fa fa-sign-in fa-2x"></i></h:outputLink>
+                             <h:outputLink rendered="#{not empty request.remoteUser}" value="${pageContext.request.contextPath}/changePassword.jsf"><i class="fa fa-key"></i></h:outputLink>
                         </div>
                         <div class="pull-right">
-                             <h:outputLink value="${pageContext.request.contextPath}/j_spring_security_logout" target="/"><i class="fa fa-sign-out fa-2x"></i></h:outputLink>
+                             <h:outputLink rendered="#{not empty request.remoteUser}" value="${pageContext.request.contextPath}/j_spring_security_logout" target="/"><i class="fa fa-sign-out fa-2x"></i></h:outputLink>
                         </div>
                     </h:form>
                 </li>

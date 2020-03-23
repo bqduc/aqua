@@ -40,6 +40,9 @@ public class AuditingConfiguration {
 		public Optional<String> getCurrentAuditor() {
 			System.out.println("Authenticated user from security officer component: " + authorizationService.getUserProfile());
 			Authentication auth = securityContextHolderServiceHelper.getAuthentication();
+			if (auth==null)
+				return Optional.empty();
+
 			if (auth.getPrincipal() instanceof String) {
 				return Optional.of((String)auth.getPrincipal());
 			}

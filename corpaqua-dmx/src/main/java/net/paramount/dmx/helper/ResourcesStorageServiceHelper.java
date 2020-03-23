@@ -28,7 +28,7 @@ import net.paramount.domain.entity.Attachment;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.config.ConfigurationDetail;
 import net.paramount.exceptions.MspDataException;
-import net.paramount.exceptions.MspRuntimeException;
+import net.paramount.exceptions.EcosphereRuntimeException;
 import net.paramount.exceptions.ResourcesException;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.OSXConstants;
@@ -135,7 +135,7 @@ public class ResourcesStorageServiceHelper {
 		}
 	}
 
-	public static Attachment buidAttachment(final File file) throws MspRuntimeException {
+	public static Attachment buidAttachment(final File file) throws EcosphereRuntimeException {
 		Attachment attachment = null;
 		int lastDot = file.getName().lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = file.getName().substring(lastDot+1);
@@ -146,12 +146,12 @@ public class ResourcesStorageServiceHelper {
 					.mimetype(MimeTypes.getMimeType(fileExtension))
 					.build();
 		} catch (IOException e) {
-			throw new MspRuntimeException(e);
+			throw new EcosphereRuntimeException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws MspRuntimeException {
+	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws EcosphereRuntimeException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -167,12 +167,12 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (IOException e) {
-			throw new MspRuntimeException(e);
+			throw new EcosphereRuntimeException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws MspRuntimeException {
+	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws EcosphereRuntimeException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -188,17 +188,17 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (Exception e) {
-			throw new MspRuntimeException(e);
+			throw new EcosphereRuntimeException(e);
 		}
 		return attachment;
 	}
 
-	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws MspRuntimeException {
+	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws EcosphereRuntimeException {
 		InputStream inputStream = null;
 		try {
 			inputStream = CommonUtility.createInputStream(attachment.getName(), attachment.getData());
 		} catch (Exception e) {
-			throw new MspRuntimeException(e);
+			throw new EcosphereRuntimeException(e);
 		}
 		return inputStream;
 	}	

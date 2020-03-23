@@ -27,6 +27,7 @@ import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
+import net.paramount.exceptions.EcosphereRuntimeException;
 import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.exceptions.MspDataException;
 import net.paramount.exceptions.ObjectNotFoundException;
@@ -162,6 +163,14 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public boolean exists(String countByProperty, Object value) {
+		String invokeMethod = "existsBy" + StringUtils.capitalize(countByProperty);
+		Map<?, ?> parameters = ListUtility.createMap(countByProperty, value);
+		return existsEntity(invokeMethod, parameters);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public long count() {
 		return getRepository().count();
 	}
@@ -192,6 +201,20 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 			log.error(e);
 		}
 		return count;
+	}
+
+	private boolean existsEntity(String methodName, Map<?, ?> parameters) throws EcosphereRuntimeException {
+		Object retData = null;
+		boolean exists = false;
+		try {
+			retData = CommonBeanUtils.invokeOperation(this.getRepository(), methodName, parameters, PACKAGE_PREFIX);
+			exists = Boolean.TRUE.equals(retData);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| InstantiationException e) {
+			//log.error(e);
+			throw new EcosphereRuntimeException(e);
+		}
+		return exists;
 	}
 
 	@Override

@@ -245,4 +245,20 @@ public class UserAccount extends SsoEntityBase implements AuthenticationDetails 
 	public void setInfo(String info) {
 		this.info = info;
 	}
+
+	public static UserAccount getInsance(String firstName, String lastName, String ssoId, String password, String email, Authority[] authorities) {
+		UserAccount instance = UserAccount.builder()
+				.firstName(firstName)
+				.lastName(lastName)
+				.build();
+
+		instance.setSsoId(ssoId);
+		instance.setPassword(password);
+		instance.setEmail(email);
+		instance.setActivated(Boolean.TRUE);
+		for (Authority authority :authorities) {
+			instance.addPrivilege(authority);
+		}
+		return instance;
+	}
 }

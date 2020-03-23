@@ -49,7 +49,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
   private UserAccountRepository repository;
 
 	@Inject
-	private PasswordEncoder virtualPasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Inject
 	private Communicator emailCommunicatior;
@@ -100,7 +100,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 	@Override
 	public void registerUserAccount(UserAccount userAccount) {
 		if (!hasBeenEncoded(userAccount.getPassword())) {
-			userAccount.setPassword(virtualPasswordEncoder.encode(userAccount.getPassword()));
+			userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
 		}
 
 		Authority minimumAuthority = authorityService.getMinimumUserAuthority();
@@ -161,13 +161,13 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 		return null;
 	}
 
-	@Override
+	/*@Override
 	public UserAccount save(UserAccount user) {
 		//user.setPassword(virtualEncoder.encode(user.getPassword()));
-		user.setPassword(virtualPasswordEncoder.encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		repository.save(user);
 		return user;
-	}
+	}*/
 
 	@Override
 	public UserAccount getUserAccount(String loginId, String password) throws CorporateAuthException {
@@ -183,7 +183,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 		if (null == repositoryUser)
 			throw new CorporateAuthException(CorporateAuthException.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
 
-		if (false==this.virtualPasswordEncoder.matches(password, repositoryUser.getPassword()))
+		if (!this.passwordEncoder.matches(password, repositoryUser.getPassword()))
 			throw new CorporateAuthException(CorporateAuthException.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
 
 		if (!Boolean.TRUE.equals(repositoryUser.isActivated()))

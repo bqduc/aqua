@@ -23,6 +23,8 @@ public interface GenericService<T extends ObjectBase, K extends Serializable> ex
 	void remove(T entity);
 	void removeAll();
 
+	boolean exists(String countByProperty, Object value);
+
 	long count();
 	long count(String countByProperty, Object value);
 

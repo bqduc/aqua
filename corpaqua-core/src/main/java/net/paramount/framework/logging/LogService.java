@@ -78,4 +78,8 @@ public class LogService implements Serializable {
 	public void debug(String msg) {
 		log.debug(msg);
 	}
+
+	public void warn(String msg) {
+		log.warn(msg);
+	}
 }

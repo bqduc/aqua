@@ -3,16 +3,26 @@
  */
 package net.paramount.auth.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import net.paramount.auth.component.JwtTokenProvider;
 import net.paramount.auth.domain.UserProfile;
+import net.paramount.auth.entity.AccessDecisionPolicy;
+import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.UserAccount;
 import net.paramount.auth.exception.CorporateAuthenticationException;
+import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.auth.service.UserAccountService;
@@ -21,6 +31,7 @@ import net.paramount.comm.comp.Communicator;
 import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
 import net.paramount.common.DateTimeUtility;
+import net.paramount.common.ListUtility;
 import net.paramount.exceptions.CorporateAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
@@ -47,6 +58,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Inject
 	private AuthorityService authorityService;
+
+	@Inject
+	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
 	public UserProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException {
@@ -86,6 +100,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	private Object getSystemPrincipal() {
 		Authentication authentication = securityContextHolderServiceHelper.getAuthentication();
+		if (null==authentication)
+			return null;
+
 		if (authentication.getPrincipal() instanceof String) {
 			return authentication.getPrincipal();
 		}
@@ -160,5 +177,54 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 		userAccountService.save(confirnUserAccount);
 		return confirnUserAccount;
+	}
+
+	@Override
+	public List<AccessDecisionPolicy> getAccessDecisionPolicies(String accessPattern) throws ObjectNotFoundException {
+		return accessDecisionPolicyService.getAccessDecisionPolicies(accessPattern);
+	}
+
+	@Override
+	public List<AccessDecisionPolicy> getAccessDecisionPolicies(AuthenticationDetails authenticationDetails) throws ObjectNotFoundException {
+		List<AccessDecisionPolicy> accessDecisionPolicies = ListUtility.createDataList();
+		List<AccessDecisionPolicy> currentADPs = null; 
+		for (GrantedAuthority authority :authenticationDetails.getAuthorities()) {
+			currentADPs = accessDecisionPolicyService.getAccessDecisionPoliciesByAuthority((Authority)authority);
+			if (!currentADPs.isEmpty()) {
+				accessDecisionPolicies.addAll(currentADPs);
+			}
+		}
+		return accessDecisionPolicies;
+	}
+
+	@Override
+	public boolean hasAccessDecisionPolicy(FilterInvocation filterInvocation, Authentication authentication) {
+		final String MY_ACCESSED_DECISION_POLICIES = "myAccessedDecisionPolicies";
+		boolean hasAccessedPermission = false;
+		List<AccessDecisionPolicy> accessDecisionPolicies = null;
+		List<AccessDecisionPolicy> currentADPs = null; 
+		PathMatcher pathMatcher = null;
+
+		accessDecisionPolicies = (List<AccessDecisionPolicy>)filterInvocation.getHttpRequest().getSession(false).getAttribute(MY_ACCESSED_DECISION_POLICIES);
+    if (null==accessDecisionPolicies) {
+    	accessDecisionPolicies = ListUtility.createDataList();
+  		for (GrantedAuthority authority :authentication.getAuthorities()) {
+  			currentADPs = accessDecisionPolicyService.getAccessDecisionPoliciesByAuthority((Authority)authority);
+  			if (!currentADPs.isEmpty()) {
+  				accessDecisionPolicies.addAll(currentADPs);
+  			}
+  		}
+
+  		filterInvocation.getHttpRequest().getSession(false).setAttribute(MY_ACCESSED_DECISION_POLICIES, accessDecisionPolicies);
+    }
+
+		pathMatcher = new AntPathMatcher();
+		for (AccessDecisionPolicy accessDecisionPolicy :accessDecisionPolicies) {
+			if (pathMatcher.match(accessDecisionPolicy.getAccessPattern(), filterInvocation.getRequestUrl())) {
+				hasAccessedPermission = true;
+			}
+		}
+
+		return hasAccessedPermission;
 	}
 }

@@ -15,4 +15,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface NameBaseRepository<T, PK extends Serializable> extends BaseRepository<T, PK> {
 	Optional<T> findByName(String name);
+	boolean existsByName(String name);
 }

@@ -34,6 +34,15 @@ public class ListUtility {
 	}
 	
 	@SafeVarargs
+	public static <T> List<T> createList(T ...initialValues){
+		List<T> dataList = new ArrayList<T>();
+		for (T object :initialValues) {
+			dataList.add(object);
+		}
+		return dataList;
+	}
+
+	@SafeVarargs
 	public static <T> DataList<T> createDataList(T ...initialValues){
 		DataList<T> dataList = new DataList<T>();
 		for (T object :initialValues) {

@@ -1,11 +1,11 @@
 package net.paramount.exceptions;
 
 /**
- * The class {@code EcosysException} and its subclasses are a form of
+ * The class {@code EcosphereRuntimeException} and its subclasses are a form of
  * {@code Throwable} that indicates conditions that a reasonable
  * application might want to catch.
  *
- * <p>The class {@code EcosysException} and any subclasses that are not also
+ * <p>The class {@code EcosphereRuntimeException} and any subclasses that are not also
  * subclasses of {@link RuntimeException} are <em>checked
  * exceptions</em>.  Checked exceptions need to be declared in a
  * method or constructor's {@code throws} clause if they can be thrown
@@ -14,7 +14,7 @@ package net.paramount.exceptions;
  *
  * @author bqduc
  */
-public class MspRuntimeException extends RuntimeException {
+public class EcosphereRuntimeException extends RuntimeException {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class MspRuntimeException extends RuntimeException {
    * The cause is not initialized, and may subsequently be initialized by a
    * call to {@link #initCause}.
    */
-  public MspRuntimeException() {
+  public EcosphereRuntimeException() {
       super();
   }
 
@@ -38,7 +38,7 @@ public class MspRuntimeException extends RuntimeException {
    * @param   message   the detail message. The detail message is saved for
    *          later retrieval by the {@link #getMessage()} method.
    */
-  public MspRuntimeException(String message) {
+  public EcosphereRuntimeException(String message) {
       super(message);
   }
 
@@ -56,7 +56,7 @@ public class MspRuntimeException extends RuntimeException {
    *         unknown.)
    * @since  1.4
    */
-  public MspRuntimeException(String message, Throwable cause) {
+  public EcosphereRuntimeException(String message, Throwable cause) {
       super(message, cause);
   }
 
@@ -74,7 +74,7 @@ public class MspRuntimeException extends RuntimeException {
    *         unknown.)
    * @since  1.4
    */
-  public MspRuntimeException(Throwable cause) {
+  public EcosphereRuntimeException(Throwable cause) {
       super(cause);
   }
 
@@ -92,7 +92,7 @@ public class MspRuntimeException extends RuntimeException {
    *                           be writable
    * @since 1.7
    */
-  protected MspRuntimeException(String message, Throwable cause,
+  protected EcosphereRuntimeException(String message, Throwable cause,
                       boolean enableSuppression,
                       boolean writableStackTrace) {
       super(message, cause, enableSuppression, writableStackTrace);

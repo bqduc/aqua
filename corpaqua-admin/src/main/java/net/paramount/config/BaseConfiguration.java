@@ -26,6 +26,6 @@ import net.paramount.global.GlobalConstants;
 @ComponentScan(basePackages = { GlobalConstants.QNS_PACKAGE })
 @EntityScan(basePackages = { GlobalConstants.QNS_PACKAGE })
 @EnableTransactionManagement
-@Import(value = { AuditingConfiguration.class, SecurityConfig.class, QuartzJobSchedulerConfiguration.class })
+@Import(value = { AuditingConfiguration.class, SecurityConfiguration.class, QuartzJobSchedulerConfiguration.class })
 public class BaseConfiguration {
 }

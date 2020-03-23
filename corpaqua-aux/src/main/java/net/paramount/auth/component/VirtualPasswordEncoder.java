@@ -20,14 +20,15 @@ import net.paramount.auth.constants.AuxGlobalConstants;
 public class VirtualPasswordEncoder implements PasswordEncoder {
 
 	@Override
-	public String encode(CharSequence rawPassword) {
-		String hashed = BCrypt.hashpw(preConstructPassword(rawPassword.toString()), BCrypt.gensalt(12));
+	public String encode(CharSequence plainTextPassword) {
+		String hashed = BCrypt.hashpw(preConstructPassword(plainTextPassword.toString()), BCrypt.gensalt(12));
 		return hashed;
 	}
 
 	@Override
-	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return BCrypt.checkpw(preConstructPassword(rawPassword.toString()), encodedPassword);
+	public boolean matches(CharSequence plainTextPassword, String encodedPassword) {
+		String upgradedPassword = this.encode(plainTextPassword);
+		return BCrypt.checkpw(upgradedPassword, encodedPassword);
 	}
 
 	private String preConstructPassword(String rawPassword) {
