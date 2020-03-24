@@ -3,6 +3,8 @@
  */
 package net.paramount.auth.constants;
 
+import net.paramount.auth.domain.BaseACL;
+
 /**
  * @author ducbui
  *
@@ -12,5 +14,5 @@ public class AuxGlobalConstants {
 	public static final String realmBasic  = "paramountBasicRealm";
 
 	
-	public static final String MINIMUM_USER_AUTHORITY = "minUserAuthority";
+	public static final String MINIMUM_USER_AUTHORITY = BaseACL.SUBSCRIBER.getAuthority();// "minUserAuthority";
 }

@@ -6,7 +6,6 @@ package net.paramount.auth.service.impl;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +16,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import net.paramount.auth.component.JwtTokenProvider;
-import net.paramount.auth.domain.UserProfile;
+import net.paramount.auth.domain.SecurityAccountProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.UserAccount;
@@ -63,35 +62,35 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
-	public UserProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException {
+	public SecurityAccountProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException {
 		UserAccount fetchedUserAccount = this.userAccountService.getUserAccount(ssoId, password);
 		return getAuthenticatedUserProfile(fetchedUserAccount);
 	}
 
 	@Override
-	public UserProfile authenticate(String loginToken) throws CorporateAuthenticationException {
+	public SecurityAccountProfile authenticate(String loginToken) throws CorporateAuthenticationException {
 		UserAccount fetchedUserAccount = this.userAccountService.getUserAccount(loginToken);
 		return getAuthenticatedUserProfile(fetchedUserAccount);
 	}
 
-	private UserProfile getAuthenticatedUserProfile(UserAccount userAccount) {
-		return UserProfile.builder()
+	private SecurityAccountProfile getAuthenticatedUserProfile(UserAccount userAccount) {
+		return SecurityAccountProfile.builder()
 		.userAccount(userAccount)
 		.build();
 	}
 
 	@Override
-	public UserProfile getUserProfile() throws CorporateAuthenticationException {
-		UserProfile fetchedResponse = null;
+	public SecurityAccountProfile getUserProfile() throws CorporateAuthenticationException {
+		SecurityAccountProfile fetchedResponse = null;
 		Object systemPrincipal = getSystemPrincipal();
 		if (systemPrincipal instanceof User || systemPrincipal instanceof UserAccount) {
 			UserAccount userAccount = this.userAccountService.get(((User)systemPrincipal).getUsername());
-			fetchedResponse = UserProfile
+			fetchedResponse = SecurityAccountProfile
 			.builder()
 			.userAccount(userAccount)
 			.build();
 		} else if (systemPrincipal instanceof String){ //Anonymous user - Not logged in
-			fetchedResponse = UserProfile.builder()
+			fetchedResponse = SecurityAccountProfile.builder()
 			.displayName((String)systemPrincipal)
 			.build();
 		}
@@ -117,10 +116,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public UserProfile register(ExecutionContext context) throws CorporateAuthException {
+	public SecurityAccountProfile register(ExecutionContext context) throws CorporateAuthException {
 		String confirmLink = null;
 		UserAccount updatedUserAccount = null;
-		UserProfile registrationProfile = null;
+		SecurityAccountProfile registrationProfile = null;
 		CorpMimeMessage mimeMessage = null;
 		try {
 			updatedUserAccount = (UserAccount)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
@@ -145,7 +144,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(updatedUserAccount.getActivationKey()).toString());
 
 			context.put(CommunicatorConstants.CTX_MIME_MESSAGE, mimeMessage);
-			registrationProfile = UserProfile.builder()
+			registrationProfile = SecurityAccountProfile.builder()
 					.displayName(updatedUserAccount.getDisplayName())
 					.userAccount(updatedUserAccount)
 					.build();
@@ -226,5 +225,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 
 		return hasAccessedPermission;
+	}
+
+	@Override
+	public SecurityAccountProfile getActiveSecurityAccountProfile() {
+		this.securityContextHolderServiceHelper.getAuthenticationPrincipal();
+		return null;
 	}
 }

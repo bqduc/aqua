@@ -3,25 +3,24 @@
  */
 package net.paramount.auth.domain;
 
-import java.io.Serializable;
-
 import lombok.Builder;
 import net.paramount.auth.entity.UserAccount;
+import net.paramount.domain.DtoCore;
 
 /**
  * @author ducbq
  *
  */
 @Builder
-public class UserProfile implements Serializable{
-	private static final long serialVersionUID = 319145167472878337L;
+public class SecurityAccountProfile extends DtoCore {
+	private static final long serialVersionUID = -1051763928685608384L;
+
+	public static final String ANONYMOUS_USER = "anonymousUser";
 
 	private UserAccount userAccount;
-	private String displayName;
 
-	public boolean isPresentUserAccount() {
-		return (null != this.userAccount);
-	}
+	@Builder.Default
+	private String displayName = ANONYMOUS_USER;
 
 	public UserAccount getUserAccount() {
 		return userAccount;
@@ -40,5 +39,9 @@ public class UserProfile implements Serializable{
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public boolean isPresentUserAccount() {
+		return (null != this.userAccount);
 	}
 }

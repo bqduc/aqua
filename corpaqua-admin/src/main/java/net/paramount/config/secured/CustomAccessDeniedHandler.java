@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.paramount.config.security;
+package net.paramount.config.secured;
 
 import java.io.IOException;
 
@@ -29,7 +29,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-		log.info("COME!!!");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			log.warn("User: " + auth.getName() + " attempted to access the protected URL: " + request.getRequestURI());
@@ -37,5 +36,4 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 		response.sendRedirect(request.getContextPath() + "/unauthorized.jsf");
 	}
-
 }

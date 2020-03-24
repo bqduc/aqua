@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.FilterInvocation;
 
-import net.paramount.auth.domain.UserProfile;
+import net.paramount.auth.domain.SecurityAccountProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.UserAccount;
 import net.paramount.auth.exception.CorporateAuthenticationException;
@@ -22,14 +22,14 @@ import net.paramount.framework.model.ExecutionContext;
  *
  */
 public interface AuthorizationService {
-	UserProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException;
-	UserProfile authenticate(String token) throws CorporateAuthenticationException;
+	SecurityAccountProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException;
+	SecurityAccountProfile authenticate(String token) throws CorporateAuthenticationException;
 
-	UserProfile getUserProfile() throws CorporateAuthenticationException;
+	SecurityAccountProfile getUserProfile() throws CorporateAuthenticationException;
 	
 	boolean hasPermission(String target, String action) throws CorporateAuthenticationException;
 
-	UserProfile register(ExecutionContext context) throws CorporateAuthException;
+	SecurityAccountProfile register(ExecutionContext context) throws CorporateAuthException;
 
 	UserAccount getUserAccount(String ssoId)  throws ObjectNotFoundException;
 
@@ -40,4 +40,6 @@ public interface AuthorizationService {
 	List<AccessDecisionPolicy> getAccessDecisionPolicies(AuthenticationDetails authenticationDetails) throws ObjectNotFoundException;
 
 	boolean hasAccessDecisionPolicy(FilterInvocation filterInvocation, Authentication authentication);
+
+	SecurityAccountProfile getActiveSecurityAccountProfile();
 }

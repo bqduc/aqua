@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import net.paramount.auth.domain.SecurityAccountProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.service.AccessDecisionPolicyService;
@@ -31,7 +31,7 @@ public class AuthorizationChecker {
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	private boolean doCheck(HttpServletRequest request, Authentication authentication) {
-		if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) {
+		if (authentication == null || SecurityAccountProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return false;
 		}
 

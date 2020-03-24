@@ -1,7 +1,5 @@
 package net.paramount.auth.component;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,13 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import net.paramount.auth.domain.BaseACL;
-import net.paramount.auth.domain.UserProfile;
-import net.paramount.auth.entity.Authority;
+import net.paramount.auth.domain.SecurityAccountProfile;
 import net.paramount.auth.exception.CorporateAuthenticationException;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonUtility;
-import net.paramount.common.ListUtility;
 import net.paramount.framework.component.CompCore;
 
 /**
@@ -56,7 +51,7 @@ public class CorpAuthenticationProvider extends CompCore implements Authenticati
 
 	private Authentication authenticateBySsoId(String ssoId, String password) throws CorporateAuthenticationException {
 		Authentication authBySsoId = null;
-		UserProfile userAccountProfile = null;
+		SecurityAccountProfile userAccountProfile = null;
 		try {
 			userAccountProfile = authorizationService.authenticate(ssoId, password);
 			if (null != userAccountProfile)
@@ -70,7 +65,7 @@ public class CorpAuthenticationProvider extends CompCore implements Authenticati
 
 	private Authentication authenticateByToken(String token) throws CorporateAuthenticationException {
 		Authentication authByToken = null;
-		UserProfile userAccountProfile = null;
+		SecurityAccountProfile userAccountProfile = null;
 		try {
 			userAccountProfile = authorizationService.authenticate(token);
 			if (null != userAccountProfile) {

@@ -16,6 +16,7 @@ import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 import lombok.AllArgsConstructor;
+import net.paramount.auth.domain.SecurityAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 
 /**
@@ -45,7 +46,7 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 	@Override
 	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
 		FilterInvocation filterInvocation = null;
-		if (authentication == null || "anonymousUser".equals(authentication.getPrincipal())) {
+		if (authentication == null || SecurityAccountProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return ACCESS_DENIED;
 		}
 
