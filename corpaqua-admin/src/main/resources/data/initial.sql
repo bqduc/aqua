@@ -31,3 +31,5 @@ insert into message_source_entry (key, content, locale)values('controlsidebar.sk
 insert into message_source_entry (key, content, locale)values('controlsidebar.skin.GreenLight', 'Xanh lá cây nhạt', 'vi');
 insert into message_source_entry (key, content, locale)values('controlsidebar.skin.YellowLight', 'Vàng nhạt', 'vi');
 insert into message_source_entry (key, content, locale)values('controlsidebar.skin.TealLight', 'Xanh mòng két nhạt', 'vi');
+
+insert into message_source_entry (key, content, locale)values('topbar.profileCorner', 'Góc hồ sơ', 'vi');
