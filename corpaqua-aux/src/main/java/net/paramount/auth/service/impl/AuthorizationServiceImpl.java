@@ -9,22 +9,20 @@ import javax.inject.Inject;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import net.paramount.auth.component.JwtTokenProvider;
-import net.paramount.auth.domain.SecurityAccountProfile;
+import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.core.AuthorizationServiceBase;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.UserAccount;
-import net.paramount.auth.exception.CorporateAuthenticationException;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.AuthorizationService;
-import net.paramount.auth.service.UserAccountService;
 import net.paramount.autx.SecurityServiceContextHelper;
 import net.paramount.comm.comp.Communicator;
 import net.paramount.comm.domain.CorpMimeMessage;
@@ -42,12 +40,9 @@ import net.paramount.global.GlobalConstants;
  *
  */
 @Service
-public class AuthorizationServiceImpl implements AuthorizationService {
+public class AuthorizationServiceImpl extends AuthorizationServiceBase implements AuthorizationService {
 	@Inject
 	private Communicator emailCommunicator;
-
-	@Inject
-	private UserAccountService userAccountService;
 
 	@Inject 
 	private SecurityServiceContextHelper securityContextHolderServiceHelper;
@@ -62,92 +57,48 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
-	public SecurityAccountProfile authenticate(String ssoId, String password) throws CorporateAuthenticationException {
-		UserAccount fetchedUserAccount = this.userAccountService.getUserAccount(ssoId, password);
-		return getAuthenticatedUserProfile(fetchedUserAccount);
+	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws CorporateAuthException {
+		return this.generateSecurityPrincipalProfile(ssoId, password);
 	}
 
 	@Override
-	public SecurityAccountProfile authenticate(String loginToken) throws CorporateAuthenticationException {
-		UserAccount fetchedUserAccount = this.userAccountService.getUserAccount(loginToken);
-		return getAuthenticatedUserProfile(fetchedUserAccount);
-	}
-
-	private SecurityAccountProfile getAuthenticatedUserProfile(UserAccount userAccount) {
-		return SecurityAccountProfile.builder()
-		.userAccount(userAccount)
-		.build();
+	public SecurityPrincipalProfile authenticate(String loginToken) throws CorporateAuthException {
+		return this.generateSecurityPrincipalProfile(loginToken, null);
 	}
 
 	@Override
-	public SecurityAccountProfile getUserProfile() throws CorporateAuthenticationException {
-		SecurityAccountProfile fetchedResponse = null;
-		Object systemPrincipal = getSystemPrincipal();
-		if (systemPrincipal instanceof User || systemPrincipal instanceof UserAccount) {
-			UserAccount userAccount = this.userAccountService.get(((User)systemPrincipal).getUsername());
-			fetchedResponse = SecurityAccountProfile
-			.builder()
-			.userAccount(userAccount)
-			.build();
-		} else if (systemPrincipal instanceof String){ //Anonymous user - Not logged in
-			fetchedResponse = SecurityAccountProfile.builder()
-			.displayName((String)systemPrincipal)
-			.build();
-		}
-		return fetchedResponse;
-	}
-
-	private Object getSystemPrincipal() {
-		Authentication authentication = securityContextHolderServiceHelper.getAuthentication();
-		if (null==authentication)
-			return null;
-
-		if (authentication.getPrincipal() instanceof String) {
-			return authentication.getPrincipal();
-		}
-
-		return authentication.getPrincipal();
+	public SecurityPrincipalProfile getSecuredProfile() throws CorporateAuthException {
+		return this.getCurrentSecuredProfile();
 	}
 
 	@Override
-	public boolean hasPermission(String target, String action) throws CorporateAuthenticationException {
+	public boolean hasPermission(String target, String action) throws CorporateAuthException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public SecurityAccountProfile register(ExecutionContext context) throws CorporateAuthException {
+	public SecurityPrincipalProfile register(ExecutionContext context) throws CorporateAuthException {
 		String confirmLink = null;
-		UserAccount updatedUserAccount = null;
-		SecurityAccountProfile registrationProfile = null;
+		SecurityPrincipalProfile registrationProfile = null;
 		CorpMimeMessage mimeMessage = null;
 		try {
-			updatedUserAccount = (UserAccount)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
-			updatedUserAccount.setRegisteredDate(DateTimeUtility.getSystemDateTime());
-
-			updatedUserAccount = userAccountService.save(updatedUserAccount);
-
-			updatedUserAccount.setActivationKey(tokenProvider.generateToken(updatedUserAccount));
-			updatedUserAccount = userAccountService.saveOrUpdate(updatedUserAccount);
+			registrationProfile = userAccountService.register((UserAccount)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
 
 			mimeMessage = (CorpMimeMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
 			if (null==mimeMessage) {
 				mimeMessage = CorpMimeMessage.builder()
 						.subject(CommunicatorConstants.CTX_DEFAULT_REGISTRATION_SUBJECT)
-						.recipients(new String[] {updatedUserAccount.getEmail()})
+						.recipients(new String[] {registrationProfile.getUserAccount().getEmail()})
 						.build();
 			}
-			mimeMessage.setRecipients(new String[] {updatedUserAccount.getEmail()});
-			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, updatedUserAccount.getActivationKey());
+			mimeMessage.setRecipients(new String[] {registrationProfile.getUserAccount().getEmail()});
+			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_TOKEN, registrationProfile.getUserAccount().getActivationKey());
 
 			confirmLink = (String)mimeMessage.getDefinitions().get(GlobalConstants.CONFIG_APP_ACCESS_URL);
-			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(updatedUserAccount.getActivationKey()).toString());
+			mimeMessage.getDefinitions().put(CommunicatorConstants.CTX_USER_CONFIRM_LINK, new StringBuilder(confirmLink).append(registrationProfile.getUserAccount().getActivationKey()).toString());
 
 			context.put(CommunicatorConstants.CTX_MIME_MESSAGE, mimeMessage);
-			registrationProfile = SecurityAccountProfile.builder()
-					.displayName(updatedUserAccount.getDisplayName())
-					.userAccount(updatedUserAccount)
-					.build();
 
 			emailCommunicator.send(context);
 		} catch (Exception e) {
@@ -162,7 +113,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public UserAccount confirmByToken(String token) throws ObjectNotFoundException {
+	public SecurityPrincipalProfile confirmByToken(String token) throws ObjectNotFoundException {
+		SecurityPrincipalProfile confirmedSecurityAccountProfile = SecurityPrincipalProfile.builder().build();
 		UserAccount confirnUserAccount = null;
 		AuthenticationDetails userDetails = tokenProvider.getUserDetailsFromJWT(token);
 		if (userDetails != null) {
@@ -175,7 +127,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		confirnUserAccount.setActivationDate(DateTimeUtility.getSystemDateTime());
 
 		userAccountService.save(confirnUserAccount);
-		return confirnUserAccount;
+		confirmedSecurityAccountProfile.setUserAccount(confirnUserAccount);
+		return confirmedSecurityAccountProfile;
 	}
 
 	@Override
@@ -225,11 +178,5 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		}
 
 		return hasAccessedPermission;
-	}
-
-	@Override
-	public SecurityAccountProfile getActiveSecurityAccountProfile() {
-		this.securityContextHolderServiceHelper.getAuthenticationPrincipal();
-		return null;
 	}
 }

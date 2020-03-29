@@ -10,10 +10,10 @@ import net.paramount.exceptions.CorporateAuthException;
  * @author bqduc
  *
  */
-public class CorporateAuthenticationException extends CorporateAuthException /*AuthenticationException*/ {
-	/**
+/*public class CorporateAuthenticationException extends CorporateAuthException AuthenticationException {
+	*//**
 	 * 
-	 */
+	 *//*
 	private static final long serialVersionUID = -2145491649369081533L;
 
 	private AuthenticationStage errorId;
@@ -39,3 +39,4 @@ public class CorporateAuthenticationException extends CorporateAuthException /*A
 		this.errorId = errorId;
 	}
 }
+*/

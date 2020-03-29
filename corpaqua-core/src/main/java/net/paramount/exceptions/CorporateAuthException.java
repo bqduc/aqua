@@ -19,17 +19,9 @@ import org.springframework.security.core.AuthenticationException;
  * @author bqduc
  */
 public class CorporateAuthException extends AuthenticationException/*RuntimeException*/ {
-	public static final int ERROR_NONE = -1;
-	public static final int ERROR_INVALID_PRINCIPAL = 0;
-	public static final int ERROR_INVALID_CREDENTIAL = 1;
-	public static final int ERROR_INACTIVE = 2;
-	public static final int ERROR_INVALID_PERMISSION = 3;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2027543779433269666L;
 
-	private int errorCode;
+	private AuthenticationCode authenticationCode;
 	/**
    * Constructs a new exception with {@code null} as its detail message.
    * The cause is not initialized, and may subsequently be initialized by a
@@ -44,9 +36,9 @@ public class CorporateAuthException extends AuthenticationException/*RuntimeExce
    * The cause is not initialized, and may subsequently be initialized by a
    * call to {@link #initCause}.
    */
-  public CorporateAuthException(int errorCode) {
-  	super(MessageFormat.format("Default exception with error code: {0}", errorCode));
-  	this.errorCode = errorCode;
+  public CorporateAuthException(AuthenticationCode authenticationCode) {
+  	super(MessageFormat.format("Default exception with error code: {0}", authenticationCode.name()));
+  	this.authenticationCode = authenticationCode;
   }
 
   /**
@@ -69,9 +61,9 @@ public class CorporateAuthException extends AuthenticationException/*RuntimeExce
    * @param   message   the detail message. The detail message is saved for
    *          later retrieval by the {@link #getMessage()} method.
    */
-  public CorporateAuthException(int errorCode, String message) {
+  public CorporateAuthException(AuthenticationCode authenticationCode, String message) {
       super(message);
-    	this.errorCode = errorCode;
+    	this.authenticationCode = authenticationCode;
   }
 
   /**
@@ -131,11 +123,11 @@ public class CorporateAuthException extends AuthenticationException/*RuntimeExce
   	super(message, cause);
   }
 
-	public int getErrorCode() {
-		return errorCode;
+	public AuthenticationCode getAuthenticationCode() {
+		return authenticationCode;
 	}
 
-	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
+	public void setAuthenticationCode(AuthenticationCode authenticationCode) {
+		this.authenticationCode = authenticationCode;
 	}
 }

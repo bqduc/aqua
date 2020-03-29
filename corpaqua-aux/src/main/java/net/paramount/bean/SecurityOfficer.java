@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import net.paramount.auth.domain.SecurityAccountProfile;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.ListUtility;
 import net.paramount.framework.component.CompCore;
@@ -50,14 +50,14 @@ public class SecurityOfficer extends CompCore {
 		}
 	*/
 	public Boolean hasPermission(String target) {
-		SecurityAccountProfile userProfile = authorizationService.getUserProfile();
+		SecurityPrincipalProfile userProfile = authorizationService.getSecuredProfile();
 		System.out.println(Calendar.getInstance().getTime() + "\t. Target: " + target + ". User: " + userProfile.getDisplayName());
 		return true;
 		// return permissionMap.containsKey(target);
 	}
 
 	public void initializeSessionData() {
-		SecurityAccountProfile userProfile = authorizationService.getUserProfile();
+		SecurityPrincipalProfile userProfile = authorizationService.getSecuredProfile();
 		if (false==userProfile.isPresentUserAccount()) {
 			System.out.println("Current user is anonymous. ");
 			return;

@@ -250,8 +250,14 @@ public abstract class BaseController extends RootController {
 		}
 	}	
 
-	protected void remoteLogin(HttpServletRequest request, UserDetails userDetails) {
+	protected void remoteLogin(HttpServletRequest request) {
 		try {
+			UserDetails userDetails = (UserDetails)request.getAttribute(ControllerConstants.AUTHENTICATED_PROFILE);
+			if (null==userDetails) {
+				log.error("There is no information of user to perform remore login. ");
+				return;
+			}
+
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);

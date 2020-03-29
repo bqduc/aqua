@@ -33,3 +33,10 @@ insert into message_source_entry (key, content, locale)values('controlsidebar.sk
 insert into message_source_entry (key, content, locale)values('controlsidebar.skin.TealLight', 'Xanh mòng két nhạt', 'vi');
 
 insert into message_source_entry (key, content, locale)values('topbar.profileCorner', 'Góc hồ sơ', 'vi');
+
+insert into message_source_entry (key, content, locale)values('aux.inactive.profile', 'Hồ sơ chưa kích hoạt. Hãy kiểm tra thư điện tử và tự kích hoạt trước', 'vi');
+insert into message_source_entry (key, content, locale)values('aux.invalid.profile', 'Hồ sơ chưa hợp lệ. Hãy liên hệ nhà quản trị hệ thống', 'vi');
+insert into message_source_entry (key, content, locale)values('aux.invalid.credential', 'Mật khẩu không đúng', 'vi');
+insert into message_source_entry (key, content, locale)values('aux.invalid.principal', 'Tên đăng nhập không đúng hoặc chưa đăng ký', 'vi');
+insert into message_source_entry (key, content, locale)values('aux.invalid.permission', 'Tài khoản chưa đăng ký đủ các quyền hạn cơ bản. Hãy liên hệ nhà quản trị hệ thống', 'vi');
+insert into message_source_entry (key, content, locale)values('aux.invalid.unknown', 'Có một lỗi chưa xác định được nguyên nhân. Xin hãy thử lại trong vài phút nữa. Trong trường hợp vẫn còn lỗi như vậy, hãy liên hệ nhà quản trị hệ thống', 'vi');

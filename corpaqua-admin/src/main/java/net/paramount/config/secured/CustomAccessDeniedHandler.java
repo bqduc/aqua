@@ -22,7 +22,7 @@ import net.paramount.framework.logging.LogService;
  * @author ducbq
  *
  */
-@Component(value = "customAccessDeniedHandler")
+/*@Component(value = "customAccessDeniedHandler")
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 	@Inject
 	private LogService log;
@@ -36,4 +36,4 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
 		response.sendRedirect(request.getContextPath() + "/unauthorized.jsf");
 	}
-}
+}*/

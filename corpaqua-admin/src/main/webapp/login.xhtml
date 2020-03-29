@@ -67,22 +67,19 @@
                     <p class="login-box-msg">#{messages['aux.loginMessage']}</p>
                     <h:panelGroup rendered="#{param.authfailed eq 'true'}">
                         <div class="alert alert-danger">
-                            #{messages['aux.loginInvalid']}.
+                            #{messages['aux.loginInvalid']}<br />.
+                            #{messages[session.getAttribute('authenticateResultAtt')]}
                         </div>
                     </h:panelGroup>
-                    <!-- <ul style="list-style: none; text-align: right; font-size: 11px;">
-                        <li>User name: admin or user</li>
-                        <li>Password: admin or user</li>
-                    </ul> -->
                 </div>
                 <div class="form-group has-feedback">
-                    <p:inputText id="username" styleClass="form-control" placeholder="#{messages['aux.login']}" feedback="true" onfocus="this.placeholder=''" value="#{messages['aux.login']}">
+                    <p:inputText id="username" styleClass="form-control" placeholder="#{messages['aux.login']}" feedback="true" >
                         <p:focus/>
                     </p:inputText>
                     <i class="fa fa-envelope form-control-feedback"></i>
                 </div>
                 <div class="form-group has-feedback">
-                    <p:password id="password" styleClass="form-control" placeholder="#{messages['aux.password']}" feedback="true" value="#{messages['aux.password']}"/>
+                    <p:password id="password" styleClass="form-control" placeholder="#{messages['aux.password']}" feedback="true" />
                     <i class="fa fa-lock form-control-feedback" style="font-size: 18px"></i>
                 </div>
                 <div class="row">

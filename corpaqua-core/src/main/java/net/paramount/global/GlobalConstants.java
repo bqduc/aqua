@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public interface GlobalConstants {
+	static final String AUTHENTICATED_PROFILE = "authenticatedProfile";
 	final String QNS_PACKAGE = "net.paramount";
 
 	static final short	SIZE_STRING_TINY = 50;

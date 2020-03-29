@@ -10,6 +10,8 @@ import net.paramount.common.CommonConstants;
  *
  */
 public class ControllerConstants implements CommonConstants {
+	public static final String AUTHENTICATED_PROFILE = "authenticatedProfile";
+
 	public static final String BROWSE = "Browse";
 	public static final String VIEW = "Show";
 	public static final String EDIT = "Edit";

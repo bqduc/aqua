@@ -15,4 +15,5 @@ public class AuxGlobalConstants {
 
 	
 	public static final String MINIMUM_USER_AUTHORITY = BaseACL.SUBSCRIBER.getAuthority();// "minUserAuthority";
+	
 }

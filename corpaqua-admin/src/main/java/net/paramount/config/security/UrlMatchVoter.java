@@ -16,7 +16,7 @@ import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 import lombok.AllArgsConstructor;
-import net.paramount.auth.domain.SecurityAccountProfile;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 
 /**
@@ -27,7 +27,7 @@ import net.paramount.auth.service.AuthorizationService;
  * @date: 2019/1/7 下午10:03
  *
  */
-@AllArgsConstructor
+/*@AllArgsConstructor
 //@RequiredArgsConstructor
 public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 	@Inject
@@ -46,7 +46,7 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 	@Override
 	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
 		FilterInvocation filterInvocation = null;
-		if (authentication == null || SecurityAccountProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
+		if (authentication == null || SecurityPrincipalProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return ACCESS_DENIED;
 		}
 
@@ -59,7 +59,7 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 
 		return (!authorizationService.hasAccessDecisionPolicy(filterInvocation, authentication))?ACCESS_DENIED:ACCESS_GRANTED;
 		///Keep original 
-		/*
+		
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
 		// 请求路径
@@ -92,15 +92,15 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 		}
 
 		return ACCESS_GRANTED;
-		*/
+		
 	}
 
 	private boolean hasAccessPermission() {
 		return true;
 	}
-	/**
+	*//**
 	 * 获取请求中的url
-	 */
+	 *//*
 	private String getUrl(Object o) {
 		// 获取当前访问url
 		String url = ((FilterInvocation) o).getRequestUrl();
@@ -114,4 +114,4 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 	private String getMethod(Object o) {
 		return ((FilterInvocation) o).getRequest().getMethod();
 	}
-}
+}*/

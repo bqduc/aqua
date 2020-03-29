@@ -112,7 +112,7 @@ public class HttpSessionConfiguration extends CompCore {
 				// TODO this trace should go somewhere else
 				log.info("Session attribute: '{}' = '{}'", sessionAttributeKey,sessionAttributeValue);
 			}
-			catch (ClassCastException ex) {
+			catch (Exception ex) {
 				// we should avoid having unserializable objects in the session
 				log.info("Found unserializable object in the HttpSession at '{}' as type {}.", sessionAttributeKey, currentSession.getAttribute(sessionAttributeKey).getClass());
 			}

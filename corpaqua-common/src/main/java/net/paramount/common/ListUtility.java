@@ -51,6 +51,10 @@ public class ListUtility {
 		return dataList;
 	}
 
+	public static <T> List<T> createList(){
+		return createArrayList();
+	}
+
 	public static <T> List<T> createArrayList(){
 		return new ArrayList<T>();
 	}

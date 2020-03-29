@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import net.paramount.auth.domain.SecurityAccountProfile;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.service.AccessDecisionPolicyService;
@@ -24,14 +24,14 @@ import net.paramount.common.ListUtility;
  * @author ducbq
  *
  */
-@Component
+/*@Component
 public class AuthorizationChecker {
 	
 	@Inject
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	private boolean doCheck(HttpServletRequest request, Authentication authentication) {
-		if (authentication == null || SecurityAccountProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
+		if (authentication == null || SecurityPrincipalProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return false;
 		}
 
@@ -67,7 +67,7 @@ public class AuthorizationChecker {
 		return this.doCheck(request, authentication);
 	}
 
-	/*
+	
 	public boolean check(HttpServletRequest request, Authentication authentication) {
 		Object principalObj = authentication.getPrincipal();
 
@@ -92,5 +92,5 @@ public class AuthorizationChecker {
 			return false;
 		}
 		return true;
-	}*/
-}
+	}
+}*/

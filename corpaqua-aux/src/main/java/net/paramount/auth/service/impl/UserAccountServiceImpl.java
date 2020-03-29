@@ -3,7 +3,6 @@ package net.paramount.auth.service.impl;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -18,17 +17,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.UserAccount;
-import net.paramount.auth.exception.CorporateAuthenticationException;
 import net.paramount.auth.model.AuthorityGroup;
 import net.paramount.auth.repository.UserAccountRepository;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.UserAccountService;
-import net.paramount.comm.comp.Communicator;
+import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonUtility;
-import net.paramount.domain.model.AuthenticationStage;
+import net.paramount.common.DateTimeUtility;
 import net.paramount.exceptions.AccountNotActivatedException;
+import net.paramount.exceptions.AuthenticationCode;
 import net.paramount.exceptions.CorporateAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.repository.BaseRepository;
@@ -52,7 +53,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 	private PasswordEncoder passwordEncoder;
 
 	@Inject
-	private Communicator emailCommunicatior;
+	private JwtTokenProvider tokenProvider;
 
 	@Override
   protected BaseRepository<UserAccount, Long> getRepository() {
@@ -71,10 +72,10 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 		UserAccount userFromDatabase = repository.findBySsoId(login);
 
 		if (null==userFromDatabase)
-			throw new CorporateAuthenticationException(AuthenticationStage.INVALID_USER, String.format("User %s was not found in the database", lowercaseLogin));
+			throw new CorporateAuthException(AuthenticationCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
 
 		if (Boolean.FALSE.equals(userFromDatabase.isActivated()))
-			throw new AccountNotActivatedException(String.format("User %s is not activated", lowercaseLogin));
+			throw new CorporateAuthException(AuthenticationCode.ERROR_PROFILE_INACTIVATE, String.format("User %s is not activated", lowercaseLogin));
 
 		List<GrantedAuthority> grantedAuthorities = userFromDatabase.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthority())).collect(Collectors.toList());
@@ -98,32 +99,37 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 	}
 
 	@Override
-	public void registerUserAccount(UserAccount userAccount) {
-		if (!hasBeenEncoded(userAccount.getPassword())) {
-			userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+	public SecurityPrincipalProfile register(UserAccount userAccount) throws CorporateAuthException {
+		UserAccount updatedUserAccount = null;
+		SecurityPrincipalProfile registrationProfile = null;
+		try {
+			updatedUserAccount = (UserAccount)CommonBeanUtils.clone(userAccount);
+			updatedUserAccount.setRegisteredDate(DateTimeUtility.getSystemDateTime());
+
+			updatedUserAccount.setPassword(passwordEncoder.encode(updatedUserAccount.getPassword()));
+			updatedUserAccount = this.save(updatedUserAccount);
+
+			updatedUserAccount.setActivationKey(tokenProvider.generateToken(updatedUserAccount));
+			updatedUserAccount = this.saveOrUpdate(updatedUserAccount);
+
+			registrationProfile = SecurityPrincipalProfile.builder()
+					.displayName(updatedUserAccount.getDisplayName())
+					.userAccount(updatedUserAccount)
+					.build();
+		} catch (Exception e) {
+			throw new CorporateAuthException(e);
 		}
-
-		Authority minimumAuthority = authorityService.getMinimumUserAuthority();
-		userAccount.addPrivilege(minimumAuthority);
-		this.repository.saveAndFlush(userAccount);
-
-		
-		/*this.userAccountPrivilegeRepository.saveAndFlush(
-				UserAccountPrivilege.builder()
-				.userAccount(userAccount)
-				.authority(minimumAuthority)
-				.build()
-		);*/
+		return registrationProfile;
 	}
 
-	private boolean hasBeenEncoded(String password) {
+	/*private boolean hasBeenEncoded(String password) {
 		final Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2a?\\$\\d\\d\\$[./0-9A-Za-z] {53}");
 
 		if (BCRYPT_PATTERN.matcher(password).matches())
 			return true;
 
 		return false;
-	}
+	}*/
 
 	@Override
 	public void updateUser(UserAccount user) {
@@ -181,13 +187,13 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 		}
 
 		if (null == repositoryUser)
-			throw new CorporateAuthException(CorporateAuthException.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
+			throw new CorporateAuthException(AuthenticationCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
 
 		if (!this.passwordEncoder.matches(password, repositoryUser.getPassword()))
-			throw new CorporateAuthException(CorporateAuthException.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
+			throw new CorporateAuthException(AuthenticationCode.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
 
 		if (!Boolean.TRUE.equals(repositoryUser.isActivated()))
-			throw new CorporateAuthException(CorporateAuthException.ERROR_INACTIVE, "Login information is fine but this account did not activated yet. ");
+			throw new CorporateAuthException(AuthenticationCode.ERROR_PROFILE_INACTIVATE, "Login information is fine but this account did not activated yet. ");
 
 		userDetails = buildUserDetails(repositoryUser);
 		authenticatedUser = repositoryUser;
@@ -205,7 +211,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<UserAccount, Long
 		}
 
 		if (null==repositoryUser){
-			throw new CorporateAuthException(CorporateAuthException.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
+			throw new CorporateAuthException(AuthenticationCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
 		}
 
 		return repositoryUser;

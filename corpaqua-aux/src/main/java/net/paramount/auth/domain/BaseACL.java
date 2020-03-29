@@ -8,24 +8,28 @@ package net.paramount.auth.domain;
  *
  */
 public enum BaseACL {
-	ADMINISTRATOR ("/spaces/administration/**", "administration", "administrator", "administrator@ecosphere.net", "Admin", "Nguyễn Trần"), 
-	MANAGER ("/spaces/management/**", "management", "manager", "manager@ecosphere.net", "Lê Văn", "Manager"), 
-	COORDINATOR ("/spaces/coordination/**", "coordination", "coordinator", "coordination@ecosphere.net", "Coordinator", "Hồ Hoàng"), 
-	SUBSCRIBER ("/spaces/subscription/**", "subscription", "subscriber", "subscriber@ecosphere.net", "Subscriber", "Ngô Thị"),
-	OSX ("/spaces/osx/**", "osx", "osxer", "osxer@ecosphere.net", "Osxer", "Thái Tông"),
-	CRSX ("/spaces/crsx/**", "crsx", "crsxer", "crsxer@ecosphere.net", "Crsxer", "Phùng Hổ"),
+	ADMINISTRATOR ("/spaces/administration/**", "administration", "Administration Authority", "administrator", "administrator@ecosphere.net", "Admin", "Nguyễn Trần"), 
+	MANAGER ("/spaces/management/**", "management", "Management Authority", "manager", "manager@ecosphere.net", "Lê Văn", "Manager"), 
+	COORDINATOR ("/spaces/coordination/**", "coordination", "Coordination Authority", "coordinator", "coordination@ecosphere.net", "Coordinator", "Hồ Hoàng"), 
+	SUBSCRIBER ("/spaces/subscription/**", "subscription", "Subscription Authority", "subscriber", "subscriber@ecosphere.net", "Subscriber", "Ngô Thị"),
+	SUBSCRIBER_INTERNAL ("/spaces/subscription/**", "subscription", "Subscription Authority", "subscriber.internal", "subscriber.internal@ecosphere.net", "Subscriber", "Ngô Thị Thuyền Nội Bộ"),
+	SUBSCRIBER_EXTERNAL ("/spaces/subscription/**", "subscription", "Subscription Authority", "subscriber.external", "subscriber.external@ecosphere.net", "Subscriber", "Ngô Thị Tàu Bên Ngoài"),
+	OSX ("/spaces/osx/**", "osx", "Osxer Authority", "osxer", "osxer@ecosphere.net", "Osxer Authority", "Thái Tông"),
+	CRSX ("/spaces/crsx/**", "crsx", "Crsx Authority", "crsxer", "crsxer@ecosphere.net", "Crsxer", "Phùng Hổ"),
 	;
 
 	private String antMatcher;
 	private String authority;
+	private String authorityDisplayName;
 	private String user;
 	private String email;
 	private String firstName;
 	private String lastName;
 
-	private BaseACL(String antMatcher, String role, String user, String email, String firstName, String lastName) {
+	private BaseACL(String antMatcher, String role, String roleDisplayName, String user, String email, String firstName, String lastName) {
 		this.antMatcher = antMatcher;
 		this.authority = role;
+		this.authorityDisplayName = roleDisplayName;
 		this.user = user;
 		this.email = email;
 		this.firstName = firstName;
@@ -76,5 +80,13 @@ public enum BaseACL {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public String getAuthorityDisplayName() {
+		return authorityDisplayName;
+	}
+
+	public void setAuthorityDisplayName(String authorityDisplayName) {
+		this.authorityDisplayName = authorityDisplayName;
 	}
 }

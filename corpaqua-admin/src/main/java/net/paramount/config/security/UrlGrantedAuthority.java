@@ -2,11 +2,11 @@ package net.paramount.config.security;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public class UrlGrantedAuthority implements GrantedAuthority {
+/*public class UrlGrantedAuthority implements GrantedAuthority {
 
-	/**
+	*//**
 	* 
-	*/
+	*//*
 	private static final long serialVersionUID = -4590377472290793484L;
 
 	private final String httpMethod;
@@ -50,4 +50,4 @@ public class UrlGrantedAuthority implements GrantedAuthority {
 		result = 31 * result + (url != null ? url.hashCode() : 0);
 		return result;
 	}
-}
+}*/

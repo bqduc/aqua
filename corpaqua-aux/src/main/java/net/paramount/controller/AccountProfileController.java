@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.paramount.auth.component.JwtTokenProvider;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.domain.model.ServerResponse;
 import net.paramount.domain.model.ServerResponseCode;
+import net.paramount.framework.constants.ControllerConstants;
 import net.paramount.framework.controller.BaseController;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 
@@ -43,10 +44,13 @@ public class AccountProfileController extends BaseController {
 			value = "/confirm/{token}", 
 			method = RequestMethod.GET)
 	public ModelAndView confirm(HttpServletRequest request, HttpServletResponse response, @PathVariable("token") String token){
-		UserAccount confirnUserAccount = null;
+		SecurityPrincipalProfile confirmedSecurityAccountProfile = null;
 		try {
-			confirnUserAccount = authorizationService.confirmByToken(token);
-			remoteLogin(request, confirnUserAccount);
+			confirmedSecurityAccountProfile = authorizationService.confirmByToken(token);
+			if (null != confirmedSecurityAccountProfile) {
+				request.setAttribute(ControllerConstants.AUTHENTICATED_PROFILE, confirmedSecurityAccountProfile.getUserAccount());
+				remoteLogin(request);
+			}
 		} catch (Exception e) {
 			log.error(e);
 		}

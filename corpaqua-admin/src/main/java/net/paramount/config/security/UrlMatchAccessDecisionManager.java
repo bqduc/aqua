@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
  * @date:  2019/1/7 下午9:59
  *
  */
-public class UrlMatchAccessDecisionManager implements AccessDecisionManager {
+/*public class UrlMatchAccessDecisionManager implements AccessDecisionManager {
 
 
     @Override public boolean supports(ConfigAttribute attribute) {
@@ -70,9 +70,9 @@ public class UrlMatchAccessDecisionManager implements AccessDecisionManager {
         }
     }
 
-    /**
+    *//**
      * 获取请求中的url
-     */
+     *//*
     private String getUrl(Object o) {
         //获取当前访问url
         String url = ((FilterInvocation) o).getRequestUrl();
@@ -86,4 +86,4 @@ public class UrlMatchAccessDecisionManager implements AccessDecisionManager {
     private String getMethod(Object o) {
         return ((FilterInvocation) o).getRequest().getMethod();
     }
-}
+}*/

@@ -38,7 +38,7 @@ public class AuditingConfiguration {
 	class AuditorAwareImpl implements AuditorAware<String> {
 		@Override
 		public Optional<String> getCurrentAuditor() {
-			System.out.println("Authenticated user from security officer component: " + authorizationService.getUserProfile());
+			System.out.println("Authenticated user from security officer component: " + authorizationService.getSecuredProfile());
 			Authentication auth = securityContextHolderServiceHelper.getAuthentication();
 			if (auth==null)
 				return Optional.empty();

@@ -18,7 +18,7 @@ public abstract class SsoEntityBase extends BizObjectBase {
 	@Column(name="sso_id", unique = true, nullable=false, length=50)
 	private String ssoId;
 
-	@Column(name = "password", nullable=false, length=60)
+	@Column(name = "password", nullable=false, length=160)
 	@JsonIgnore
 	private String password;
 

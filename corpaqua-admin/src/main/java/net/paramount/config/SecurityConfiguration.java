@@ -26,11 +26,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import net.paramount.config.intercept.AuthenticationSuccessHandler;
+import net.paramount.auth.comp.DigesterEncryptorReporistory;
+import net.paramount.auth.intercept.CustomAuthenticationFailureHandler;
+import net.paramount.auth.intercept.CustomAuthenticationSuccessHandler;
 
 /**
  * Spring Security Configuration.
@@ -40,6 +41,9 @@ import net.paramount.config.intercept.AuthenticationSuccessHandler;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+	@Inject 
+	protected DigesterEncryptorReporistory encryptoReporistory;
+
 	@Inject
 	private AuthenticationProvider authenticationProvider;
 
@@ -47,11 +51,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private AccessDeniedHandler customAccessDeniedHandler;
 
   @Inject
-  private AuthenticationSuccessHandler authenticationSuccessHandler;
+  private CustomAuthenticationSuccessHandler authenticationSuccessHandler;
   
+  @Inject
+  private CustomAuthenticationFailureHandler authenticationFailureHandler;
+
   @Bean
   public PasswordEncoder passwordEncoder() {
-      return new BCryptPasswordEncoder ()/*virtualPasswordEncoder*/;
+  	return encryptoReporistory.getSCryptPasswordEncoder();
+  	//return new BCryptPasswordEncoder ()/*virtualPasswordEncoder*/;
   }
 
 	@Configuration
@@ -66,14 +74,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(authenticationProvider);
+		auth.authenticationProvider(this.authenticationProvider);
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		configureAppSecurity(http);
 	}
-	
+
 	private String[] buildUnauthorizedMatchers() {
 		String[] unauthorizedPatterns = new String[] { 
 				"/protected/**", 
@@ -97,8 +105,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
        	.anyRequest().access("@authorizationChecker.check(request, authentication)")
       .and()
       	.formLogin()
+      	.failureHandler(this.authenticationFailureHandler)
        	.successHandler(this.authenticationSuccessHandler)
         .loginPage("/login.xhtml")
+        //.failureUrl("/login.xhtml?authfailed=true").permitAll()
         .permitAll()
       .and()
       	.logout()
@@ -108,6 +118,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
        		.deleteCookies("JSESSIONID")
           .permitAll()
       .and()
-      	.exceptionHandling().accessDeniedHandler(this.customAccessDeniedHandler);
+      	.authenticationProvider(this.authenticationProvider)
+      	.exceptionHandling().accessDeniedHandler(this.customAccessDeniedHandler)
+
+      .and()
+      	.sessionManagement()
+      	;
   }
 }

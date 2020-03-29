@@ -7,6 +7,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.SerializationUtils;
 
 import com.sun.javafx.fxml.PropertyNotFoundException;
 
@@ -436,5 +438,10 @@ public class CommonBeanUtils {
 				| InstantiationException e) {
 			throw new ExecutionContextException(e);
 		}
+  }
+
+  public static Object clone(final Object source) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+  	return BeanUtils.cloneBean(source);
+  	//return SerializationUtils.clone((Serializable) source);
   }
 }

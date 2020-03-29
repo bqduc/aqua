@@ -3,6 +3,7 @@ package net.paramount.auth.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.UserAccount;
 import net.paramount.exceptions.CorporateAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
@@ -21,7 +22,7 @@ public interface UserAccountService extends GenericService<UserAccount, Long>, U
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	void registerUserAccount(UserAccount user);
+	SecurityPrincipalProfile register(UserAccount user) throws CorporateAuthException;
 
 	/**
 	 * Update the specified user.
