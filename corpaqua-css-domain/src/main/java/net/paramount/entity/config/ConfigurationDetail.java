@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Builder;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * @author bqduc
@@ -19,7 +19,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "configuration_detail")
-public class ConfigurationDetail extends BizObjectBase {
+public class ConfigurationDetail extends RepoAuditable {
 	private static final long serialVersionUID = -6404039963892756706L;
 
 	@Column(name = "name", length=50, nullable=false)

@@ -16,7 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Ürün/hizmet için stok grubu bilgisini tutan sınıfımızdır. (Bilim optik için marka bilgisini tutuyor olacak.)
@@ -25,7 +25,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name = "PRODUCT_GROUP")
-public class ProductGroup extends ObjectBase {
+public class ProductGroup extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,7 +67,7 @@ public class ProductGroup extends ObjectBase {
 
 	@Override
 	public String toString() {
-		return "com.ut.tekir.entities.ProductGroup[id=" + getId() + "]";
+		return "ProductGroup[id=" + getId() + "]";
 	}
 
 	public String getName() {

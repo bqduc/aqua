@@ -45,7 +45,7 @@ import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.domain.SelectItem;
+import net.paramount.domain.model.SelectItem;
 import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.framework.constants.ControllerConstants;
 import net.paramount.framework.model.SearchParameter;
@@ -63,8 +63,8 @@ public abstract class BaseController extends RootController {
 	protected static final String PAGE_POSTFIX_EDIT = "Edit";
 	protected static final String REDIRECT = "redirect:/";
 
-	@Inject
-	protected TaskExecutor taskScheduler;
+	/*@Inject
+	protected TaskExecutor taskScheduler;*/
 
 	@Inject
 	private AuthenticationProvider authenticationProvider;

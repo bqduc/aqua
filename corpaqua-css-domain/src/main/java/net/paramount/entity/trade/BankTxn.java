@@ -12,7 +12,6 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.AttributeOverride;
@@ -23,9 +22,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,11 +33,11 @@ import javax.validation.constraints.Size;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.WorkBunch;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 @Entity
 @Table(name="BANK_TXN")
-public class BankTxn extends AuditBase {
+public class BankTxn extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -77,9 +73,6 @@ public class BankTxn extends AuditBase {
         @AttributeOverride(name="localAmount", column=@Column(name="LCYVAL"))
     })
     private MoneySet amount = new MoneySet();
-    
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
     
     @Column(name="CODE", length=15)
     @Size(max=15)
@@ -145,14 +138,6 @@ public class BankTxn extends AuditBase {
 		this.amount = amount;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
 	public String getCode() {
 		return code;
 	}
@@ -211,7 +196,7 @@ public class BankTxn extends AuditBase {
 
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.BankTxn[id=" + getId() + "]";
+        return "BankTxn[id=" + getId() + "]";
     }
 
 	public void setAdverseCode(String adverseCode) {

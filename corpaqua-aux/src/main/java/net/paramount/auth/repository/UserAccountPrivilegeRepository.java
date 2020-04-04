@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.entity.UserAccountPrivilege;
 import net.paramount.framework.repository.BaseRepository;
 
@@ -17,5 +17,5 @@ import net.paramount.framework.repository.BaseRepository;
  */
 @Repository
 public interface UserAccountPrivilegeRepository extends BaseRepository<UserAccountPrivilege, Long> {
-	List<UserAccountPrivilege> findByUserAccount(UserAccount userAccount);
+	List<UserAccountPrivilege> findByUserAccount(SecurityAccountProfile userAccount);
 }

@@ -1,7 +1,7 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package net.paramount.controller.paux;
 
 import static com.github.adminfaces.template.util.Assert.has;
@@ -22,15 +22,15 @@ import net.paramount.domain.dummy.Car;
 import net.paramount.entity.contact.Contact;
 import net.paramount.utility.FacesUtilities;
 
-/**
+*//**
  * @author ducbq
- */
+ *//*
 @Named(value="authorityDetailBack")
 @ViewScoped
 public class AuthorityDetailController implements Serializable {
-	/**
+	*//**
 	 * 
-	 */
+	 *//*
 	private static final long serialVersionUID = -8331499270487789202L;
 
 	@Inject
@@ -101,3 +101,4 @@ public class AuthorityDetailController implements Serializable {
 
 
 }
+*/

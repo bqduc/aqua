@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import net.paramount.entity.general.Catalogue;
-import net.paramount.framework.repository.CodeNameBaseRepository;
+import net.paramount.domain.entity.general.Catalogue;
+import net.paramount.framework.repository.CodeNameRepository;
 
 @Repository
-public interface CatalogueRepository extends CodeNameBaseRepository<Catalogue, Long>{
+public interface CatalogueRepository extends CodeNameRepository<Catalogue, Long>{
 	@Query("SELECT entity FROM #{#entityName} entity WHERE ("
 			+ " LOWER(entity.code) like LOWER(CONCAT('%',:keyword,'%')) or "
 			+ " LOWER(entity.name) like LOWER(CONCAT('%',:keyword,'%')) or "

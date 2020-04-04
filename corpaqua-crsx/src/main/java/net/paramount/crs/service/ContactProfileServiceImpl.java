@@ -34,9 +34,9 @@ public class ContactProfileServiceImpl extends GenericServiceImpl<ContactProfile
 
 	@Override
 	public ContactProfile getOne(String code) throws ObjectNotFoundException {
-		return (ContactProfile)super.getOptionalObject(repository.findByCode(code));
+		return null;//(ContactProfile)super.getOptionalObject(repository.findByCode(code));
 	}
-
+/*
 	@Override
 	protected Page<ContactProfile> performSearch(String keyword, Pageable pageable) {
 		return repository.search(keyword, pageable);
@@ -47,7 +47,7 @@ public class ContactProfileServiceImpl extends GenericServiceImpl<ContactProfile
 		Page<ContactProfile> pagedProducts = this.repository.findAll(ContactProfileSpecification.buildSpecification(searchParameter), searchParameter.getPageable());
 		//Perform additional operations here
 		return pagedProducts;
-	}
+	}*/
 
 	@Override
 	public ExecutionContext load(ExecutionContext executionContext) throws ExecutionContextException {

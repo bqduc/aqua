@@ -13,7 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.framework.component.CompCore;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 
@@ -65,7 +65,7 @@ public class JwtTokenProvider extends CompCore {
 	}
 
   private AuthenticationDetails initiateUserDetails() {
-  	AuthenticationDetails userDetails = new UserAccount();
+  	AuthenticationDetails userDetails = new SecurityAccountProfile();
   	return userDetails;
   }
 

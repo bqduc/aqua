@@ -22,20 +22,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import net.paramount.framework.entity.BizObjectBase;
+import lombok.NoArgsConstructor;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A localized item.
  * 
  * @author bqduc
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "catalogue_language")
 @EqualsAndHashCode(callSuper = true)
-public class CatalogueLanguage extends BizObjectBase {
+public class CatalogueLanguage extends RepoAuditable {
 	/**
 	 * 
 	 */

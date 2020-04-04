@@ -28,7 +28,7 @@ import javax.validation.Valid;
 
 import net.paramount.embeddable.Address;
 import net.paramount.entity.contact.ContactPerson;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Holds hierarchy information of company.
@@ -38,7 +38,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="ORGANIZATION")
-public class Organization extends ObjectBase {
+public class Organization extends RepoEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -101,7 +101,7 @@ public class Organization extends ObjectBase {
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.Organization[id=" + getId() + "]";
+        return "Organization[id=" + getId() + "]";
     }
 
 	public City getCity() {

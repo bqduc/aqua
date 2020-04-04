@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A team.
@@ -22,7 +22,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "team")
 @EqualsAndHashCode(callSuper=false)
-public class Team extends BizObjectBase {
+public class Team extends RepoAuditable {
 
 	/**
 	 * 

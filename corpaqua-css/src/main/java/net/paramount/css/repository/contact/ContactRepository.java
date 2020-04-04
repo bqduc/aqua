@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.framework.repository.BaseRepository;
 
 @Repository
-public interface ContactRepository extends BaseRepository<Contact, Long> {
-	Optional<Contact> findByEmail(String email);
+public interface ContactRepository extends BaseRepository<CTAContact, Long> {
+	Optional<CTAContact> findByEmail(String email);
 
-	Optional<Contact> findByCode(String code);
+	Optional<CTAContact> findByCode(String code);
 	Long countByCode(String code);
 	
   @Query(value = "SELECT entity.code FROM #{#entityName} entity ", nativeQuery = true)
@@ -29,5 +29,5 @@ public interface ContactRepository extends BaseRepository<Contact, Long> {
 			+ " LOWER(entity.email) like LOWER(CONCAT('%',:keyword,'%')) "
 			+ ")"
 	)
-	Page<Contact> search(@Param("keyword") String keyword, Pageable pageable);
+	Page<CTAContact> search(@Param("keyword") String keyword, Pageable pageable);
 }

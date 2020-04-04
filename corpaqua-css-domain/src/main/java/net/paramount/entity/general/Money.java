@@ -19,111 +19,116 @@ import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
+import lombok.Getter;
+import lombok.Setter;
+import net.paramount.common.CommonConstants;
 
 /**
  * Uygulama içerisinde temel para tipi
+ * 
  * @author haky
  */
 @Embeddable
 @MappedSuperclass
 public class Money implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-   private static final long serialVersionUID = 1L;
-	
-   /**
-     * 3Char ISO code
-     */
-    /*@Column(name="CCY", length=3)
-    @Size(max=3)
-    private String currency = BaseConsts.SYSTEM_CURRENCY_CODE;*/
+	/**
+	 * 3Char ISO code
+	 */
 
-    @Column(name="currency_id")
-    private Long currency;
+	@Setter
+	@Getter
+	@Column(name = "CCY", length = 3, insertable = false, updatable = false)
+	private String currencyCode = CommonConstants.SYSTEM_CURRENCY_CODE;
 
-    @Column(name="CCYVAL", precision=19, scale=2)
-    private BigDecimal value;
+	@Setter
+	@Getter
+	@ManyToOne
+	@JoinColumn(name = "currency_id", insertable = false, updatable = false)
+	private Currency currency;
 
-    /** Creates a new instance of Money */
-    public Money() {
-    	value = BigDecimal.ZERO;
-    	value.setScale(2, RoundingMode.HALF_UP);
-    }
+	@Column(name = "CCYVAL", precision = 19, scale = 2)
+	private BigDecimal value;
 
-    public Money(Long currencyId) {
-    	this.currency = currencyId;
-    	value = BigDecimal.ZERO;
-    	value.setScale(2, RoundingMode.HALF_UP);
-    }
+	/** Creates a new instance of Money */
+	public Money() {
+		value = BigDecimal.ZERO;
+		value.setScale(2, RoundingMode.HALF_UP);
+	}
 
-    public Money(Money money) {
-        this.currency = money.getCurrency();
-        this.value = money.getValue();
-    }
+	public Money(Currency currency) {
+		this.currency = currency;
+		this.currencyCode = currency.getCode();
+		value = BigDecimal.ZERO;
+		value.setScale(2, RoundingMode.HALF_UP);
+	}
 
-    public Money(BigDecimal value, Long currencyId) {
-        this.value = value;
-        this.currency = currencyId;
-    }
+	public Money(Money money) {
+		this.currency = money.getCurrency();
+		this.value = money.getValue();
+	}
 
-    public Money(BigDecimal value) {
-    	this.value = value;
-    }
+	public Money(BigDecimal value, Currency currency) {
+		this.value = value;
+		this.currency = currency;
+		this.currencyCode = currency.getCode();
+	}
 
-    public void clearMoney() {
-    	this.currency = null;
-    	this.value = BigDecimal.ZERO;
-    }
+	public Money(BigDecimal value) {
+		this.value = value;
+	}
 
-    public BigDecimal getValue() {
-        return value;
-    }
+	public void clearMoney() {
+		this.currency = null;
+		this.value = BigDecimal.ZERO;
+	}
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
+	public BigDecimal getValue() {
+		return value;
+	}
 
-    @Override
-    public String toString() {
+	public void setValue(BigDecimal value) {
+		this.value = value;
+	}
 
-        NumberFormat f = NumberFormat.getInstance();
-        f.setMaximumFractionDigits(2);
-        f.setMinimumFractionDigits(2);
+	@Override
+	public String toString() {
 
-        return f.format(value) + " " + getCurrency();
-    }
+		NumberFormat f = NumberFormat.getInstance();
+		f.setMaximumFractionDigits(2);
+		f.setMinimumFractionDigits(2);
 
-    public void add(Money money) {
-    	currencyValidation(money);
-        value = value.add( money.getValue());
-    }
-    
-    public void substract(Money money) {
-    	currencyValidation(money);
-        value = value.subtract( money.getValue());
-    }
+		return f.format(value) + " " + getCurrency();
+	}
 
-    public void multiply(Money money) {
-    	currencyValidation(money);
-    	value = value.multiply(money.getValue());
-    }
+	public void add(Money money) {
+		currencyValidation(money);
+		value = value.add(money.getValue());
+	}
 
-    public void divide(Money money) {
-    	currencyValidation(money);
-    	value = value.divide(money.getValue(), 2, RoundingMode.HALF_UP);
-    }
+	public void substract(Money money) {
+		currencyValidation(money);
+		value = value.subtract(money.getValue());
+	}
 
-    public void currencyValidation(Money money) {
-    	if (!this.currency.equals(money.getCurrency())) {
-    		throw new RuntimeException("Currency types do not match...");
-    	}
-    }
+	public void multiply(Money money) {
+		currencyValidation(money);
+		value = value.multiply(money.getValue());
+	}
 
-		public Long getCurrency() {
-			return currency;
+	public void divide(Money money) {
+		currencyValidation(money);
+		value = value.divide(money.getValue(), 2, RoundingMode.HALF_UP);
+	}
+
+	public void currencyValidation(Money money) {
+		if (!this.currency.equals(money.getCurrency())) {
+			throw new RuntimeException("Currency types do not match...");
 		}
-
-		public void setCurrency(Long currencyId) {
-			this.currency = currencyId;
-		}
+	}
 }

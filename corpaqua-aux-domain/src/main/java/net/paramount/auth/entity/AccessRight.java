@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Access right .
@@ -36,7 +36,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "aux_access_right")
-public class AccessRight extends BizObjectBase {
+public class AccessRight extends RepoAuditable {
 	private static final long serialVersionUID = 5474725952032953164L;
 
 	@NotNull

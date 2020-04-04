@@ -98,6 +98,24 @@ public class IdGenerator {
 		}
 	}
 
+	public String generateInvoiceOutId(long id) {
+
+		String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
+		if (id < 10) {
+			return "INV/" + currentYear + "/000" + id;
+
+		} else if (id >= 10 && id < 100) {
+			return "INV/" + currentYear + "/00" + id;
+
+		} else if (id >= 100 && id < 1000) {
+			return "INV/" + currentYear + "/0" + id;
+
+		} else {
+			return "INV/" + currentYear + "/" + id;
+		}
+	}
+
 	// public String generateRefundInvoiceOutId(int id) {
 	//
 	// String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
@@ -117,6 +135,24 @@ public class IdGenerator {
 	// }
 
 	public String generateInvoiceInId(Integer id) {
+
+		String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
+		if (id < 10) {
+			return "BILL/" + currentYear + "/000" + id;
+
+		} else if (id >= 10 && id < 100) {
+			return "BILL/" + currentYear + "/00" + id;
+
+		} else if (id >= 100 && id < 1000) {
+			return "BILL/" + currentYear + "/0" + id;
+
+		} else {
+			return "BILL/" + currentYear + "/" + id;
+		}
+	}
+
+	public String generateInvoiceInId(Long id) {
 
 		String currentYear = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 

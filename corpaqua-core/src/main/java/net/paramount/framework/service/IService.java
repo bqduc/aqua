@@ -3,9 +3,9 @@ package net.paramount.framework.service;
 import java.io.Serializable;
 import java.util.List;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
-public interface IService<T extends ObjectBase, K extends Serializable> extends Serializable {
+public interface IService<T extends RepoEntity, K extends Serializable> extends Serializable {
   /**
    * Get object with the provided key.
    * 

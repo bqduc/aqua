@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import lombok.Builder;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosysException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.OsxBucketContainer;
 import net.paramount.osx.model.DataWorkbook;
@@ -33,7 +33,7 @@ import net.paramount.osx.model.OfficeMarshalType;
 @Builder
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class OfficeSuiteServiceProvider {
-	protected OfficeDocumentType detectOfficeDocumentType(InputStream inputStream) throws EcosysException {
+	protected OfficeDocumentType detectOfficeDocumentType(InputStream inputStream) throws EcosphereException {
 		OfficeDocumentType excelSheetType = OfficeDocumentType.INVALID;
 		InputStream checkInputStream = null;
 		checkInputStream = FileMagic.prepareToCheckMagic(inputStream);
@@ -44,20 +44,20 @@ public class OfficeSuiteServiceProvider {
 				excelSheetType = OfficeDocumentType.HSSF_WORKBOOK;
 			}
 		} catch (IOException e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return excelSheetType;
 	}
 
-	protected DataWorkbook readXlsxByEventHandler(final Map<?, ?> params) throws EcosysException {
+	protected DataWorkbook readXlsxByEventHandler(final Map<?, ?> params) throws EcosphereException {
 		return XSSFEventDataHelper.instance(params).readXlsx();
 	}
 
-	protected DataWorkbook readXlsxByStreaming(final Map<?, ?> params) throws EcosysException {
+	protected DataWorkbook readXlsxByStreaming(final Map<?, ?> params) throws EcosphereException {
 		return OfficeStreamingReaderHealper.builder().build().readXlsx(params);
 	}
 
-	public DataWorkbook readExcelFile(final Map<?, ?> parameters) throws EcosysException {
+	public DataWorkbook readExcelFile(final Map<?, ?> parameters) throws EcosphereException {
 		DataWorkbook workbookContainer = null;
 		OfficeMarshalType officeMarshalType = OfficeMarshalType.STREAMING;
 		if (parameters.containsKey(OSXConstants.OFFICE_EXCEL_MARSHALLING_DATA_METHOD)) {
@@ -74,7 +74,7 @@ public class OfficeSuiteServiceProvider {
 		return workbookContainer;
 	}
 
-	public OsxBucketContainer readOfficeDataInZip(final ExecutionContext executionContextParams) throws EcosysException {
+	public OsxBucketContainer readOfficeDataInZip(final ExecutionContext executionContextParams) throws EcosphereException {
 		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
@@ -113,12 +113,12 @@ public class OfficeSuiteServiceProvider {
 				}
 			}
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return bucketContainer;
 	}
 
-	public OsxBucketContainer extractOfficeDataFromZip(final ExecutionContext executionContextParams) throws EcosysException {
+	public OsxBucketContainer extractOfficeDataFromZip(final ExecutionContext executionContextParams) throws EcosphereException {
 		OsxBucketContainer bucketContainer = OsxBucketContainer.instance();
 		File zipFile = null;
 		Map<String, InputStream> zipInputStreams = null;
@@ -175,7 +175,7 @@ public class OfficeSuiteServiceProvider {
 				}
 			}
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return bucketContainer;
 	}

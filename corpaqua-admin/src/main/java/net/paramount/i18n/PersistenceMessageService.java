@@ -13,8 +13,9 @@ import org.springframework.context.MessageSource;
  * @author ducbq
  *
  */
-public interface PersistenceMessageService extends MessageSource {
+/*public interface PersistenceMessageService extends MessageSource {
 	Map<String, String> getMessagesMap(Locale locale);
-	List<MessageSourceEntity> getMessages(Locale locale);
+	List<UILabel> getMessages(Locale locale);
 	void saveMessage(String key, String content, Locale locale);
 }
+*/

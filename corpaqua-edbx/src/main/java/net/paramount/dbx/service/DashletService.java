@@ -1,5 +1,7 @@
 package net.paramount.dbx.service;
 
+import java.util.Optional;
+
 import net.paramount.dbx.entity.Dashlet;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
@@ -13,7 +15,7 @@ public interface DashletService extends GenericService<Dashlet, Long>{
    * @return The item
    * @throws ObjectNotFoundException If no such account exists.
    */
-	Dashlet getBySerial(String serial) throws ObjectNotFoundException;
+	Optional<Dashlet> getBySerial(String serial) throws ObjectNotFoundException;
 
   /**
    * Get one item with the provided code.

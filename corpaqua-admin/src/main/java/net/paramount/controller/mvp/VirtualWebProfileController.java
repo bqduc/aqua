@@ -22,7 +22,7 @@ import com.github.adminfaces.template.exception.BusinessException;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.helper.AuxServiceHelper;
-import net.paramount.component.helper.ResourcesServicesHelper;
+import net.paramount.comp.helper.ResourcesServicesHelper;
 import net.paramount.dmx.helper.ResourcesStorageServiceHelper;
 import net.paramount.dmx.repository.GlobalDmxRepositoryManager;
 import net.paramount.framework.controller.BaseController;

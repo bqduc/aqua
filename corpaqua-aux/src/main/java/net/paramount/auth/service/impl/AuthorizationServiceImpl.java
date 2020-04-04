@@ -19,7 +19,7 @@ import net.paramount.auth.core.AuthorizationServiceBase;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.AuthorizationService;
@@ -29,7 +29,7 @@ import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
 import net.paramount.common.DateTimeUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.CorporateAuthException;
+import net.paramount.exceptions.EcosphereAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 import net.paramount.framework.model.ExecutionContext;
@@ -57,33 +57,33 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws CorporateAuthException {
+	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws EcosphereAuthException {
 		return this.generateSecurityPrincipalProfile(ssoId, password);
 	}
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String loginToken) throws CorporateAuthException {
+	public SecurityPrincipalProfile authenticate(String loginToken) throws EcosphereAuthException {
 		return this.generateSecurityPrincipalProfile(loginToken, null);
 	}
 
 	@Override
-	public SecurityPrincipalProfile getSecuredProfile() throws CorporateAuthException {
+	public SecurityPrincipalProfile getSecuredProfile() throws EcosphereAuthException {
 		return this.getCurrentSecuredProfile();
 	}
 
 	@Override
-	public boolean hasPermission(String target, String action) throws CorporateAuthException {
+	public boolean hasPermission(String target, String action) throws EcosphereAuthException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public SecurityPrincipalProfile register(ExecutionContext context) throws CorporateAuthException {
+	public SecurityPrincipalProfile register(ExecutionContext context) throws EcosphereAuthException {
 		String confirmLink = null;
 		SecurityPrincipalProfile registrationProfile = null;
 		CorpMimeMessage mimeMessage = null;
 		try {
-			registrationProfile = userAccountService.register((UserAccount)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
+			registrationProfile = userAccountService.register((SecurityAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
 
 			mimeMessage = (CorpMimeMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
 			if (null==mimeMessage) {
@@ -102,20 +102,20 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 
 			emailCommunicator.send(context);
 		} catch (Exception e) {
-			throw new CorporateAuthException(e);
+			throw new EcosphereAuthException(e);
 		}
 		return registrationProfile;
 	}
 
 	@Override
-	public UserAccount getUserAccount(String ssoId) throws ObjectNotFoundException {
+	public SecurityAccountProfile getUserAccount(String ssoId) throws ObjectNotFoundException {
 		return userAccountService.get(ssoId);
 	}
 
 	@Override
 	public SecurityPrincipalProfile confirmByToken(String token) throws ObjectNotFoundException {
 		SecurityPrincipalProfile confirmedSecurityAccountProfile = SecurityPrincipalProfile.builder().build();
-		UserAccount confirnUserAccount = null;
+		SecurityAccountProfile confirnUserAccount = null;
 		AuthenticationDetails userDetails = tokenProvider.getUserDetailsFromJWT(token);
 		if (userDetails != null) {
 			confirnUserAccount = this.getUserAccount(userDetails.getSsoId());

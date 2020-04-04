@@ -21,8 +21,8 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
-import net.paramount.entity.general.Quantity;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.entity.general.QuantityCore;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Entity class ProductTransferItem
@@ -31,7 +31,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="PRODUCT_TRANSFER_ITEM")
-public class ProductTransferItem extends ObjectBase {
+public class ProductTransferItem extends RepoEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class ProductTransferItem extends ObjectBase {
     
     @ManyToOne
     @JoinColumn(name="PRODUCT_ID")
-    private Product product;
+    private ProductProfile product;
 
     @Column(name="INFO")
     private String info;
@@ -52,7 +52,7 @@ public class ProductTransferItem extends ObjectBase {
     
     @Embedded
     @Valid
-    private Quantity quantity = new Quantity();
+    private QuantityCore quantity = new QuantityCore();
 
     public ProductTransfer getOwner() {
         return owner;
@@ -62,11 +62,11 @@ public class ProductTransferItem extends ObjectBase {
         this.owner = owner;
     }
 
-    public Product getProduct() {
+    public ProductProfile getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(ProductProfile product) {
         this.product = product;
     }
 
@@ -86,17 +86,17 @@ public class ProductTransferItem extends ObjectBase {
         this.lineCode = lineCode;
     }
 
-    public Quantity getQuantity() {
+    public QuantityCore getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Quantity quantity) {
+    public void setQuantity(QuantityCore quantity) {
         this.quantity = quantity;
     }
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.ProductTransferItem[id=" + getId() + "]";
+        return "ProductTransferItem[id=" + getId() + "]";
     }
     
 }

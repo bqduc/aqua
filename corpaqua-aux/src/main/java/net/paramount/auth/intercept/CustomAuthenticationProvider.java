@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonUtility;
-import net.paramount.exceptions.CorporateAuthException;
+import net.paramount.exceptions.EcosphereAuthException;
 import net.paramount.framework.component.CompCore;
 import net.paramount.global.GlobalConstants;
 
@@ -43,7 +43,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 			} else {
 				authenticateResp = authenticateByToken(authentication.getName());
 			}
-		} catch (CorporateAuthException cae) {
+		} catch (EcosphereAuthException cae) {
 			throw cae;
 		}
 		return authenticateResp;
@@ -54,7 +54,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
 	}
 
-	private Authentication authenticateBySsoId(String ssoId, String password) throws CorporateAuthException {
+	private Authentication authenticateBySsoId(String ssoId, String password) throws EcosphereAuthException {
 		Authentication authObject = null;
 		SecurityPrincipalProfile userAccountProfile = null;
 		try {
@@ -66,13 +66,13 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 				httpSessionFactory.getObject().setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, userAccountProfile);
 			}
 		} catch (Exception uae) {
-			throw new CorporateAuthException(uae);
+			throw new EcosphereAuthException(uae);
 		}
 
 		return authObject;
 	}
 
-	private Authentication authenticateByToken(String token) throws CorporateAuthException {
+	private Authentication authenticateByToken(String token) throws EcosphereAuthException {
 		Authentication authByToken = null;
 		SecurityPrincipalProfile userAccountProfile = null;
 		try {
@@ -81,7 +81,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 				authByToken = new UsernamePasswordAuthenticationToken(token, CommonUtility.STRING_BLANK, userAccountProfile.getUserAccount().getAuthorities());			
 			}
 		} catch (Exception e) {
-			throw new CorporateAuthException(e);
+			throw new EcosphereAuthException(e);
 		}
 
 		return authByToken;

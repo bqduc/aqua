@@ -147,8 +147,21 @@
 	    <!-- small box -->
 		  <div class="small-box bg-info">
 		    <div class="inner">
+		      <h3>#{dashboardServiceManager.requestDashboardData('accessDecisionPolicyCount')}</h3>
+		      <p>#{messages['lbl.admin.accessDecisionPolicy']}</p>
+		    </div>
+		    <div class="icon">
+		      <i class="ion ion-bag"></i>
+		    </div>
+		    <a href="/bszone/auxadmin/accessDecisionPolicyBrowse.jsf" class="small-box-footer">#{messages['lbl.general.moreInfo']}<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+		  </div>
+		</div>
+	  <div class="col-lg-3 col-6">
+	    <!-- small box -->
+		  <div class="small-box bg-info">
+		    <div class="inner">
 		      <h3>150</h3>
-		      <p>#{messages['lbl.ams.schedulers']} schedulers</p>
+		      <p>#{messages['lbl.ams.schedulers']}</p>
 		    </div>
 		    <div class="icon">
 		      <i class="ion ion-bag"></i>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.contact.ContactAddress;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.model.SearchParameter;
@@ -21,7 +21,7 @@ public interface ContactAddressService extends GenericService<ContactAddress, Lo
 	 * @throws ObjectNotFoundException
 	 *             If no such Enterprise exists.
 	 */
-	List<ContactAddress> getByContact(Contact contact) throws ObjectNotFoundException;
+	List<ContactAddress> getByContact(CTAContact contact) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Enterprises with the provided search parameters.

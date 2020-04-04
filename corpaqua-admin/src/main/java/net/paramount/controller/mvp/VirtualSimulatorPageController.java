@@ -26,7 +26,7 @@ import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.common.SimpleEncryptionEngine;
-import net.paramount.component.helper.ResourcesServicesHelper;
+import net.paramount.comp.helper.ResourcesServicesHelper;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.dmx.helper.DmxCollaborator;
 import net.paramount.dmx.helper.ResourcesStorageServiceHelper;
@@ -210,7 +210,7 @@ public class VirtualSimulatorPageController extends BaseController {
   			executionContext.context("AA", "xx").context("DD", "ss");
 
   			asyncExtendedDataLoader = applicationContext.getBean(AsyncExtendedDataLoader.class, executionContext);
-  			this.taskScheduler.execute(asyncExtendedDataLoader);
+  			//this.taskScheduler.execute(asyncExtendedDataLoader);
   		} catch (Exception e) {
   			//log.error(e.getMessage());
   		}

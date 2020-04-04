@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import net.paramount.auth.comp.JwtTokenProvider;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 
 /**
@@ -29,7 +29,7 @@ public class TestEntry {
 	protected static void testJToken() {
 		JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
 
-		AuthenticationDetails userDetails = new UserAccount();
+		AuthenticationDetails userDetails = new SecurityAccountProfile();
 		userDetails.setId(Long.valueOf(10292019));
 		userDetails.setSsoId("bdq1hc");
 		//String token = jwtTokenProvider.generateToken(userDetails);

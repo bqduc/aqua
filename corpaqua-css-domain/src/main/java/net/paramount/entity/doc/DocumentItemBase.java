@@ -20,7 +20,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.Valid;
 
 import net.paramount.entity.general.MoneySet;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Dökümanların satırlarındaki ortak bilgileri tutar.
@@ -29,7 +29,7 @@ import net.paramount.framework.entity.ObjectBase;
  * 
  */
 @MappedSuperclass
-public abstract class DocumentItemBase  extends ObjectBase {
+public abstract class DocumentItemBase  extends RepoEntity {
 
 	/**
 	 * 

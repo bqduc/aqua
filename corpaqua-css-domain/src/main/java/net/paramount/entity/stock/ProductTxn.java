@@ -29,14 +29,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.Quantity;
+import net.paramount.entity.general.QuantityCore;
 import net.paramount.entity.general.WorkBunch;
 import net.paramount.entity.trade.FinanceAction;
 import net.paramount.entity.trade.TradeAction;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class ProductTxn
@@ -45,7 +45,7 @@ import net.paramount.framework.entity.AuditBase;
  */
 @Entity
 @Table(name = "PRODUCT_TXN")
-public class ProductTxn extends AuditBase {
+public class ProductTxn extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ public class ProductTxn extends AuditBase {
 
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID")
-	private Product product;
+	private ProductProfile product;
 
 	@Column(name = "ADVERSE_CODE", length = 20)
 	private String adverseCode;
@@ -68,7 +68,7 @@ public class ProductTxn extends AuditBase {
 	private Date date;
 
 	@Embedded
-	private Quantity quantity = new Quantity();
+	private QuantityCore quantity = new QuantityCore();
 
 	@Column(name = "TRADE_ACTION")
 	@Enumerated(EnumType.ORDINAL)
@@ -79,9 +79,6 @@ public class ProductTxn extends AuditBase {
 			@AttributeOverride(name = "value", column = @Column(name = "CCYVAL")), @AttributeOverride(name = "localAmount", column = @Column(name = "LCYVAL")) })
 	private MoneySet unitPrice = new MoneySet();
 	// private Money localUnitPrice;//TODO: Olmalı mı?
-
-	@Column(name = "ISACTIVE")
-	private Boolean active = Boolean.TRUE;
 
 	@Column(name = "CODE", length = 15)
 	@Size(max = 15)
@@ -121,7 +118,7 @@ public class ProductTxn extends AuditBase {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "CONTACT_ID")
-	private Contact contact;
+	private CTAContact contact;
 
 	@ManyToOne
 	@JoinColumn(name = "WORK_BUNCH_ID", foreignKey = @ForeignKey(name = "FK_PRODUCTTXN_WORKBUNCHID"))
@@ -131,7 +128,7 @@ public class ProductTxn extends AuditBase {
 		ProductTransfer owner = transferItem.getOwner();
 
 		setProduct(transferItem.getProduct());
-		setQuantity(new Quantity(transferItem.getQuantity()));
+		setQuantity(new QuantityCore(transferItem.getQuantity()));
 		setUnitPrice(new MoneySet());
 		setProductType(transferItem.getProduct().getProductType());
 		setActive(owner.getActive());
@@ -151,11 +148,11 @@ public class ProductTxn extends AuditBase {
 		this.warehouse = warehouse;
 	}
 
-	public Product getProduct() {
+	public ProductProfile getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductProfile product) {
 		this.product = product;
 	}
 
@@ -167,11 +164,11 @@ public class ProductTxn extends AuditBase {
 		this.date = date;
 	}
 
-	public Quantity getQuantity() {
+	public QuantityCore getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(Quantity quantity) {
+	public void setQuantity(QuantityCore quantity) {
 		this.quantity = quantity;
 	}
 
@@ -189,14 +186,6 @@ public class ProductTxn extends AuditBase {
 
 	public void setUnitPrice(MoneySet unitPrice) {
 		this.unitPrice = unitPrice;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public String getCode() {
@@ -249,7 +238,7 @@ public class ProductTxn extends AuditBase {
 
 	@Override
 	public String toString() {
-		return "com.ut.tekir.entities.ProductTxn[id=" + getId() + "]";
+		return "ProductTxn[id=" + getId() + "]";
 	}
 
 	public void setAdverseCode(String adverseCode) {
@@ -284,11 +273,11 @@ public class ProductTxn extends AuditBase {
 		this.productType = productType;
 	}
 
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 

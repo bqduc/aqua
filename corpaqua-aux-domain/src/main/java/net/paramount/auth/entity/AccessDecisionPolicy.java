@@ -15,20 +15,28 @@
 */
 package net.paramount.auth.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import net.paramount.auth.model.AccessDecision;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.common.ListUtility;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Module.
@@ -40,67 +48,55 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "aux_access_decision_policy")
-public class AccessDecisionPolicy extends BizObjectBase {
+public class AccessDecisionPolicy extends RepoAuditable {
 	private static final long serialVersionUID = 5502198617024752752L;
 
+	@Setter
+	@Getter
 	@NotNull
 	@Column(name = "access_pattern", length=120)
 	private String accessPattern;
 
+	@Setter
+	@Getter
 	@Builder.Default
 	@Column(name="access_decision")
   @Enumerated(EnumType.ORDINAL)
 	private AccessDecision accessDecision = AccessDecision.ACCESS_ABSTAIN;
 
+	/*@Setter
+	@Getter
 	@ManyToOne
 	@JoinColumn(name = "authority_id")
-	private Authority authority;
+	private Authority authority;*/
 
+	@Setter
+	@Getter
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private AccessDecisionPolicy parent;
 
+	@Setter
+	@Getter
 	@Column(name = "info", columnDefinition="text")
 	private String info;
 
-	public String getInfo() {
-		return info;
-	}
+	@Setter
+	@Getter
+	@Builder.Default
+  @OneToMany(mappedBy="accessDecisionPolicy"
+      , cascade = CascadeType.ALL
+      , orphanRemoval = true
+      , fetch = FetchType.EAGER)
+  private List<AccessDecisionAuthority> accessDecisionAuthorities = ListUtility.createDataList();
 
-	public void setInfo(String info) {
-		this.info = info;
+	public AccessDecisionPolicy addAccessDecisionAuthority(Authority authority) {
+		accessDecisionAuthorities.add(
+				AccessDecisionAuthority.builder()
+				.accessDecisionPolicy(this)
+				.authority(authority)
+				.build()
+			);
+		return this;
 	}
-
-	public AccessDecisionPolicy getParent() {
-		return parent;
-	}
-
-	public void setParent(AccessDecisionPolicy parent) {
-		this.parent = parent;
-	}
-
-	public String getAccessPattern() {
-		return accessPattern;
-	}
-
-	public void setAccessPattern(String accessPattern) {
-		this.accessPattern = accessPattern;
-	}
-
-	public AccessDecision getAccessDecision() {
-		return accessDecision;
-	}
-
-	public void setAccessDecision(AccessDecision accessDecision) {
-		this.accessDecision = accessDecision;
-	}
-
-	public Authority getAuthority() {
-		return authority;
-	}
-
-	public void setAuthority(Authority authority) {
-		this.authority = authority;
-	}
-	
 }

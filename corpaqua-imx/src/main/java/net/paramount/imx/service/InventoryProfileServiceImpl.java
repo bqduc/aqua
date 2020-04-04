@@ -58,8 +58,7 @@ public class InventoryProfileServiceImpl extends GenericServiceImpl<InventoryPro
 	}
 
 	@Override
-	public InventoryProfile getByCode(String code) throws ObjectNotFoundException {
-		Optional<InventoryProfile> optInventoryProfile = this.repository.findByCode(code);
-		return optInventoryProfile.isPresent()?optInventoryProfile.get():null;
+	public Optional<InventoryProfile> getByCode(String code) throws ObjectNotFoundException {
+		return this.repository.findByCode(code);
 	}
 }

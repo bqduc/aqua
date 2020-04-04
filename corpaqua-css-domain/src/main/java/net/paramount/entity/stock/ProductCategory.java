@@ -22,7 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import net.paramount.entity.emx.EnterpriseProduct;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class ProductCategory
@@ -35,7 +35,7 @@ import net.paramount.framework.entity.ObjectBase;
 		@NamedQuery(name = "ProductCategory.findById", query = "SELECT p FROM ProductCategory p WHERE p.id = :id"),
 		// @NamedQuery(name = "ProductCategory.findByName", query = "SELECT p FROM ProductCategory p WHERE p.name = :name"),
 		@NamedQuery(name = "ProductCategory.findByActive", query = "SELECT p FROM ProductCategory p WHERE p.active = :active") })
-public class ProductCategory extends ObjectBase {
+public class ProductCategory extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,12 +44,6 @@ public class ProductCategory extends ObjectBase {
 
 	@Column(name = "INFO")
 	private String info;
-
-	@Column(name = "ISACTIVE")
-	private Boolean active = Boolean.TRUE;
-
-	@Column(name = "SYSTEM")
-	private Boolean system;
 
 	@Column(name = "WEIGHT")
 	private Integer weight;
@@ -75,22 +69,6 @@ public class ProductCategory extends ObjectBase {
 		this.info = info;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public Boolean getSystem() {
-		return system;
-	}
-
-	public void setSystem(Boolean system) {
-		this.system = system;
-	}
-
 	public Integer getWeight() {
 		return weight;
 	}
@@ -101,7 +79,7 @@ public class ProductCategory extends ObjectBase {
 
 	@Override
 	public String toString() {
-		return "com.ut.tekir.entities.ProductCategory[id=" + getId() + "]";
+		return "ProductCategory[id=" + getId() + "]";
 	}
 
 }

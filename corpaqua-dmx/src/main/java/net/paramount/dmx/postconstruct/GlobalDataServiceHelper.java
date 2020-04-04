@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 import net.paramount.auth.domain.BaseACL;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.model.AccessDecision;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.UserAccountService;
@@ -79,29 +80,67 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 	private void initAccessDecisionPolicies() {
 		String propAccessPattern = "accessPattern";
-		
+		Authority 
+		administrator = authorityService.getByName(BaseACL.ADMINISTRATOR.getAuthority())
+		, sysManager = authorityService.getByName(BaseACL.MANAGER.getAuthority())
+		, regionalManager = authorityService.getByName(BaseACL.REGIONAL_MANAGER.getAuthority())
+		, divisionManager = authorityService.getByName(BaseACL.DIVISION_MANAGER.getAuthority())
+		, departmentManager = authorityService.getByName(BaseACL.DEPARTMENT_MANAGER.getAuthority())
+		;
+
 		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.ADMINISTRATOR.getAntMatcher())) {
-			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.ADMINISTRATOR.getAntMatcher()).authority(authorityService.getByName(BaseACL.ADMINISTRATOR.getAuthority())).build());
+			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.ADMINISTRATOR.getAntMatcher()).build().addAccessDecisionAuthority(administrator));
 		}
 
 		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.COORDINATOR.getAntMatcher())) {
-			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.COORDINATOR.getAntMatcher()).authority(authorityService.getByName(BaseACL.COORDINATOR.getAuthority())).build());
+			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.COORDINATOR.getAntMatcher()).build().addAccessDecisionAuthority(authorityService.getByName(BaseACL.COORDINATOR.getAuthority())));
 		}
 
 		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.CRSX.getAntMatcher())) {
-			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.CRSX.getAntMatcher()).authority(authorityService.getByName(BaseACL.CRSX.getAuthority())).build());
+			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.CRSX.getAntMatcher()).build().addAccessDecisionAuthority(authorityService.getByName(BaseACL.CRSX.getAuthority())));
 		}
 
 		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.MANAGER.getAntMatcher())) {
-			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.MANAGER.getAntMatcher()).authority(authorityService.getByName(BaseACL.MANAGER.getAuthority())).build());
+			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.MANAGER.getAntMatcher()).build().addAccessDecisionAuthority(sysManager));
 		}
 
 		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.OSX.getAntMatcher())){
-			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.OSX.getAntMatcher()).authority(authorityService.getByName(BaseACL.OSX.getAuthority())).build());
+			accessDecisionPolicyService.saveOrUpdate(
+					AccessDecisionPolicy.builder()
+					.accessPattern(BaseACL.OSX.getAntMatcher())
+					.build().addAccessDecisionAuthority(authorityService.getByName(BaseACL.OSX.getAuthority()))
+					);
 		}
 	
-		if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.SUBSCRIBER.getAntMatcher())) {
+		/*if (!accessDecisionPolicyService.exists(propAccessPattern, BaseACL.SUBSCRIBER.getAntMatcher())) {
 			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder().accessPattern(BaseACL.SUBSCRIBER.getAntMatcher()).authority(authorityService.getByName(BaseACL.SUBSCRIBER.getAuthority())).build());
+		}*/
+
+		//One role can accesses to some access patterns
+		String[] adminPatterns = new String[] {"/bszone/auxadmin/**", "/admin/**", "/dbx/**", "/spaces/**"};
+		for (String adminPattern :adminPatterns) {
+			if (!accessDecisionPolicyService.exists(propAccessPattern, adminPattern)) {
+				accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder()
+						.accessPattern(adminPattern)
+						.accessDecision(AccessDecision.ACCESS_GRANTED)
+						.build().addAccessDecisionAuthority(administrator));
+			}
+		}
+
+		//One access pattern can be accessed by some roles
+		String subscriptionAccessPatern = "/spaces/subscription/**";
+
+		if (!accessDecisionPolicyService.exists(propAccessPattern, subscriptionAccessPatern)) {
+			accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder()
+					.accessPattern(subscriptionAccessPatern)
+					.accessDecision(AccessDecision.ACCESS_GRANTED)
+					.build()
+					.addAccessDecisionAuthority(administrator)
+					.addAccessDecisionAuthority(sysManager)
+					.addAccessDecisionAuthority(regionalManager)
+					.addAccessDecisionAuthority(divisionManager)
+					.addAccessDecisionAuthority(departmentManager)
+				);
 		}
 	}
 
@@ -131,13 +170,25 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		if (!authorityService.exists(propName, BaseACL.SUBSCRIBER.getAuthority())) {
 			authorityService.saveOrUpdate(Authority.builder().name(BaseACL.SUBSCRIBER.getAuthority()).displayName(BaseACL.SUBSCRIBER.getAuthorityDisplayName()).build());
 		}
+		//Business privileges
+		if (!authorityService.exists(propName, BaseACL.REGIONAL_MANAGER.getAuthority())) {
+			authorityService.saveOrUpdate(Authority.builder().name(BaseACL.REGIONAL_MANAGER.getAuthority()).displayName(BaseACL.REGIONAL_MANAGER.getAuthorityDisplayName()).build());
+		}
+
+		if (!authorityService.exists(propName, BaseACL.DIVISION_MANAGER.getAuthority())) {
+			authorityService.saveOrUpdate(Authority.builder().name(BaseACL.DIVISION_MANAGER.getAuthority()).displayName(BaseACL.DIVISION_MANAGER.getAuthorityDisplayName()).build());
+		}
+
+		if (!authorityService.exists(propName, BaseACL.DEPARTMENT_MANAGER.getAuthority())) {
+			authorityService.saveOrUpdate(Authority.builder().name(BaseACL.DEPARTMENT_MANAGER.getAuthority()).displayName(BaseACL.DEPARTMENT_MANAGER.getAuthorityDisplayName()).build());
+		}
 	}
 
 	private void setupMasterUsers() {
 		String propSsoId = "ssoId";
 		if (!this.userAccountService.exists(propSsoId, BaseACL.ADMINISTRATOR.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.ADMINISTRATOR.getFirstName(), 
 		  				BaseACL.ADMINISTRATOR.getLastName(), 
 		  				BaseACL.ADMINISTRATOR.getUser(), 
@@ -148,7 +199,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.MANAGER.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.MANAGER.getFirstName(), 
 		  				BaseACL.MANAGER.getLastName(), 
 		  				BaseACL.MANAGER.getUser(), 
@@ -159,7 +210,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.COORDINATOR.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.COORDINATOR.getFirstName(), 
 		  				BaseACL.COORDINATOR.getLastName(), 
 		  				BaseACL.COORDINATOR.getUser(), 
@@ -170,7 +221,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER.getFirstName(), 
 		  				BaseACL.SUBSCRIBER.getLastName(), 
 		  				BaseACL.SUBSCRIBER.getUser(), 
@@ -181,7 +232,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_EXTERNAL.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getLastName(), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getUser(), 
@@ -192,7 +243,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_INTERNAL.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_INTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getLastName(), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getUser(), 
@@ -203,7 +254,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.CRSX.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.CRSX.getFirstName(), 
 		  				BaseACL.CRSX.getLastName(), 
 		  				BaseACL.CRSX.getUser(), 
@@ -214,7 +265,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.OSX.getUser())) {
 			this.userAccountService.saveOrUpdate(
-		  		UserAccount.getInsance(
+		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.OSX.getFirstName(), 
 		  				BaseACL.OSX.getLastName(), 
 		  				BaseACL.OSX.getUser(), 

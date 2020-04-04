@@ -95,7 +95,7 @@ public class InvoiceLine implements Serializable {
     private EnterpriseAccount account;
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Invoice invoice;
+    private CustomerInvoice invoice;
     @JoinColumn(name = "partner_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Partner partner;
@@ -113,7 +113,7 @@ public class InvoiceLine implements Serializable {
         this.id = id;
     }
 
-    public InvoiceLine(Date date, String uom, double price, double priceSubtotal, Double discount, Double quantity, Boolean active, Invoice invoice, Partner partner, EnterpriseProduct product, EnterpriseTax tax, EnterpriseAccount account) {
+    public InvoiceLine(Date date, String uom, double price, double priceSubtotal, Double discount, Double quantity, Boolean active, CustomerInvoice invoice, Partner partner, EnterpriseProduct product, EnterpriseTax tax, EnterpriseAccount account) {
         this.date = date;
         this.uom = uom;
         this.price = price;
@@ -202,11 +202,11 @@ public class InvoiceLine implements Serializable {
         this.account = account;
     }
 
-    public Invoice getInvoice() {
+    public CustomerInvoice getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    public void setInvoice(CustomerInvoice invoice) {
         this.invoice = invoice;
     }
 

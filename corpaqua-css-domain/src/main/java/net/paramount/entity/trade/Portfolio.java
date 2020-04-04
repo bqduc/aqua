@@ -16,29 +16,21 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 
 @Entity
 @Table(name="PORTFOLIO")
-public class Portfolio extends AuditBase implements Serializable {
+public class Portfolio extends RepoAuditable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-	
 	@Column(name="CODE", length=20, nullable=false, unique=true ) 
     @NotNull
     @Size(max=20, min=1)
@@ -50,9 +42,6 @@ public class Portfolio extends AuditBase implements Serializable {
 	
 	@Column( name="INFO" )
 	private String info;
-	
-	@Column(name="ISACTIVE")
-	private Boolean active;
 	
 	@Column(name="BLOCKED")
 	private Boolean blocked;
@@ -68,14 +57,6 @@ public class Portfolio extends AuditBase implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="BANK_ACCOUNT_ID")
 	private BankAccount bankAccount;
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getId() {
-		return id;
-	}
 
 	public void setCode(String code) {
 		this.code = code;
@@ -99,14 +80,6 @@ public class Portfolio extends AuditBase implements Serializable {
 
 	public String getInfo() {
 		return info;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public Boolean getActive() {
-		return active;
 	}
 
 	public void setBlocked(Boolean blocked) {
@@ -142,26 +115,8 @@ public class Portfolio extends AuditBase implements Serializable {
 	}
 	
 	@Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.id != null ? this.id.hashCode() : 0);
-        return hash;
-    }
-	
-	@Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Portfolio)) {
-            return false;
-        }
-        Portfolio other = (Portfolio)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-	
-	@Override
     public String toString() {
-        return "com.ut.tekir.entities.Portfolio[id=" + id + "]";
+        return "Portfolio[id=" + getId() + "]";
     }
 	
 }

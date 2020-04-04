@@ -5,62 +5,55 @@ package net.paramount.lingual.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import net.paramount.domain.entity.general.Language;
-import net.paramount.framework.entity.Auditable;
+import lombok.NoArgsConstructor;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * @author ducbq
  *
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "resx_message")
-@EqualsAndHashCode(callSuper = true)
-public class Message extends Auditable <String>{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2177334701992871126L;
+@Table(name = "res_ui_message")
+public class Message extends RepoEntity {
+	private static final long serialVersionUID = 5150863975442948556L;
 
-	@ManyToOne
-	@JoinColumn(name = "label_id")
-	private Label label;
+	@Column(length = 5)
+	private String locale;
 
-	@ManyToOne
-	@JoinColumn(name = "language_id")
-	private Language language;
+	@Column(name = "key", length = 150)
+	private String key;
 
-	@Column(name = "value")
-	private String value;
+	@Column(name = "content")
+	private String content;
 
-	public Label getLabel() {
-		return label;
+	public String getLocale() {
+		return locale;
 	}
 
-	public void setLabel(Label label) {
-		this.label = label;
+	public void setLocale(String locale) {
+		this.locale = locale;
 	}
 
-	public Language getLanguage() {
-		return language;
+	public String getKey() {
+		return key;
 	}
 
-	public void setLanguage(Language language) {
-		this.language = language;
+	public void setKey(String key) {
+		this.key = key;
 	}
 
-	public String getValue() {
-		return value;
+	public String getContent() {
+		return content;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }

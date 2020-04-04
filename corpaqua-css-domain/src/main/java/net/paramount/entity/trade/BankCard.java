@@ -12,16 +12,11 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -30,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import net.paramount.entity.general.Country;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 
 /**
@@ -42,7 +37,7 @@ import net.paramount.framework.entity.AuditBase;
  */
 @Entity
 @Table(name="BANK_CARD")
-public class BankCard extends AuditBase{
+public class BankCard extends RepoAuditable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,9 +59,6 @@ public class BankCard extends AuditBase{
     @Column(name="INFO")
 	private String info;
     
-    @Column(name="ISACTIVE")
-	private Boolean active = Boolean.TRUE;
-
     @Column(name="FUNDING_TYPE")
     @Enumerated(EnumType.ORDINAL)
     private CardFundingType fundingType;
@@ -114,14 +106,6 @@ public class BankCard extends AuditBase{
 		this.info = info;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
   public CardFundingType getFundingType() {
         return fundingType;
     }
@@ -156,7 +140,7 @@ public class BankCard extends AuditBase{
 
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.BankCard[id=" + getId() + "]";
+        return "BankCard[id=" + getId() + "]";
     }
 
 	public Bank getBank() {

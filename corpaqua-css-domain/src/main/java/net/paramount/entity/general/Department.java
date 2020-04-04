@@ -33,7 +33,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.domain.entity.general.Catalogue;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -45,7 +46,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "department")
 @EqualsAndHashCode(callSuper = true)
-public class Department extends BizObjectBase {
+public class Department extends RepoAuditable {
 	private static final long serialVersionUID = -2698272402571269128L;
 
 	@NotNull

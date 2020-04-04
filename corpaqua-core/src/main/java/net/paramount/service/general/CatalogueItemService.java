@@ -1,5 +1,7 @@
 package net.paramount.service.general;
 
+import java.util.Optional;
+
 import net.paramount.domain.entity.general.CatalogueItem;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
@@ -15,7 +17,7 @@ public interface CatalogueItemService extends GenericService<CatalogueItem, Long
 	 * @throws ObjectNotFoundException
 	 *             If no such CatalogueItem exists.
 	 */
-	CatalogueItem getByCode(String code) throws ObjectNotFoundException;
+	Optional<CatalogueItem> getByCode(String code) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Module with the provided code.

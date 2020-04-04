@@ -1,4 +1,4 @@
-package net.paramount.msp.faces.components;
+/*package net.paramount.msp.faces.components;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -193,3 +193,4 @@ public class ScheduleMB implements Serializable {
 	}
 }
 
+*/

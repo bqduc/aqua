@@ -36,7 +36,7 @@ public class DocumentTotal {
 
 		if (item == null) {
 			item = new MoneySet(amount);
-			data.put(item.getCurrency(), item);
+			data.put(item.getCurrency().getId(), item);
 		} else {
 			item.setValue(item.getValue().add(amount.getValue()));
 			item.setLocalAmount(item.getLocalAmount().add(

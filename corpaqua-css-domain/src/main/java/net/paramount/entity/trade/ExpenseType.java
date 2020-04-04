@@ -12,17 +12,12 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * 
@@ -32,7 +27,7 @@ import net.paramount.framework.entity.ObjectBase;
 
 @Entity
 @Table(name="EXPENSE_TYPE")
-public class ExpenseType extends ObjectBase {
+public class ExpenseType extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,9 +40,6 @@ public class ExpenseType extends ObjectBase {
     @Column(name="INFO")
 	private String info;
     
-    @Column(name="ISACTIVE")
-	private Boolean active = Boolean.TRUE;
-
 	public String getCode() {
 		return code;
 	}
@@ -72,17 +64,9 @@ public class ExpenseType extends ObjectBase {
 		this.info = info;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
 	@Override
 	public String toString() {
-		return "com.ut.tekir.entities.ExpenseType[id=" + getId() + "]";
+		return "ExpenseType[id=" + getId() + "]";
 	}
 	
 	/**

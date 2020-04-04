@@ -24,7 +24,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.github.adminfaces.template.exception.AccessDeniedException;
 
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.comm.domain.CorpMimeMessage;
@@ -34,7 +34,7 @@ import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.general.BusinessUnit;
-import net.paramount.exceptions.EcosphereRuntimeException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.controller.RootController;
 import net.paramount.framework.model.Context;
 import net.paramount.framework.model.ExecutionContext;
@@ -67,7 +67,7 @@ public class UserAccountRegister extends RootController {
 	private Long id;
 
 	private BusinessUnit businessUnit;
-	private UserAccount entity;
+	private SecurityAccountProfile entity;
 
 	public void init() {
 		if (Faces.isAjaxRequest()) {
@@ -76,7 +76,7 @@ public class UserAccountRegister extends RootController {
 		if (has(id)) {
 			this.entity = businessService.getObject(Long.valueOf(id));
 		} else {
-			this.entity = UserAccount.builder().build();
+			this.entity = SecurityAccountProfile.builder().build();
 		}
 	}
 
@@ -159,7 +159,7 @@ public class UserAccountRegister extends RootController {
 	}
 
 	public void clear() {
-		this.entity = UserAccount.builder().build();
+		this.entity = SecurityAccountProfile.builder().build();
 		id = null;
 	}
 
@@ -175,11 +175,11 @@ public class UserAccountRegister extends RootController {
 		this.id = id;
 	}
 
-	public UserAccount getEntity() {
+	public SecurityAccountProfile getEntity() {
 		return entity;
 	}
 
-	public void setEntity(UserAccount entity) {
+	public void setEntity(SecurityAccountProfile entity) {
 		this.entity = entity;
 	}
 
@@ -215,7 +215,7 @@ public class UserAccountRegister extends RootController {
 				.locale(this.getCurrentLocale())
 				.build();
 
-		UserAccount userAccount = (UserAccount)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
+		SecurityAccountProfile userAccount = (SecurityAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
 		Map<String, Object> definitions = ListUtility.createMap();
 		definitions.put("userContact", userAccount);
 		definitions.put("location", "Bình Định-Sài Gòn");
@@ -234,7 +234,7 @@ public class UserAccountRegister extends RootController {
 
 			Optional<Configuration> opt = configurationService.getByName(GlobalConstants.CONFIG_APP_ACCESS_URL);
 			if (!opt.isPresent())
-				throw new EcosphereRuntimeException("No configuration of application access link!");
+				throw new EcosphereException("No configuration of application access link!");
 
 			definitions.put(GlobalConstants.CONFIG_APP_ACCESS_URL, new StringBuilder(opt.get().getValue())
 					.append("/protected/accountProfile/confirm/")

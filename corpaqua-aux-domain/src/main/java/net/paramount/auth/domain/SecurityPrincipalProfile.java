@@ -11,10 +11,10 @@ import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Builder;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
-import net.paramount.domain.DtoCore;
+import net.paramount.domain.model.dto.DtoCore;
 
 /**
  * @author ducbq
@@ -26,7 +26,7 @@ public class SecurityPrincipalProfile extends DtoCore {
 
 	public static final String ANONYMOUS_USER = "anonymousUser";
 
-	private UserAccount userAccount;
+	private SecurityAccountProfile userAccount;
 	private Authentication authentication;
 
 	@Builder.Default
@@ -35,11 +35,11 @@ public class SecurityPrincipalProfile extends DtoCore {
 	@Builder.Default
 	private String displayName = ANONYMOUS_USER;
 
-	public UserAccount getUserAccount() {
+	public SecurityAccountProfile getUserAccount() {
 		return userAccount;
 	}
 
-	public void setUserAccount(UserAccount userAccount) {
+	public void setUserAccount(SecurityAccountProfile userAccount) {
 		this.userAccount = userAccount;
 	}
 

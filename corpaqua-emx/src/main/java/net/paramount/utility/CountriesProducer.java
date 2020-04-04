@@ -6,8 +6,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import org.primefaces.json.JSONException;
-import org.primefaces.json.JSONObject;
+import org.primefaces.shaded.json.JSONException;
+import org.primefaces.shaded.json.JSONObject;
 
 import net.paramount.utility.Countries.Version;
 

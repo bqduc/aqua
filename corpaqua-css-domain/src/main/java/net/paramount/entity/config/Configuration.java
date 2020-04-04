@@ -18,7 +18,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * @author bqduc
@@ -29,7 +29,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "configuration")
-public class Configuration extends BizObjectBase {
+public class Configuration extends RepoAuditable {
 	/**
 	 * 
 	 */

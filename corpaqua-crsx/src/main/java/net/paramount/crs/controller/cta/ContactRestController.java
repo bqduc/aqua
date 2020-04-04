@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import net.paramount.common.CommonUtility;
 import net.paramount.crs.service.ContactProfileService;
 import net.paramount.css.service.contact.ContactService;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
+import net.paramount.entity.contact.ContactCore;
 import net.paramount.entity.contact.ContactProfile;
 import net.paramount.framework.controller.BaseRestController;
 import net.paramount.framework.service.IService;
@@ -30,7 +31,7 @@ import net.paramount.framework.service.IService;
  */
 @RestController
 @RequestMapping("/api/contact")
-public class ContactRestController extends BaseRestController<Contact, Long> {
+public class ContactRestController extends BaseRestController<CTAContact, Long> {
 
 	/**
 	 * 
@@ -44,25 +45,25 @@ public class ContactRestController extends BaseRestController<Contact, Long> {
 	private ContactProfileService businessServiceProfile;
 
 	@Override
-	protected void doCreateBusinessObject(Contact businessObject) {
+	protected void doCreateBusinessObject(CTAContact businessObject) {
 		log.info("Account Rest::CreateBusinessObject: " + businessObject.getCode());
 		businessService.saveOrUpdate(businessObject);
 		log.info("Account Rest::CreateBusinessObject is done");
 	}
 
 	@RequestMapping(value = "/listAll/", method = RequestMethod.GET)
-	public ResponseEntity<List<Contact>> listAll() {
-		List<Contact> userObjects = businessService.getObjects();
+	public ResponseEntity<List<CTAContact>> listAll() {
+		List<CTAContact> userObjects = businessService.getObjects();
 		if (userObjects.isEmpty()) {
-			return new ResponseEntity<List<Contact>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<List<CTAContact>>(HttpStatus.NO_CONTENT);
 			// You many decide to return HttpStatus.NOT_FOUND
 		}
-		return new ResponseEntity<List<Contact>>(userObjects, HttpStatus.OK);
+		return new ResponseEntity<List<CTAContact>>(userObjects, HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/list", method = RequestMethod.GET)
-	public List<Contact> list(HttpServletRequest request, HttpServletResponse response, Model model) {
-		List<Contact> objects = businessService.getObjects();
+	public List<CTAContact> list(HttpServletRequest request, HttpServletResponse response, Model model) {
+		List<CTAContact> objects = businessService.getObjects();
 		if (CommonUtility.isEmpty(objects)) {
 			initDummyData();
 			objects = businessService.getObjects();
@@ -72,7 +73,7 @@ public class ContactRestController extends BaseRestController<Contact, Long> {
 	}
 
 	private void initDummyData() {
-		Contact account = Contact.builder()
+		CTAContact account = CTAContact.builder()
 				.code("CC0191019")
 				.accountName("Dummy Contact Clazz")
 				.title("Dummy Class")
@@ -93,16 +94,17 @@ public class ContactRestController extends BaseRestController<Contact, Long> {
 	}
 
 	private void initDummyProfilesData() {
-		ContactProfile account = new ContactProfile();
-		account.setCode("CP0191019");
-		account.setFirstName("Duc");
-		account.setLastName("Bui Quy");
-		account.setTitle("Application Developer");
-		this.businessServiceProfile.saveOrUpdate(account);
+		ContactCore account = ContactCore.builder()
+				.code("CP0191019")
+				.firstName("Duc")
+				.lastName("Bui Quy")
+				.title("Application Developer")
+				.build();
+		//this.businessServiceProfile.saveOrUpdate(account);
 	}
 
 	@Override
-	protected IService<Contact, Long> getBusinessService() {
+	protected IService<CTAContact, Long> getBusinessService() {
 		return this.businessService;
 	}
 }

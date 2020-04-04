@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Component;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonUtility;
 
@@ -25,7 +25,7 @@ public class AuxServiceHelper {
 		if (CommonUtility.isEmpty(userAccountSsoId))
 			return null;
 
-		UserAccount userAccount = userAuthenticationService.get(userAccountSsoId);
+		SecurityAccountProfile userAccount = userAuthenticationService.get(userAccountSsoId);
 		if (null==userAccount)
 			return null;
 

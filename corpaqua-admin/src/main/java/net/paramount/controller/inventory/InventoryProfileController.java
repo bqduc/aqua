@@ -22,7 +22,7 @@ import org.springframework.util.FileCopyUtils;
 
 import com.github.adminfaces.template.exception.BusinessException;
 
-import net.paramount.component.helper.ResourcesServicesHelper;
+import net.paramount.comp.helper.ResourcesServicesHelper;
 import net.paramount.dmx.repository.GlobalDmxRepositoryManager;
 import net.paramount.framework.async.Asynchronous;
 import net.paramount.framework.controller.BaseController;
@@ -165,7 +165,7 @@ public class InventoryProfileController extends BaseController {
 			executionContext.context("AA", "xx").context("DD", "ss");
 
 			asyncExtendedDataLoader = applicationContext.getBean(AsyncExtendedDataLoader.class, executionContext);
-			this.taskScheduler.execute(asyncExtendedDataLoader);
+			//this.taskScheduler.execute(asyncExtendedDataLoader);
 		} catch (Exception e) {
 			// log.error(e.getMessage());
 		}

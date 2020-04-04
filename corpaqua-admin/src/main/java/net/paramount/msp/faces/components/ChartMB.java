@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ 
 package net.paramount.msp.faces.components;
 
 import java.io.Serializable;
@@ -40,7 +40,7 @@ import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.bubble.BubbleChartDataSet;
 import org.primefaces.model.charts.bubble.BubbleChartModel;
-import org.primefaces.model.charts.bubble.BubblePoint;
+import org.primefaces.model.charts.data.BubblePoint;
 import org.primefaces.model.charts.donut.DonutChartDataSet;
 import org.primefaces.model.charts.donut.DonutChartModel;
 import org.primefaces.model.charts.hbar.HorizontalBarChartDataSet;
@@ -708,7 +708,7 @@ public class ChartMB implements Serializable {
         labels.add("Running");
         data.setLabels(labels);
 
-        /* Options */
+         Options 
         RadarChartOptions options = new RadarChartOptions();
         Elements elements = new Elements();
         ElementsLine elementsLine = new ElementsLine();
@@ -772,7 +772,7 @@ public class ChartMB implements Serializable {
         labels.add(new ArrayList(Arrays.asList("Change","Mgmt")));
         data.setLabels(labels);
 
-        /* Options */
+         Options 
         RadarChartOptions options = new RadarChartOptions();
         RadialScales rScales = new RadialScales();
 
@@ -1014,3 +1014,4 @@ public class ChartMB implements Serializable {
         this.donutModel = donutModel;
     }
 }
+*/

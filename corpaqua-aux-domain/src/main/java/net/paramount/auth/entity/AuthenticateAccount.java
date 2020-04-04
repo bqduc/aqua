@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * 
@@ -15,7 +15,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name = "aux_auth_account")
-public class AuthenticateAccount extends ObjectBase {
+public class AuthenticateAccount extends RepoEntity {
 	/**
 	 * 
 	 */

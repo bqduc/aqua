@@ -25,12 +25,13 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.general.Category;
 import net.paramount.entity.general.Department;
 import net.paramount.entity.general.MeasureUnit;
 import net.paramount.entity.general.TaxGroup;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.entity.imx.PrinterGroup;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 import net.paramount.model.BindingType;
 import net.paramount.model.DustJacketType;
@@ -46,7 +47,7 @@ import net.paramount.model.InventoryType;
 @Builder
 @Entity
 @Table(name = "inventory_profile")
-public class InventoryProfile extends BizObjectBase {
+public class InventoryProfile extends RepoAuditable {
 	/**
 	 * 
 	 */
@@ -219,11 +220,11 @@ public class InventoryProfile extends BizObjectBase {
 			inverseJoinColumns = {@JoinColumn(name = "vendor_id")},
 			joinColumns = {@JoinColumn(name = "inventory_entry_id")}
 	)
-	private Set<Contact> vendors;
+	private Set<CTAContact> vendors;
 
 	@ManyToOne
 	@JoinColumn(name = "imprint_contact_id")
-	private Contact imprint;
+	private CTAContact imprint;
 
 	@Column(name="concentration", length=150)
 	private String concentration;
@@ -547,11 +548,11 @@ public class InventoryProfile extends BizObjectBase {
 		this.parent = parent;
 	}
 
-	public Set<Contact> getVendors() {
+	public Set<CTAContact> getVendors() {
 		return vendors;
 	}
 
-	public void setVendors(Set<Contact> vendors) {
+	public void setVendors(Set<CTAContact> vendors) {
 		this.vendors = vendors;
 	}
 
@@ -691,11 +692,11 @@ public class InventoryProfile extends BizObjectBase {
 		this.eIsbn13 = eIsbn13;
 	}
 
-	public Contact getImprint() {
+	public CTAContact getImprint() {
 		return imprint;
 	}
 
-	public void setImprint(Contact imprint) {
+	public void setImprint(CTAContact imprint) {
 		this.imprint = imprint;
 	}
 

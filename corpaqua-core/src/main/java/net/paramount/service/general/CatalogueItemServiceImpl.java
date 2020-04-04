@@ -26,11 +26,6 @@ public class CatalogueItemServiceImpl extends GenericServiceImpl<CatalogueItem, 
 	}
 
 	@Override
-	public CatalogueItem getByCode(String code) throws ObjectNotFoundException {
-		return super.getOptional(this.repository.findByCode(code));
-	}
-
-	@Override
 	public CatalogueItem getByName(String name) throws ObjectNotFoundException {
 		return super.getOptional(this.repository.findByName(name));
 	}

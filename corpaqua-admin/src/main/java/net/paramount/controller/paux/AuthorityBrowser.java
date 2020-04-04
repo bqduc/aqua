@@ -11,7 +11,7 @@ import javax.inject.Named;
 import net.paramount.common.CommonUtility;
 import net.paramount.css.service.contact.ContactService;
 import net.paramount.dmx.repository.ContactRepositoryManager;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.framework.controller.BaseController;
 import net.paramount.msp.faces.model.FacesCar;
 import net.paramount.msp.faces.model.FacesTeamFacade;
@@ -45,8 +45,8 @@ public class AuthorityBrowser extends BaseController {
     @Inject
     private ContactRepositoryManager globalDmxRepository;
 
-    private List<Contact> businessObjects;
-    private List<Contact> selectedBusinessObjects;
+    private List<CTAContact> businessObjects;
+    private List<CTAContact> selectedBusinessObjects;
 
     @Override
     public void doPostConstruct() {
@@ -80,7 +80,7 @@ public class AuthorityBrowser extends BaseController {
     }
 
     protected void initData() {
-    	List<Contact> bizObjects = this.contactService.getObjects();
+    	List<CTAContact> bizObjects = this.contactService.getObjects();
     	if (CommonUtility.isEmpty(bizObjects)) {
     		
     	}
@@ -166,19 +166,19 @@ public class AuthorityBrowser extends BaseController {
         this.selectedCar = selectedCar;
     }
 
-		public List<Contact> getBusinessObjects() {
+		public List<CTAContact> getBusinessObjects() {
 			return businessObjects;
 		}
 
-		public void setBusinessObjects(List<Contact> businessObjects) {
+		public void setBusinessObjects(List<CTAContact> businessObjects) {
 			this.businessObjects = businessObjects;
 		}
 
-		public List<Contact> getSelectedBusinessObjects() {
+		public List<CTAContact> getSelectedBusinessObjects() {
 			return selectedBusinessObjects;
 		}
 
-		public void setSelectedBusinessObjects(List<Contact> selectedBusinessObjects) {
+		public void setSelectedBusinessObjects(List<CTAContact> selectedBusinessObjects) {
 			this.selectedBusinessObjects = selectedBusinessObjects;
 		}
 }

@@ -25,16 +25,16 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import net.paramount.css.service.config.ItemService;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 
 //@FacesConverter("itemConverter")
 @Service(value="itemConverter")
-public class ItemConverter implements Converter<GeneralItem> {
+public class ItemConverter implements Converter<GeneralCatalogue> {
 	@Inject
 	private ItemService service;
 
-	public GeneralItem getAsObject(FacesContext fc, UIComponent uic, String value) {
-		GeneralItem asObject = null;
+	public GeneralCatalogue getAsObject(FacesContext fc, UIComponent uic, String value) {
+		GeneralCatalogue asObject = null;
 		if (value != null && value.trim().length() > 0) {
 			try {
 				asObject = service.getObject(Long.parseLong(value));
@@ -45,7 +45,7 @@ public class ItemConverter implements Converter<GeneralItem> {
 		return asObject;
 	}
 
-	public String getAsString(FacesContext fc, UIComponent uic, GeneralItem object) {
+	public String getAsString(FacesContext fc, UIComponent uic, GeneralCatalogue object) {
 		if (object != null) {
 			return String.valueOf(object.getId());//object.toString();
 		} else {

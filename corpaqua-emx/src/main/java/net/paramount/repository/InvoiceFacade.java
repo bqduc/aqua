@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import net.paramount.entity.emx.EnterpriseAccount;
 import net.paramount.entity.emx.EnterprisePayment;
 import net.paramount.entity.emx.EnterpriseProduct;
-import net.paramount.entity.emx.Invoice;
+import net.paramount.entity.emx.CustomerInvoice;
 import net.paramount.entity.emx.InvoiceLine;
 import net.paramount.entity.emx.InvoicePayment;
 import net.paramount.entity.emx.Journal;
@@ -34,7 +34,7 @@ public class InvoiceFacade extends BaseDAO{
 	private static final long serialVersionUID = -7025104782203214543L;
 		private IdGenerator idGeerator = new IdGenerator();
 
-    public Invoice create(Invoice entity, String type) {
+    public CustomerInvoice create(CustomerInvoice entity, String type) {
         em.persist(entity);
         em.flush();
         if(type.equals("invoice")){
@@ -92,14 +92,14 @@ public class InvoiceFacade extends BaseDAO{
         return em.find(JournalEntry.class, id);
     }
 
-    public List<Invoice> findInInvoices() {
-        List<Invoice> inInvoices = em.createNamedQuery("Invoice.findInInvoices")
+    public List<CustomerInvoice> findInInvoices() {
+        List<CustomerInvoice> inInvoices = em.createNamedQuery("Invoice.findInInvoices")
                 .getResultList();
         return inInvoices;
     }
 
-    public List<Invoice> findOutInvoices() {
-        List<Invoice> outInvoices = em.createNamedQuery("Invoice.findOutInvoices")
+    public List<CustomerInvoice> findOutInvoices() {
+        List<CustomerInvoice> outInvoices = em.createNamedQuery("Invoice.findOutInvoices")
                 .getResultList();
         return outInvoices;
     }
@@ -144,7 +144,7 @@ public class InvoiceFacade extends BaseDAO{
         return entity;
     }
 
-    public Invoice update(Invoice entity) {
+    public CustomerInvoice update(CustomerInvoice entity) {
         em.merge(entity);
         return entity;
     }
@@ -169,7 +169,7 @@ public class InvoiceFacade extends BaseDAO{
         return entity;
     }
 
-    public void remove(Invoice entity) {
+    public void remove(CustomerInvoice entity) {
         em.remove(em.merge(entity));
     }
     
@@ -177,8 +177,8 @@ public class InvoiceFacade extends BaseDAO{
         em.remove(em.merge(entity));
     }
 
-    public Invoice find(Object id) {
-        return em.find(Invoice.class, id);
+    public CustomerInvoice find(Object id) {
+        return em.find(CustomerInvoice.class, id);
     }
     
     public SaleOrder findSaleOrder(Object id) {
@@ -194,7 +194,7 @@ public class InvoiceFacade extends BaseDAO{
         return em.find(EnterprisePayment.class, id);
     }
 
-    public List<Invoice> findBySaleId(int saleId) {
+    public List<CustomerInvoice> findBySaleId(int saleId) {
         List result = em.createNamedQuery("Invoice.findBySaleOrder")
                 .setParameter("id", saleId)
                 .getResultList();
@@ -202,7 +202,7 @@ public class InvoiceFacade extends BaseDAO{
         return result;
     }
 
-    public List<Invoice> findByPurchaseId(int purchaseId) {
+    public List<CustomerInvoice> findByPurchaseId(int purchaseId) {
         List result = em.createNamedQuery("Invoice.findByPurchaseId")
                 .setParameter("id", purchaseId)
                 .getResultList();
@@ -236,8 +236,8 @@ public class InvoiceFacade extends BaseDAO{
     }
 
 
-    public List<Invoice> findByPartner(Integer partnerId, String type) {
-        List<Invoice> Invoices = em.createNamedQuery("Invoice.findByPartner")
+    public List<CustomerInvoice> findByPartner(Integer partnerId, String type) {
+        List<CustomerInvoice> Invoices = em.createNamedQuery("Invoice.findByPartner")
                 .setParameter("partnerId", partnerId)
                 .setParameter("type", type)
                 .getResultList();
@@ -255,10 +255,10 @@ public class InvoiceFacade extends BaseDAO{
     
     
 
-    public List<Invoice> findAll() {
+    public List<CustomerInvoice> findAll() {
         javax.persistence.criteria.CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq
-                .select(cq.from(Invoice.class
+                .select(cq.from(CustomerInvoice.class
                         ));
         return em.createQuery(cq)
                 .getResultList();

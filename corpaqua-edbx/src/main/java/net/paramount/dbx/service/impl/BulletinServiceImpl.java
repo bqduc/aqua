@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import net.paramount.dbx.entity.Bulletin;
 import net.paramount.dbx.repository.BulletinRepository;
 import net.paramount.dbx.service.BulletinService;
-import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
 
@@ -24,10 +23,5 @@ public class BulletinServiceImpl extends GenericServiceImpl<Bulletin, Long> impl
 	@Override
 	protected BaseRepository<Bulletin, Long> getRepository() {
 		return this.repository;
-	}
-
-	@Override
-	public Bulletin getBySerial(String serial) throws ObjectNotFoundException {
-		return this.repository.findBySerial(serial);
 	}
 }

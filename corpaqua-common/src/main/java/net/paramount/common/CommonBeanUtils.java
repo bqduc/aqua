@@ -7,17 +7,14 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.SerializationUtils;
 
 import com.sun.javafx.fxml.PropertyNotFoundException;
 
@@ -40,16 +37,11 @@ public class CommonBeanUtils {
   private static Object[] NO_ARGUMENTS_ARRAY = new Object[] {
   };
 
-	public static Object buildObject(Object targetBean, Map<String, Object> params) {
+	public static Object buildObject(Object targetBean, Map<String, Object> params) throws IllegalAccessException, InvocationTargetException {
 		for (String key :params.keySet()) {
-			try {
 				BeanUtils.setProperty(targetBean, key, params.get(key));
-			} catch (IllegalAccessException | InvocationTargetException e) {
-				e.printStackTrace();
-				//log.error(CommonUtility.getStackTrace(e));
-			}
 		}
-		return null;
+		return targetBean;
 	}
 
 	public static List<String> getBeanPropertyNames(Class<?> beanClass) throws IntrospectionException {

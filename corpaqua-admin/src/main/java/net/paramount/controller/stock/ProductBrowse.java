@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.paramount.common.CommonUtility;
-import net.paramount.css.service.stock.ProductService;
+import net.paramount.css.service.stock.ProductProfileService;
 import net.paramount.domain.dummy.Car;
-import net.paramount.entity.stock.Product;
+import net.paramount.entity.stock.ProductProfile;
 import net.paramount.framework.controller.BaseController;
 import net.paramount.msp.faces.model.FacesCar;
 import net.paramount.msp.faces.model.FacesTeamFacade;
@@ -37,11 +37,11 @@ public class ProductBrowse extends BaseController {
 	private FacesCarService carService;
 
 	@Inject
-	private ProductService businessService;
+	private ProductProfileService businessService;
 
-	private List<Product> businessBizObjects;
-	private List<Product> selectedBizObjects;
-	private Product selectedBizObject;
+	private List<ProductProfile> businessBizObjects;
+	private List<ProductProfile> selectedBizObjects;
+	private ProductProfile selectedBizObject;
 
 	@Override
 	public void doPostConstruct() {
@@ -49,7 +49,7 @@ public class ProductBrowse extends BaseController {
 	}
 
 	protected void initData() {
-		List<Product> bizObjects = this.businessService.getObjects();
+		List<ProductProfile> bizObjects = this.businessService.getObjects();
 		if (CommonUtility.isEmpty(bizObjects)) {
 
 		}
@@ -133,11 +133,11 @@ public class ProductBrowse extends BaseController {
 		this.selectedCar = selectedCar;
 	}*/
 
-	public Product getSelectedObject() {
+	public ProductProfile getSelectedObject() {
 		return selectedBizObject;
 	}
 
-	public void setSelectedObject(Product selectedObject) {
+	public void setSelectedObject(ProductProfile selectedObject) {
 		this.selectedBizObject = selectedObject;
 	}
 
@@ -149,19 +149,19 @@ public class ProductBrowse extends BaseController {
 		this.selectedCars = selectedCars;
 	}
 
-	public List<Product> getBusinessObjects() {
+	public List<ProductProfile> getBusinessObjects() {
 		return businessBizObjects;
 	}
 
-	public void setBusinessObjects(List<Product> businessObjects) {
+	public void setBusinessObjects(List<ProductProfile> businessObjects) {
 		this.businessBizObjects = businessObjects;
 	}
 
-	public List<Product> getSelectedObjects() {
+	public List<ProductProfile> getSelectedObjects() {
 		return selectedBizObjects;
 	}
 
-	public void setSelectedObjects(List<Product> selectedObjects) {
+	public void setSelectedObjects(List<ProductProfile> selectedObjects) {
 		this.selectedBizObjects = selectedObjects;
 	}
 }

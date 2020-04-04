@@ -10,14 +10,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import net.paramount.auth.entity.Authority;
-import net.paramount.framework.repository.NameBaseRepository;
+import net.paramount.framework.repository.NameRepository;
 
 /**
  * @author ducbui
  *
  */
 @Repository
-public interface AuthorityRepository extends NameBaseRepository <Authority, Long>{
+public interface AuthorityRepository extends NameRepository <Authority, Long>{
 	
 	@Query("SELECT entity FROM #{#entityName} entity WHERE ("
 			+ "			LOWER(entity.name) like LOWER(CONCAT('%',:keyword,'%'))"

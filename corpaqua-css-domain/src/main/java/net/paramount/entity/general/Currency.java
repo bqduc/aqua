@@ -29,7 +29,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -44,17 +44,13 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "currency")
 @EqualsAndHashCode(callSuper = true)
-public class Currency extends BizObjectBase {
-
-	/**
-	 * 
-	 */
+public class Currency extends RepoAuditable {
 	private static final long serialVersionUID = 2260919441709332618L;
 
 	@NotNull
 	@Size(min = 3, max=GlobalConstants.SIZE_CURRENCY_CODE)
 	@Column(name="alphabetic_code", unique = true)
-	private String alphabeticCode;
+	private String code;
 
 	@Size(max = GlobalConstants.SIZE_CURRENCY_CODE)
 	@Column(name="numeric_code")
@@ -67,4 +63,14 @@ public class Currency extends BizObjectBase {
 	@Column(name = "info", columnDefinition = "TEXT")
 	@Type(type = "org.hibernate.type.TextType")
 	private String info;
+	
+  @Column(name="NAME", length=20)
+  private String name;
+  
+  @Column(name="COUNTRY", length=30)
+  private String country;
+  
+  @Builder.Default
+  @Column(name="PIP")
+  private Integer pip = 0;
 }

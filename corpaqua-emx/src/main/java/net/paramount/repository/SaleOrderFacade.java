@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import net.paramount.entity.emx.DeliveryOrder;
 import net.paramount.entity.emx.EnterpriseAccount;
 import net.paramount.entity.emx.EnterpriseProduct;
-import net.paramount.entity.emx.Invoice;
+import net.paramount.entity.emx.CustomerInvoice;
 import net.paramount.entity.emx.Journal;
 import net.paramount.entity.emx.Partner;
 import net.paramount.entity.emx.SaleOrder;
@@ -45,7 +45,7 @@ public class SaleOrderFacade extends BaseDAO{
 
     }
 
-    public Invoice create(Invoice entity) {
+    public CustomerInvoice create(CustomerInvoice entity) {
         em.persist(entity);
         em.flush();
         entity.setName(idGeerator.generateInvoiceOutId(entity.getId()));
@@ -58,7 +58,7 @@ public class SaleOrderFacade extends BaseDAO{
         return entity;
     }
 
-    public Invoice update(Invoice entity) {
+    public CustomerInvoice update(CustomerInvoice entity) {
         em.merge(entity);
         return entity;
     }

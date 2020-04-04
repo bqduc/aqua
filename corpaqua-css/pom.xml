@@ -19,6 +19,16 @@
 			<artifactId>corpaqua-css-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>	
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>corpaqua-core-eux</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>corpaqua-aux</artifactId>
+			<version>${project.version}</version>
+		</dependency>	 -->
 
     <dependency>
 			<groupId>joda-time</groupId>
@@ -45,5 +55,20 @@
 			<version>${version.lombok}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>javax.faces-api</artifactId>
+			<version>${version.javax.faces-api}</version>
+			<scope>compile</scope>
+		</dependency>
+
+    <dependency>
+        <groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+        <version>${version.primefaces}</version>
+        <scope>compile</scope>
+    </dependency>		
+
 	</dependencies>
 </project>

@@ -1,4 +1,4 @@
-package net.paramount.controller.general;
+/*package net.paramount.controller.general;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ import com.github.adminfaces.template.exception.BusinessException;
 import net.paramount.component.helper.ResourcesServicesHelper;
 import net.paramount.css.service.general.CatalogueService;
 import net.paramount.dmx.repository.GlobalDmxRepositoryManager;
-import net.paramount.entity.general.Catalogue;
+import net.paramount.domain.entity.general.Catalogue;
 import net.paramount.framework.async.Asynchronous;
 import net.paramount.framework.controller.BaseController;
 import net.paramount.framework.model.ExecutionContext;
@@ -35,9 +35,9 @@ import net.paramount.msp.faces.model.Entity;
 @Named(value = "catalogueController")
 @ViewScoped
 public class CatalogueController extends BaseController {
-	/**
+	*//**
 	* 
-	*/
+	*//*
 	private static final long serialVersionUID = 7164206790864479558L;
 
 	private List<String> allCities;
@@ -189,3 +189,4 @@ public class CatalogueController extends BaseController {
     return this.listOfEntities;
   }
 }
+*/

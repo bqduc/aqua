@@ -32,10 +32,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.general.PosTax;
-import net.paramount.entity.stock.Product;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.entity.stock.ProductProfile;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A order detail class.
@@ -48,7 +48,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class BizOrderDetail extends BizObjectBase {
+public class BizOrderDetail extends RepoAuditable {
 
 	/**
 	 * 
@@ -57,7 +57,7 @@ public class BizOrderDetail extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product entry;
+	private ProductProfile entry;
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
@@ -101,7 +101,7 @@ public class BizOrderDetail extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "support_contact_id")
-	private Contact supportContact;
+	private CTAContact supportContact;
 
 	@Column(name = "support_name", length=50)
 	private String supportName;
@@ -133,11 +133,11 @@ public class BizOrderDetail extends BizObjectBase {
 	@Column(name = "info", columnDefinition="TEXT")
 	private String info;
 
-	public Product getEntry() {
+	public ProductProfile getEntry() {
 		return entry;
 	}
 
-	public void setEntry(Product entry) {
+	public void setEntry(ProductProfile entry) {
 		this.entry = entry;
 	}
 
@@ -213,11 +213,11 @@ public class BizOrderDetail extends BizObjectBase {
 		this.pricingFactor = pricingFactor;
 	}
 
-	public Contact getSupportContact() {
+	public CTAContact getSupportContact() {
 		return supportContact;
 	}
 
-	public void setSupportContact(Contact supportContact) {
+	public void setSupportContact(CTAContact supportContact) {
 		this.supportContact = supportContact;
 	}
 

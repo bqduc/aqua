@@ -23,9 +23,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
 import net.paramount.embeddable.Address;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.contact.Team;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -37,7 +37,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "quotation")
 @EqualsAndHashCode(callSuper=false)
-public class Quotation extends BizObjectBase{
+public class Quotation extends RepoAuditable{
 
 	/**
 	 * 
@@ -71,19 +71,19 @@ public class Quotation extends BizObjectBase{
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "main_account_id")
-	private Account mainAccount;
+	private CustomerAccount mainAccount;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "main_contact_id")
-	private Contact mainContact;
+	private CTAContact mainContact;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "sub_account_id")
-	private Account subAccount;
+	private CustomerAccount subAccount;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "sub_contact_id")
-	private Contact subContact;
+	private CTAContact subContact;
 
 	@Column(name = "payment_terms")
 	private String paymentTerms;//(i.e. Cod, Due on receipt, Net 7 days, Net 15 days)
@@ -188,35 +188,35 @@ public class Quotation extends BizObjectBase{
 		this.shippedDate = shippedDate;
 	}
 
-	public Account getMainAccount() {
+	public CustomerAccount getMainAccount() {
 		return mainAccount;
 	}
 
-	public void setMainAccount(Account mainAccount) {
+	public void setMainAccount(CustomerAccount mainAccount) {
 		this.mainAccount = mainAccount;
 	}
 
-	public Contact getMainContact() {
+	public CTAContact getMainContact() {
 		return mainContact;
 	}
 
-	public void setMainContact(Contact mainContact) {
+	public void setMainContact(CTAContact mainContact) {
 		this.mainContact = mainContact;
 	}
 
-	public Account getSubAccount() {
+	public CustomerAccount getSubAccount() {
 		return subAccount;
 	}
 
-	public void setSubAccount(Account subAccount) {
+	public void setSubAccount(CustomerAccount subAccount) {
 		this.subAccount = subAccount;
 	}
 
-	public Contact getSubContact() {
+	public CTAContact getSubContact() {
 		return subContact;
 	}
 
-	public void setSubContact(Contact subContact) {
+	public void setSubContact(CTAContact subContact) {
 		this.subContact = subContact;
 	}
 

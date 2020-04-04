@@ -21,15 +21,14 @@ import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.common.MimeTypes;
 import net.paramount.common.SimpleEncryptionEngine;
-import net.paramount.component.helper.ResourcesServicesHelper;
+import net.paramount.comp.helper.ResourcesServicesHelper;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.css.service.general.AttachmentService;
 import net.paramount.domain.entity.Attachment;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.config.ConfigurationDetail;
-import net.paramount.exceptions.MspDataException;
-import net.paramount.exceptions.EcosphereRuntimeException;
-import net.paramount.exceptions.ResourcesException;
+import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.EcosphereResourceException;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.OSXConstants;
 import net.paramount.osx.model.OfficeMarshalType;
@@ -49,7 +48,7 @@ public class ResourcesStorageServiceHelper {
 	@Inject
 	private ConfigurationService configurationService;
 
-	public ExecutionContext syncExecutionContext(Configuration config, byte[] dataBytes) throws ResourcesException {
+	public ExecutionContext syncExecutionContext(Configuration config, byte[] dataBytes) throws EcosphereResourceException {
 		if (null == config) {
 			return null;
 		}
@@ -71,7 +70,7 @@ public class ResourcesStorageServiceHelper {
 		return executionContext;
 	}
 
-	public ExecutionContext buildDefaultDataExecutionContext() throws ResourcesException {
+	public ExecutionContext buildDefaultDataExecutionContext() throws EcosphereResourceException {
 		ExecutionContext executionContext = ExecutionContext.builder().build();
 
 		String defaultContactsData = "Vietbank_14.000.xlsx", defaultCataloguesData = "data-catalog.xlsx";
@@ -89,7 +88,7 @@ public class ResourcesStorageServiceHelper {
 		return executionContext;
 	}
 
-	public void archiveResourceData(final ExecutionContext executionContextParams) throws MspDataException {
+	public void archiveResourceData(final ExecutionContext executionContextParams) throws EcosphereException {
 		Attachment attachment = null;
 		Optional<Attachment> attachmentChecker = null;
 		Configuration archivedConfig = null;
@@ -99,12 +98,12 @@ public class ResourcesStorageServiceHelper {
 		Optional<Configuration> archivedConfigChecker = null;
 		try {
 			if (!(executionContextParams.containsKey(OSXConstants.MASTER_BUFFER_DATA_BYTES) || executionContextParams.containsKey(OSXConstants.MASTER_ARCHIVED_FILE_NAME)))
-				throw new MspDataException("There is no archiving file!");
+				throw new EcosphereException("There is no archiving file!");
 
 			masterDataFileName = (String)executionContextParams.get(OSXConstants.MASTER_ARCHIVED_FILE_NAME);
 			attachmentChecker = this.attachmentService.getByName(masterDataFileName);
 			if (attachmentChecker.isPresent())
-				return; //throw new MspDataException("The archiving file is persisted already!");
+				return; //throw new EcosphereException("The archiving file is persisted already!");
 
 			masterDataBuffer = (byte[]) executionContextParams.get(OSXConstants.MASTER_BUFFER_DATA_BYTES);
 			attachment = this.buidAttachment(masterDataFileName, masterDataBuffer, (String)executionContextParams.get(OSXConstants.MASTER_FILE_ENCRYPTION_KEY));
@@ -131,11 +130,11 @@ public class ResourcesStorageServiceHelper {
 			}
 			this.configurationService.save(archivedConfig);
 		} catch (Exception e) {
-			throw new MspDataException(e);
+			throw new EcosphereException(e);
 		}
 	}
 
-	public static Attachment buidAttachment(final File file) throws EcosphereRuntimeException {
+	public static Attachment buidAttachment(final File file) throws EcosphereException {
 		Attachment attachment = null;
 		int lastDot = file.getName().lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = file.getName().substring(lastDot+1);
@@ -146,12 +145,12 @@ public class ResourcesStorageServiceHelper {
 					.mimetype(MimeTypes.getMimeType(fileExtension))
 					.build();
 		} catch (IOException e) {
-			throw new EcosphereRuntimeException(e);
+			throw new EcosphereException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws EcosphereRuntimeException {
+	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws EcosphereException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -167,12 +166,12 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (IOException e) {
-			throw new EcosphereRuntimeException(e);
+			throw new EcosphereException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws EcosphereRuntimeException {
+	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws EcosphereException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -188,17 +187,17 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (Exception e) {
-			throw new EcosphereRuntimeException(e);
+			throw new EcosphereException(e);
 		}
 		return attachment;
 	}
 
-	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws EcosphereRuntimeException {
+	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws EcosphereException {
 		InputStream inputStream = null;
 		try {
 			inputStream = CommonUtility.createInputStream(attachment.getName(), attachment.getData());
 		} catch (Exception e) {
-			throw new EcosphereRuntimeException(e);
+			throw new EcosphereException(e);
 		}
 		return inputStream;
 	}	

@@ -42,11 +42,11 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.common.ListUtility;
-import net.paramount.entity.general.Catalogue;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.domain.entity.general.Catalogue;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.entity.general.MeasureUnit;
 import net.paramount.entity.trade.Tax;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -60,7 +60,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "inventory_item")
 @EqualsAndHashCode(callSuper = true)
-public class InventoryItem extends BizObjectBase {
+public class InventoryItem extends RepoAuditable {
 
 	/**
 	 * 
@@ -162,11 +162,11 @@ public class InventoryItem extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "master_usage_direction_id")
-	private GeneralItem masterUsageDirection; // Đường dùng
+	private GeneralCatalogue masterUsageDirection; // Đường dùng
 
 	@ManyToOne
 	@JoinColumn(name = "master_generic_drug_id")
-	private GeneralItem masterGenericDrug; //Generic drug/Chemical Name//Hoạt chất
+	private GeneralCatalogue masterGenericDrug; //Generic drug/Chemical Name//Hoạt chất
 
 	@Builder.Default
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
@@ -351,19 +351,19 @@ public class InventoryItem extends BizObjectBase {
 		this.manufacturerId = manufacturerId;
 	}
 
-	public GeneralItem getMasterUsageDirection() {
+	public GeneralCatalogue getMasterUsageDirection() {
 		return masterUsageDirection;
 	}
 
-	public void setMasterUsageDirection(GeneralItem masterUsageDirection) {
+	public void setMasterUsageDirection(GeneralCatalogue masterUsageDirection) {
 		this.masterUsageDirection = masterUsageDirection;
 	}
 
-	public GeneralItem getMasterGenericDrug() {
+	public GeneralCatalogue getMasterGenericDrug() {
 		return masterGenericDrug;
 	}
 
-	public void setMasterGenericDrug(GeneralItem masterGenericDrug) {
+	public void setMasterGenericDrug(GeneralCatalogue masterGenericDrug) {
 		this.masterGenericDrug = masterGenericDrug;
 	}
 

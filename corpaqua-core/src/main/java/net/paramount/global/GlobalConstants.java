@@ -10,8 +10,14 @@ import org.apache.commons.lang.StringUtils;
  *
  */
 public interface GlobalConstants {
-	static final String AUTHENTICATED_PROFILE = "authenticatedProfile";
 	final String QNS_PACKAGE = "net.paramount";
+
+	static final long NONE_OBJECT_ID = -1;
+	static final String NONE_OBJECT_CODE = "NONE";
+	static final String NONE_OBJECT_NAME = "NONEE";
+	static final String NONE_OBJECT_TRANSLATED_NAME = "NONEED";
+	
+	static final String AUTHENTICATED_PROFILE = "authenticatedProfile";
 
 	static final short	SIZE_STRING_TINY = 50;
 

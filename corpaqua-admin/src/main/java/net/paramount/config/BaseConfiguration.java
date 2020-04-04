@@ -19,13 +19,15 @@ import net.paramount.global.GlobalConstants;
  * @author bqduc
  *
  */
-@EnableScheduling
+//@EnableScheduling
 @EnableCaching
 @Configuration
 @EnableJpaRepositories(basePackages = { GlobalConstants.QNS_PACKAGE })
 @ComponentScan(basePackages = { GlobalConstants.QNS_PACKAGE })
 @EntityScan(basePackages = { GlobalConstants.QNS_PACKAGE })
 @EnableTransactionManagement
-@Import(value = { AuditingConfiguration.class, SecurityConfiguration.class, QuartzJobSchedulerConfiguration.class })
+@Import(value = { AuditingConfiguration.class, SecurityConfiguration.class
+		//, QuartzJobSchedulerConfiguration.class 
+		})
 public class BaseConfiguration {
 }

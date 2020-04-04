@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A contact team connection class.
@@ -38,7 +38,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class ContactTeam extends BizObjectBase {
+public class ContactTeam extends RepoAuditable {
 	/**
 	 * 
 	 */
@@ -46,7 +46,7 @@ public class ContactTeam extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "contact_id")
-	private Contact contact;
+	private CTAContact contact;
 
 	@ManyToOne
 	@JoinColumn(name = "team_id")
@@ -55,11 +55,11 @@ public class ContactTeam extends BizObjectBase {
 	@Column(name="designation")
 	private String designation;
 
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 

@@ -44,7 +44,7 @@ public class CarListMB implements Serializable {
     public void initDataModel() {
     	System.out.println("Ok. Fine!!!!");
         cars = new LazyDataModel<Car>() {
-            @Override
+        	/*@Override
             public List<Car> load(int first, int pageSize,
                                   String sortField, SortOrder sortOrder,
                                   Map<String, Object> filters) {
@@ -60,7 +60,7 @@ public class CarListMB implements Serializable {
                 List<Car> list = carService.paginate(filter);
                 setRowCount((int) carService.count(filter));
                 return list;
-            }
+            }*/
 
             @Override
             public int getRowCount() {

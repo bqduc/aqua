@@ -38,8 +38,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
 import net.paramount.entity.general.Currency;
-import net.paramount.entity.general.GeneralItem;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.entity.general.GeneralCatalogue;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A user.
@@ -53,7 +53,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "activity")
 @EqualsAndHashCode(callSuper = true)
-public class Activity extends BizObjectBase {
+public class Activity extends RepoAuditable {
 
 	/**
 	 * 
@@ -94,19 +94,19 @@ public class Activity extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "type_id")
-	private GeneralItem type;
+	private GeneralCatalogue type;
 
 	@ManyToOne
 	@JoinColumn(name = "priority_id")
-	private GeneralItem priority;
+	private GeneralCatalogue priority;
 
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	private GeneralItem category;
+	private GeneralCatalogue category;
 
 	@ManyToOne
 	@JoinColumn(name = "sub_category_id")
-	private GeneralItem subCategory;
+	private GeneralCatalogue subCategory;
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
@@ -186,35 +186,35 @@ public class Activity extends BizObjectBase {
 		this.dueDate = dueDate;
 	}
 
-	public GeneralItem getType() {
+	public GeneralCatalogue getType() {
 		return type;
 	}
 
-	public void setType(GeneralItem type) {
+	public void setType(GeneralCatalogue type) {
 		this.type = type;
 	}
 
-	public GeneralItem getPriority() {
+	public GeneralCatalogue getPriority() {
 		return priority;
 	}
 
-	public void setPriority(GeneralItem priority) {
+	public void setPriority(GeneralCatalogue priority) {
 		this.priority = priority;
 	}
 
-	public GeneralItem getCategory() {
+	public GeneralCatalogue getCategory() {
 		return category;
 	}
 
-	public void setCategory(GeneralItem category) {
+	public void setCategory(GeneralCatalogue category) {
 		this.category = category;
 	}
 
-	public GeneralItem getSubCategory() {
+	public GeneralCatalogue getSubCategory() {
 		return subCategory;
 	}
 
-	public void setSubCategory(GeneralItem subCategory) {
+	public void setSubCategory(GeneralCatalogue subCategory) {
 		this.subCategory = subCategory;
 	}
 

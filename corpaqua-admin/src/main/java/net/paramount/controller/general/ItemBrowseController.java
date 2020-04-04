@@ -13,7 +13,7 @@ import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ItemService;
 import net.paramount.domain.model.Filter;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.utility.FacesUtilities;
 
 /**
@@ -29,10 +29,10 @@ public class ItemBrowseController implements Serializable {
 
 	@Inject
   private ItemService businessService;
-	private List<GeneralItem> selectedObjects; 
-	private List<GeneralItem> businessObjects; 
-	private Filter<GeneralItem> bizFilter = new Filter<>(new GeneralItem());
-	private List<GeneralItem> filteredObjects;// datatable filteredValue attribute (column filters)
+	private List<GeneralCatalogue> selectedObjects; 
+	private List<GeneralCatalogue> businessObjects; 
+	private Filter<GeneralCatalogue> bizFilter = new Filter<>(new GeneralCatalogue());
+	private List<GeneralCatalogue> filteredObjects;// datatable filteredValue attribute (column filters)
 
     @Inject
     private FacesUtilities utils;
@@ -40,9 +40,9 @@ public class ItemBrowseController implements Serializable {
     private String instantSearch;
     Long id;
 
-    Filter<GeneralItem> filter = new Filter<>(new GeneralItem());
+    Filter<GeneralCatalogue> filter = new Filter<>(new GeneralCatalogue());
 
-    List<GeneralItem> filteredValue;// datatable filteredValue attribute (column filters)
+    List<GeneralCatalogue> filteredValue;// datatable filteredValue attribute (column filters)
 
     @PostConstruct
     public void initDataModel() {
@@ -54,7 +54,7 @@ public class ItemBrowseController implements Serializable {
     }
 
     public void clear() {
-        filter = new Filter<GeneralItem>(new GeneralItem());
+        filter = new Filter<GeneralCatalogue>(new GeneralCatalogue());
     }
 
     public List<String> completeModel(String query) {
@@ -72,7 +72,7 @@ public class ItemBrowseController implements Serializable {
 
     public void delete() {
     	if (CommonUtility.isNotEmpty(this.selectedObjects)) {
-      	for (GeneralItem removalItem :this.selectedObjects) {
+      	for (GeneralCatalogue removalItem :this.selectedObjects) {
       		System.out.println("#" + removalItem.getCode());
       		this.businessObjects.remove(removalItem);
       	}
@@ -81,19 +81,19 @@ public class ItemBrowseController implements Serializable {
     	}
     }
 
-    public List<GeneralItem> getFilteredValue() {
+    public List<GeneralCatalogue> getFilteredValue() {
         return filteredValue;
     }
 
-    public void setFilteredValue(List<GeneralItem> filteredValue) {
+    public void setFilteredValue(List<GeneralCatalogue> filteredValue) {
         this.filteredValue = filteredValue;
     }
 
-    public Filter<GeneralItem> getFilter() {
+    public Filter<GeneralCatalogue> getFilter() {
         return filter;
     }
 
-    public void setFilter(Filter<GeneralItem> filter) {
+    public void setFilter(Filter<GeneralCatalogue> filter) {
         this.filter = filter;
     }
 
@@ -105,35 +105,35 @@ public class ItemBrowseController implements Serializable {
         this.id = id;
     }
 
-  	public List<GeneralItem> getBusinessObjects() {
+  	public List<GeneralCatalogue> getBusinessObjects() {
   		return businessObjects;
   	}
 
-  	public void setBusinessObjects(List<GeneralItem> businessObjects) {
+  	public void setBusinessObjects(List<GeneralCatalogue> businessObjects) {
   		this.businessObjects = businessObjects;
   	}
 
-		public List<GeneralItem> getSelectedObjects() {
+		public List<GeneralCatalogue> getSelectedObjects() {
 			return selectedObjects;
 		}
 
-		public void setSelectedObjects(List<GeneralItem> selectedObjects) {
+		public void setSelectedObjects(List<GeneralCatalogue> selectedObjects) {
 			this.selectedObjects = selectedObjects;
 		}
 
-		public Filter<GeneralItem> getBizFilter() {
+		public Filter<GeneralCatalogue> getBizFilter() {
 			return bizFilter;
 		}
 
-		public void setBizFilter(Filter<GeneralItem> bizFilter) {
+		public void setBizFilter(Filter<GeneralCatalogue> bizFilter) {
 			this.bizFilter = bizFilter;
 		}
 
-		public List<GeneralItem> getFilteredObjects() {
+		public List<GeneralCatalogue> getFilteredObjects() {
 			return filteredObjects;
 		}
 
-		public void setFilteredObjects(List<GeneralItem> filteredObjects) {
+		public void setFilteredObjects(List<GeneralCatalogue> filteredObjects) {
 			this.filteredObjects = filteredObjects;
 		}
 

@@ -33,7 +33,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -48,7 +48,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "category")
 @EqualsAndHashCode(callSuper = true)
-public class Category extends BizObjectBase {
+public class Category extends RepoAuditable {
 	private static final long serialVersionUID = -7104531251930154505L;
 
 	@NotNull

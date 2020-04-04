@@ -9,7 +9,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
-import net.paramount.entity.emx.Invoice;
+import net.paramount.entity.emx.CustomerInvoice;
 import net.paramount.repository.InvoiceFacade;
 import net.paramount.utility.JsfUtil;
 
@@ -46,17 +46,23 @@ public class InvoiceConverter implements Converter {
         return sb.toString();
     }
 
+    String getStringKey(java.lang.Long value) {
+      StringBuffer sb = new StringBuffer();
+      sb.append(value);
+      return sb.toString();
+  }
+
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
         if (object == null
                 || (object instanceof String && ((String) object).length() == 0)) {
             return null;
         }
-        if (object instanceof Invoice) {
-            Invoice o = (Invoice) object;
+        if (object instanceof CustomerInvoice) {
+            CustomerInvoice o = (CustomerInvoice) object;
             return getStringKey(o.getId());
         } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Invoice.class.getName()});
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), CustomerInvoice.class.getName()});
             return null;
         }
     }

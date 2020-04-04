@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Module.
@@ -40,7 +40,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "aux_module")
-public class Module extends BizObjectBase {
+public class Module extends RepoAuditable {
 	private static final long serialVersionUID = 5474725952032953164L;
 
 	@NotNull

@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Txn tabloları için kullanacağımız ortak sınıftır.
@@ -36,7 +36,7 @@ import net.paramount.framework.entity.AuditBase;
  *
  */
 @MappedSuperclass
-public class TxnBase extends AuditBase {
+public class TxnBase extends RepoAuditable {
 	private static final long serialVersionUID = 1L;
 
     @Column(name="TXN_DATE")
@@ -46,9 +46,6 @@ public class TxnBase extends AuditBase {
     @Column(name="FINANCE_ACTION")
     @Enumerated(EnumType.ORDINAL)
     private FinanceAction action;
-    
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
     
     @Column(name="CODE", length=15)
     @Size(max=15)
@@ -108,7 +105,7 @@ public class TxnBase extends AuditBase {
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.TxnBase[id=" + getId() + "]";
+        return "TxnBase[id=" + getId() + "]";
     }
 
 	public Date getDate() {
@@ -125,14 +122,6 @@ public class TxnBase extends AuditBase {
 
 	public void setAction(FinanceAction action) {
 		this.action = action;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public String getCode() {

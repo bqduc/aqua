@@ -17,18 +17,22 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import net.paramount.framework.entity.Auditable;
+import lombok.NoArgsConstructor;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class Country
  * 
  * @author haky
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "country")
-public class Country extends Auditable<String> {
+public class Country extends RepoAuditable {
 	private static final long serialVersionUID = -8233303460213700583L;
 
 	@Column(name = "code", nullable = false, unique = true, length = 2)
@@ -49,13 +53,6 @@ public class Country extends Auditable<String> {
 	@Lob
 	@Column(name = "info", columnDefinition="TEXT")
 	private String info;
-
-	@Column(name = "system")
-	private Boolean system;
-
-	@Builder.Default
-	@Column(name = "is_active")
-	private Boolean active = Boolean.FALSE;
 
 	public String getCode() {
 		return code;
@@ -79,22 +76,6 @@ public class Country extends Auditable<String> {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public Boolean getSystem() {
-		return system;
-	}
-
-	public void setSystem(Boolean system) {
-		this.system = system;
 	}
 
 	public String getIsoCode() {

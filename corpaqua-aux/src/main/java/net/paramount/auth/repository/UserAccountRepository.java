@@ -17,39 +17,39 @@ package net.paramount.auth.repository;
 
 import org.springframework.stereotype.Repository;
 
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.framework.repository.BaseRepository;
 
 /**
- * Repository interface for the {@link UserAccount} entity. It contains methods for
+ * Repository interface for the {@link SecurityAccountProfile} entity. It contains methods for
  * regular <code>CRUD</code> operations
  * 
  * @author bqduc
  *
  */
 @Repository
-public interface UserAccountRepository extends BaseRepository<UserAccount, Long> {
+public interface UserAccountRepository extends BaseRepository<SecurityAccountProfile, Long> {
 	/**
-	 * Retrieves a {@link UserAccount} entity from the underlying data store by its
+	 * Retrieves a {@link SecurityAccountProfile} entity from the underlying data store by its
 	 * ResetKey
 	 * 
 	 * @param ssoId
 	 *            the login
 	 * @return a User entity
-	 * @see UserAccount#getResetKey()
+	 * @see SecurityAccountProfile#getResetKey()
 	 */
-	UserAccount findBySsoId(String ssoId);
+	SecurityAccountProfile findBySsoId(String ssoId);
 
 	/**
-	 * Retrieves a {@link UserAccount} entity from the underlying datastore by its
+	 * Retrieves a {@link SecurityAccountProfile} entity from the underlying datastore by its
 	 * Email
 	 * 
 	 * @param email
 	 *            the User's email
 	 * @return a User entity
-	 * @see UserAccount#getEmail()
+	 * @see SecurityAccountProfile#getEmail()
 	 */
-	UserAccount findByEmail(String email);
+	SecurityAccountProfile findByEmail(String email);
 
 	/**
 	 * Retrieves the number of entities from the underlying data store by its
@@ -58,7 +58,7 @@ public interface UserAccountRepository extends BaseRepository<UserAccount, Long>
 	 * @param login
 	 *            the user name
 	 * @return a User entity
-	 * @see UserAccount#getLogin()
+	 * @see SecurityAccountProfile#getLogin()
 	 */
 	Long countBySsoId(String login);
 	

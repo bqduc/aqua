@@ -54,14 +54,14 @@ public class InvoicePayment implements Serializable {
     private JournalEntry journalEntry;    
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     @ManyToOne
-    private Invoice invoice;
+    private CustomerInvoice invoice;
     
 
     public InvoicePayment() {
         
     }
     
-    public InvoicePayment(Invoice invoice, JournalEntry journalEntry, Double paidAmount, Date date, String name) {
+    public InvoicePayment(CustomerInvoice invoice, JournalEntry journalEntry, Double paidAmount, Date date, String name) {
         this.invoice = invoice;
         this.journalEntry = journalEntry;
         this.paidAmount = paidAmount;  
@@ -109,11 +109,11 @@ public class InvoicePayment implements Serializable {
         this.journalEntry = journalEntry;
     }
 
-    public Invoice getInvoice() {
+    public CustomerInvoice getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    public void setInvoice(CustomerInvoice invoice) {
         this.invoice = invoice;
     }
     

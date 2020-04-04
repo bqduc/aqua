@@ -18,9 +18,7 @@ import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Size;
 
-import net.paramount.entity.base.BaseConsts;
 import net.paramount.entity.general.MoneySet;
 
 

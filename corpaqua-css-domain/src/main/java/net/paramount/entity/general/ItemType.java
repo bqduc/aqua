@@ -28,7 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -42,7 +42,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "general_item_type")
 @EqualsAndHashCode(callSuper = true)
-public class ItemType extends BizObjectBase {
+public class ItemType extends RepoAuditable {
 	/**
 	 * 
 	 */

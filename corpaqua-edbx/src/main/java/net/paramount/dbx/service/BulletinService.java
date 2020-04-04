@@ -1,5 +1,7 @@
 package net.paramount.dbx.service;
 
+import java.util.Optional;
+
 import net.paramount.dbx.entity.Bulletin;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
@@ -13,5 +15,5 @@ public interface BulletinService extends GenericService<Bulletin, Long>{
    * @return The item
    * @throws ObjectNotFoundException If no such Bulletin exists.
    */
-	Bulletin getBySerial(String serial) throws ObjectNotFoundException;
+	Optional<Bulletin> getBySerial(String serial) throws ObjectNotFoundException;
 }

@@ -17,6 +17,8 @@ import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -24,35 +26,33 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Quantity implements java.io.Serializable {
-	/**
-	* 
-	*/
-	private static final long serialVersionUID = 6197188777904513286L;
+	private static final long serialVersionUID = -8871186569561849667L;
 
-	@Column(name = "unit_id")
-	private Long unitId;
+	@ManyToOne
+	@JoinColumn(name = "unit_id", insertable = false, updatable = false)
+	private MeasureUnit unit;
 
 	@Column(name = "quantity", precision = 5, scale = 2)
 	private Double value = 0d;
 
 	public Quantity() {
-		this.unitId = null;
+		this.unit = null;
 		this.value = 0d;
 	}
 
 	public Quantity(Quantity quantity) {
 		this.value = new Double(quantity.getValue());
-		this.unitId = quantity.getUnitId();
+		this.unit = quantity.getUnit();
 	}
 
-	public Quantity(double value, Long unitId) {
+	public Quantity(double value, MeasureUnit measureUnit) {
 		this.value = value;
-		this.unitId = unitId;
+		this.unit = measureUnit;
 	}
 
 	public void moveFieldsOf(Quantity anotherQuantity) {
 		if (anotherQuantity != null) {
-			this.unitId = anotherQuantity.getUnitId();
+			this.unit = anotherQuantity.getUnit();
 			this.value = anotherQuantity.getValue();
 		}
 	}
@@ -76,7 +76,7 @@ public class Quantity implements java.io.Serializable {
 		f.setMaximumFractionDigits(2);
 		f.setMinimumFractionDigits(2);
 
-		return f.format(getValue()) + "#" + getUnitId();
+		return f.format(getValue()) + "#" + getUnit().getCode();
 	}
 
 	public String toStringInNarrowFormat() {
@@ -84,7 +84,7 @@ public class Quantity implements java.io.Serializable {
 		f.setMaximumFractionDigits(2);
 		f.setMinimumFractionDigits(2);
 
-		String result = f.format(getValue()) + "#" + getUnitId();
+		String result = f.format(getValue()) + "#" + getUnit().getCode();
 		if (result.length() > 7) {
 			result = result.substring(0, 7);
 		}
@@ -95,11 +95,11 @@ public class Quantity implements java.io.Serializable {
 		return this.value == 0d;
 	}
 
-	public Long getUnitId() {
-		return unitId;
+	public MeasureUnit getUnit() {
+		return unit;
 	}
 
-	public void setUnitId(Long unitId) {
-		this.unitId = unitId;
+	public void setUnit(MeasureUnit unit) {
+		this.unit = unit;
 	}
 }

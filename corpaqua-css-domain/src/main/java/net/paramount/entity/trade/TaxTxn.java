@@ -38,7 +38,7 @@ import javax.validation.constraints.Size;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.WorkBunch;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Vergi kayitlarinin atilacagi entity
@@ -47,14 +47,9 @@ import net.paramount.framework.entity.AuditBase;
 
 @Entity
 @Table(name="TAX_TXN")
-public class TaxTxn extends AuditBase implements Serializable{
+public class TaxTxn extends RepoAuditable implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-	@GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
 
     @Column(name="DOCUMENT_TYPE")
     @Enumerated(EnumType.ORDINAL)
@@ -106,9 +101,6 @@ public class TaxTxn extends AuditBase implements Serializable{
     @Enumerated(EnumType.ORDINAL)
     private TaxType taxType;
 
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
-    
     /**
      * vergi oran bilgisidir.
      */
@@ -118,20 +110,6 @@ public class TaxTxn extends AuditBase implements Serializable{
     @ManyToOne
     @JoinColumn(name="WORK_BUNCH_ID", foreignKey = @ForeignKey(name = "FK_TAXTXN_WORKBUNCHID"))
     private WorkBunch workBunch;
-
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     /**
      * @return the documentType
@@ -287,41 +265,9 @@ public class TaxTxn extends AuditBase implements Serializable{
         this.taxType = taxType;
     }
 
-     /**
-     * @return the active
-     */
-    public Boolean getActive() {
-        return active;
-    }
-
-    /**
-     * @param active the active to set
-     */
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.id != null ? this.id.hashCode() : 0);
-        return hash;
-    }
-
-	@Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TaxTxn)) {
-            return false;
-        }
-        TaxTxn other = (TaxTxn)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.TaxTxn[id=" + id + "]";
+        return "TaxTxn[id=" + getId() + "]";
     }
 
 	public BigDecimal getRate() {

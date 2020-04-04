@@ -12,7 +12,6 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +21,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class Tax
@@ -37,15 +35,10 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name="TAX")
-public class Tax implements Serializable {
+public class Tax extends RepoAuditable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-        
     @Column(name="CODE", nullable=false, length=10)
     @NotNull
     @Size(max=10, min=1)
@@ -62,25 +55,11 @@ public class Tax implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private TaxType type;
     
-    @Column(name="SYSTEM")
-    private Boolean system;
-
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
-
     @Column(name="IS_TRANSPORT_TAX")
     private Boolean isTransportTax = Boolean.FALSE;
     
     @OneToMany(mappedBy="tax", cascade=CascadeType.ALL, fetch=FetchType.LAZY, orphanRemoval=true)
     private List<TaxRate> rates = new ArrayList<TaxRate>();
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     
 	public String getCode() {
         return code;
@@ -106,22 +85,6 @@ public class Tax implements Serializable {
         this.info = info;
     }
 
-    public Boolean getSystem() {
-        return system;
-    }
-
-    public void setSystem(Boolean system) {
-        this.system = system;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public List<TaxRate> getRates() {
         return rates;
     }
@@ -129,28 +92,10 @@ public class Tax implements Serializable {
     public void setRates(List<TaxRate> rates) {
         this.rates = rates;
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.getId() != null ? this.getId().hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tax)) {
-            return false;
-        }
-        Tax other = (Tax)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.Tax[id=" + getId() + "]";
+        return "Tax[id=" + getId() + "]";
     }
 
 	public Boolean getIsTransportTax() {

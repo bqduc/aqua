@@ -21,15 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.exceptions.ExecutionContextException;
-import net.paramount.exceptions.EcosphereRuntimeException;
 import net.paramount.framework.component.ComponentBase;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.repository.BaseRepository;
 
 
 @Service
-public abstract class ServiceImpl<EntityType extends ObjectBase, Key extends Serializable> extends ComponentBase implements IService<EntityType, Key>{
+public abstract class ServiceImpl<EntityType extends RepoEntity, Key extends Serializable> extends ComponentBase implements IService<EntityType, Key>{
 	/**
 	 * 
 	 */
@@ -92,7 +92,7 @@ public abstract class ServiceImpl<EntityType extends ObjectBase, Key extends Ser
 	}
 
 	protected Page<EntityType> performSearch(String keyword, Pageable pageable){
-		throw new EcosphereRuntimeException("Not implemented yet!!!");//DUMMY_PAGEABLE;
+		throw new EcosphereException("Not implemented yet!!!");//DUMMY_PAGEABLE;
 	}
 
 	protected List<EntityType> performSearch(Object parameter){

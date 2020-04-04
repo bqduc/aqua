@@ -11,7 +11,6 @@ import javax.inject.Inject;
 
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import com.ibm.icu.text.MessageFormat;
@@ -23,12 +22,12 @@ import net.paramount.common.ListUtility;
  * @author ducbq
  *
  */
-@Component("persistenceMessageSource")
-public class DatabaseMessageServiceImpl implements PersistenceMessageService/*MessageSource */{
+/*@Component("persistenceMessageSource")
+public class DatabaseMessageServiceImpl implements PersistenceMessageService{
 	@Inject
-	private LanguageEntityRepository messageSourceRepository;
+	private UILabelRepository labelRepository;
 
-	/**
+	*//**
 	 * Try to resolve the message. Return default message if no message was found.
 	 * @param code the message code to look up, e.g. 'calculator.noRateSet'.
 	 * MessageSource users are encouraged to base message names on qualified class
@@ -42,13 +41,13 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 	 * the default message passed as a parameter (which may be {@code null})
 	 * @see #getMessage(MessageSourceResolvable, Locale)
 	 * @see java.text.MessageFormat
-	 */
+	 *//*
 	@Override
 	public String getMessage(String code, Object[] args, String defaultMessage, Locale locale) {
 		return resolveMessage(code, args, locale);
 	}
 
-	/**
+	*//**
 	 * Try to resolve the message. Treat as an error if the message can't be found.
 	 * @param code the message code to look up, e.g. 'calculator.noRateSet'.
 	 * MessageSource users are encouraged to base message names on qualified class
@@ -61,13 +60,13 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 	 * @throws NoSuchMessageException if no corresponding message was found
 	 * @see #getMessage(MessageSourceResolvable, Locale)
 	 * @see java.text.MessageFormat
-	 */
+	 *//*
 	@Override
 	public String getMessage(String code, Object[] args, Locale locale) throws NoSuchMessageException {
 		return resolveMessage(code, args, locale);
 	}
 
-	/**
+	*//**
 	 * Try to resolve the message using all the attributes contained within the
 	 * {@code MessageSourceResolvable} argument that was passed in.
 	 * <p>NOTE: We must throw a {@code NoSuchMessageException} on this method
@@ -84,7 +83,7 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 	 * @see MessageSourceResolvable#getArguments()
 	 * @see MessageSourceResolvable#getDefaultMessage()
 	 * @see java.text.MessageFormat
-	 */
+	 *//*
 	@Override
 	public String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException {
 		String message = null;
@@ -98,7 +97,7 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 	}
 
 	private String resolveMessage(String code, Object[] args, Locale locale) {
-		MessageSourceEntity messageSourceEntity = messageSourceRepository.findByKeyAndLocale(code, getProcessingLocaleString(locale));
+		UILabel messageSourceEntity = labelRepository.findByKeyAndLocale(code, getProcessingLocaleString(locale));
 		String resolvedMessage = (null != messageSourceEntity)?messageSourceEntity.getContent():code;
 		if (CommonUtility.isNotEmpty(args)) {
 			resolvedMessage = MessageFormat.format(messageSourceEntity.getContent(), args);
@@ -108,9 +107,9 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 
 	@Override
 	public void saveMessage(String key, String content, Locale locale) {
-		MessageSourceEntity messageEntity = this.messageSourceRepository.findByKeyAndLocale(key, getProcessingLocaleString(locale));
+		UILabel messageEntity = this.labelRepository.findByKeyAndLocale(key, getProcessingLocaleString(locale));
 		if (null==messageEntity) {
-			messageEntity = MessageSourceEntity.builder()
+			messageEntity = UILabel.builder()
 					.key(key)
 					.content(content)
 					.locale(getProcessingLocaleString(locale))
@@ -118,12 +117,12 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 		} else {
 			messageEntity.setContent(content);
 		}
-		messageSourceRepository.save(messageEntity);
+		labelRepository.save(messageEntity);
 	}
 
 	@Override
-	public List<MessageSourceEntity> getMessages(Locale locale) {
-		return this.messageSourceRepository.findByLocale(getProcessingLocaleString(locale));
+	public List<UILabel> getMessages(Locale locale) {
+		return this.labelRepository.findByLocale(getProcessingLocaleString(locale));
 	}
 
 	private String getProcessingLocaleString(Locale locale) {
@@ -132,12 +131,13 @@ public class DatabaseMessageServiceImpl implements PersistenceMessageService/*Me
 
 	@Override
 	public Map<String, String> getMessagesMap(Locale locale) {
-		List<MessageSourceEntity> messages = this.getMessages(locale);
+		List<UILabel> messages = this.getMessages(locale);
 		Map<String, String> messagesMap = ListUtility.createMap();
-		for (MessageSourceEntity mse :messages) {
+		for (UILabel mse :messages) {
 			messagesMap.put(mse.getKey(), mse.getContent());
 		}
 		return messagesMap;
 	}
 
 }
+*/

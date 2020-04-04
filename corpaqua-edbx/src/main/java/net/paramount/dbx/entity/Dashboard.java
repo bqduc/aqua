@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -24,7 +24,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Builder
 @Table(name = "dmx_dashboard")
-public class Dashboard extends BizObjectBase{
+public class Dashboard extends RepoAuditable{
 	/**
 	 * 
 	 */

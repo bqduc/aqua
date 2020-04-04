@@ -16,7 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * @author bqduc
@@ -28,7 +28,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "aux_client_user_account")
 @EqualsAndHashCode(callSuper = true)
-public class ClientUserAccount extends BizObjectBase {
+public class ClientUserAccount extends RepoAuditable {
 	/**
 	 * 
 	 */
@@ -36,28 +36,28 @@ public class ClientUserAccount extends BizObjectBase {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_account_id")
-	private UserAccount userAccount;
+	private SecurityAccountProfile userAccount;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "last_approved_user_id")
-	private UserAccount lastApprovedBy;
+	private SecurityAccountProfile lastApprovedBy;
 
 	@Column(name = "last_approved_date")
 	private Date lastApprovedDate;
 
-	public UserAccount getUserAccount() {
+	public SecurityAccountProfile getUserAccount() {
 		return userAccount;
 	}
 
-	public void setUserAccount(UserAccount userAccount) {
+	public void setUserAccount(SecurityAccountProfile userAccount) {
 		this.userAccount = userAccount;
 	}
 
-	public UserAccount getLastApprovedBy() {
+	public SecurityAccountProfile getLastApprovedBy() {
 		return lastApprovedBy;
 	}
 
-	public void setLastApprovedBy(UserAccount lastApprovedBy) {
+	public void setLastApprovedBy(SecurityAccountProfile lastApprovedBy) {
 		this.lastApprovedBy = lastApprovedBy;
 	}
 

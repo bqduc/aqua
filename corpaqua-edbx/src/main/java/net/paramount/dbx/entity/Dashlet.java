@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.Authority;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -31,7 +31,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Builder
 @Table(name = "dmx_dashlet")
-public class Dashlet extends BizObjectBase{
+public class Dashlet extends RepoAuditable{
 	/**
 	 * 
 	 */

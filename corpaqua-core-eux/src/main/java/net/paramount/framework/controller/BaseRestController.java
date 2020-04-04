@@ -24,15 +24,15 @@ import org.springframework.web.context.request.WebRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import net.paramount.domain.RestErrorInfo;
-import net.paramount.exceptions.ResourceNotFoundException;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.exceptions.EcosphereResourceException;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.service.IService;
 
 /**
  * @author bqduc
  *
  */
-public abstract class BaseRestController<T extends ObjectBase, PK extends Serializable> extends RootController {
+public abstract class BaseRestController<T extends RepoEntity, PK extends Serializable> extends RootController {
 	/**
 	 * 
 	 */
@@ -113,10 +113,10 @@ public abstract class BaseRestController<T extends ObjectBase, PK extends Serial
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public @ResponseBody RestErrorInfo handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request,
+	@ExceptionHandler(EcosphereResourceException.class)
+	public @ResponseBody RestErrorInfo handleResourceNotFoundException(EcosphereResourceException ex, WebRequest request,
 			HttpServletResponse response) {
-		log.info("ResourceNotFoundException handler:" + ex.getMessage());
+		log.info("EcosphereResourceException handler:" + ex.getMessage());
 
 		return new RestErrorInfo(ex, "Sorry I couldn't find it.");
 	}
@@ -124,7 +124,7 @@ public abstract class BaseRestController<T extends ObjectBase, PK extends Serial
 	// TODO: replace with exception mapping
 	public static <T> T checkResourceFound(final T resource) {
 		if (resource == null) {
-			throw new ResourceNotFoundException("resource not found");
+			throw new EcosphereResourceException("resource not found");
 		}
 		return resource;
 	}

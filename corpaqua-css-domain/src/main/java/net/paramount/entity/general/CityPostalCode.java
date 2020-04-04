@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.Auditable;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A city-postal code.
@@ -21,7 +21,7 @@ import net.paramount.framework.entity.Auditable;
 @Entity
 @Table(name = "city_postal_code")
 @EqualsAndHashCode(callSuper=false)
-public class CityPostalCode extends Auditable<String> {
+public class CityPostalCode extends RepoAuditable {
 	/**
 	 * 
 	 */

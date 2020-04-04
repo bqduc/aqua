@@ -16,7 +16,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  *
@@ -25,7 +25,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name = "ORGANIZATION_LEVEL")
-public class OrganizationLevel extends ObjectBase {
+public class OrganizationLevel extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 

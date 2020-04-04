@@ -12,22 +12,17 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.entity.contact.Contact;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.entity.contact.CTAContact;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Kurum bilgilerini tutan model sınıfımızdır.
@@ -36,7 +31,7 @@ import net.paramount.framework.entity.AuditBase;
  */
 @Entity
 @Table(name="FOUNDATION")
-public class Foundation extends AuditBase {
+public class Foundation extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -60,7 +55,7 @@ public class Foundation extends AuditBase {
 	 */
 	@ManyToOne
 	@JoinColumn(name="CONTACT_ID", foreignKey = @ForeignKey(name = "FK_FOUNDATION_CONTACTID"))
-	private Contact contact;
+	private CTAContact contact;
 	
 	/**
 	 * Posun çalışabileceği max. taksit sayısını tutar.
@@ -70,7 +65,7 @@ public class Foundation extends AuditBase {
 
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.Foundation[id=" + getId() + "]";
+        return "Foundation[id=" + getId() + "]";
     }
 
 	public String getCode() {
@@ -105,11 +100,11 @@ public class Foundation extends AuditBase {
 		this.maxPeriod = maxPeriod;
 	}
 
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 

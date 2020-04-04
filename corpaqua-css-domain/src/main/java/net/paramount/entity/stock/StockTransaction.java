@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.framework.validation.InDateRange;
 import net.paramount.global.GlobalConstants;
 import net.paramount.model.StockAction;
@@ -33,7 +33,7 @@ import net.paramount.model.StockAction;
 
 @Entity
 @Table(name = "stock_transaction")
-public class StockTransaction extends BizObjectBase {
+public class StockTransaction extends RepoAuditable {
 	/**
 	* 
 	*/

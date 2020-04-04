@@ -1,6 +1,5 @@
 package net.paramount.entity.emx;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,11 +7,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,7 +21,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.framework.validation.InDateRange;
 
 /**
@@ -53,7 +48,7 @@ import net.paramount.framework.validation.InDateRange;
     @NamedQuery(name = "PurchaseOrder.findByDiscount", query = "SELECT p FROM PurchaseOrder p WHERE p.discount = :discount"),
     @NamedQuery(name = "PurchaseOrder.findByActive", query = "SELECT p FROM PurchaseOrder p WHERE p.active = :active"),
     @NamedQuery(name = "PurchaseOrder.findByName", query = "SELECT p FROM PurchaseOrder p WHERE p.name = :name")})
-public class PurchaseOrder extends ObjectBase {
+public class PurchaseOrder extends RepoAuditable {
     private static final long serialVersionUID = 1L;
 
     @Basic(optional = false)
@@ -122,7 +117,7 @@ public class PurchaseOrder extends ObjectBase {
 
     @OneToMany(mappedBy = "purchaseOrder")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Invoice> invoices;
+    private List<CustomerInvoice> invoices;
 
   	@Column(name = "info", columnDefinition = "TEXT")
   	private String info;
@@ -269,11 +264,11 @@ public class PurchaseOrder extends ObjectBase {
     }
 
     
-    public List<Invoice> getInvoices() {
+    public List<CustomerInvoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<CustomerInvoice> invoices) {
         this.invoices = invoices;
     }
 

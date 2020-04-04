@@ -42,6 +42,7 @@ public class HttpSessionConfiguration extends CompCore {
 
 	@Inject 
 	private SecurityServiceContextHelper securityServiceContextHelper;
+
 	public List<HttpSession> getActiveSessions() {
 		return ListUtility.createDataList(activeSessions);
 	}
@@ -56,6 +57,8 @@ public class HttpSessionConfiguration extends CompCore {
 					activeSessions.add(event.getSession());
 				}
 				
+				//dashboardManager.synchDashboardData();
+
 				log.info("The HttpSession {} was created on {}.", event.getSession().getId(), new Date());
 				//System.out.println("Session Created with session id+" + event.getSession().getId());
 			}

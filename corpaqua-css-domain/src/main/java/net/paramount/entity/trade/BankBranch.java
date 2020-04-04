@@ -12,15 +12,11 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -33,57 +29,53 @@ import javax.validation.constraints.Size;
 import net.paramount.embeddable.Address;
 import net.paramount.entity.contact.ContactPerson;
 import net.paramount.entity.general.Organization;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 @Entity
 @Table(name="BANK_BRANCH")
-public class BankBranch extends AuditBase {
+public class BankBranch extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
-	
-    @Column(name="CODE", length=20, unique=true, nullable=false)
-    @Size(max=20, min=1)
-    @NotNull
+	@Column(name = "CODE", length = 20, unique = true, nullable = false)
+	@Size(max = 20, min = 1)
+	@NotNull
 	private String code;
 
-    @Column(name="NAME", length=50)
-    @Size(max=50)
-    private String name;
-    
-    @Column(name="INFO")
-	private String info;
-    
-    @Column(name="ISACTIVE")
-	private Boolean active = Boolean.TRUE;
+	@Column(name = "NAME", length = 50)
+	@Size(max = 50)
+	private String name;
 
-    @Column(name="WORK_BEGIN")
-    @Temporal(TemporalType.DATE)
-    private Date workBegin;
-	
-    @Column(name="WORK_END")
-    @Temporal(TemporalType.DATE)
-    private Date workEnd;
-	
+	@Column(name = "INFO")
+	private String info;
+
+	@Column(name = "WORK_BEGIN")
+	@Temporal(TemporalType.DATE)
+	private Date workBegin;
+
+	@Column(name = "WORK_END")
+	@Temporal(TemporalType.DATE)
+	private Date workEnd;
+
 	@ManyToOne
-	@JoinColumn(name="BANK_ID")
+	@JoinColumn(name = "BANK_ID")
 	private Bank bank;
-	
-    @Column(name="EFT_CODE", length=20)
-    @Size(max=20)
+
+	@Column(name = "EFT_CODE", length = 20)
+	@Size(max = 20)
 	private String eftCode;
 
-    @Column(name="CHEQUE_CODE", length=20)
-    @Size(max=20)
-    private String chequeCode;
-	
+	@Column(name = "CHEQUE_CODE", length = 20)
+	@Size(max = 20)
+	private String chequeCode;
+
 	@Embedded
 	@Valid
 	private Address address = new Address();
 
-    @ManyToOne
-    @JoinColumn(name="ORGANIZATION_ID")
-    private Organization organization;
+	@ManyToOne
+	@JoinColumn(name = "ORGANIZATION_ID")
+	private Organization organization;
 
 	@Embedded
 	private ContactPerson contactPerson = new ContactPerson();
@@ -122,14 +114,6 @@ public class BankBranch extends AuditBase {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Date getWorkBegin() {
@@ -190,7 +174,7 @@ public class BankBranch extends AuditBase {
 
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.BankBranch[id=" + getId() + "]";
+        return "BankBranch[id=" + getId() + "]";
     }
 /*
 	public List<BankAccount> getItems() {

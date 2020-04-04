@@ -1,5 +1,7 @@
 package net.paramount.ase.config;
 
+import java.util.Calendar;
+
 import org.quartz.JobDetail;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +13,7 @@ import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import net.paramount.ase.model.MemberClassStatsJob;
 import net.paramount.ase.model.MemberStatsJob;
 
-@Configuration
+//@Configuration
 public class QuartzSubmitJobs {
     private static final String CRON_EVERY_FIVE_MINUTES = "0 0/5 * ? * * *";
 
@@ -32,6 +34,6 @@ public class QuartzSubmitJobs {
 
     @Bean(name = "memberClassStatsTrigger")
     public CronTriggerFactoryBean triggerMemberClassStats(@Qualifier("memberClassStats") JobDetail jobDetail) {
-        return QuartzJobSchedulerConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIVE_MINUTES, "Class Statistics Trigger");
+    	return QuartzJobSchedulerConfiguration.createCronTrigger(jobDetail, CRON_EVERY_FIVE_MINUTES, "Class Statistics Trigger");
     }
 }

@@ -1,5 +1,7 @@
 package net.paramount.dbx.service;
 
+import java.util.Optional;
+
 import net.paramount.dbx.entity.Dashboard;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
@@ -13,7 +15,7 @@ public interface DashboardService extends GenericService<Dashboard, Long>{
    * @return The dashboard
    * @throws ObjectNotFoundException If no such dashboard exists.
    */
-	Dashboard getBySerial(String serial) throws ObjectNotFoundException;
+	Optional<Dashboard> getBySerial(String serial) throws ObjectNotFoundException;
 
   /**
    * Get one item with the provided code.

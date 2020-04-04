@@ -19,8 +19,8 @@ import com.github.adminfaces.template.exception.AccessDeniedException;
 
 import net.paramount.css.service.contact.ContactService;
 import net.paramount.domain.dummy.Car;
-import net.paramount.entity.contact.Contact;
-import net.paramount.entity.stock.Product;
+import net.paramount.entity.contact.CTAContact;
+import net.paramount.entity.stock.ProductProfile;
 import net.paramount.utility.FacesUtilities;
 
 /**
@@ -43,8 +43,8 @@ public class ProductDetailController implements Serializable {
 	private Long id;
 	private Car car;
 
-	private Product businessObject;
-	private Contact contact;
+	private ProductProfile businessObject;
+	private CTAContact contact;
 
 	public void init() {
 		if (Faces.isAjaxRequest()) {
@@ -53,7 +53,7 @@ public class ProductDetailController implements Serializable {
 		if (has(id)) {
 			this.contact = businessService.getObject(Long.valueOf(id));
 		} else {
-			this.contact = Contact.builder().build();
+			this.contact = CTAContact.builder().build();
 		}
 	}
 
@@ -76,7 +76,7 @@ public class ProductDetailController implements Serializable {
 	}
 
 	public void clear() {
-		this.contact = Contact.builder().build();
+		this.contact = CTAContact.builder().build();
 		id = null;
 	}
 
@@ -84,11 +84,11 @@ public class ProductDetailController implements Serializable {
 		return this.contact == null || this.contact.getId() == null;
 	}
 
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 
@@ -100,11 +100,11 @@ public class ProductDetailController implements Serializable {
 		this.id = id;
 	}
 
-	public Product getBusinessObject() {
+	public ProductProfile getBusinessObject() {
 		return businessObject;
 	}
 
-	public void setBusinessObject(Product businessObject) {
+	public void setBusinessObject(ProductProfile businessObject) {
 		this.businessObject = businessObject;
 	}
 

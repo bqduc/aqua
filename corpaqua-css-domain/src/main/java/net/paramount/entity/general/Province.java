@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import net.paramount.framework.entity.Auditable;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class Province
@@ -27,7 +27,7 @@ import net.paramount.framework.entity.Auditable;
  */
 @Entity
 @Table(name = "province")
-public class Province extends Auditable<String> {
+public class Province extends RepoAuditable {
 	/**
 	 * 
 	 */
@@ -42,12 +42,6 @@ public class Province extends Auditable<String> {
 	@ManyToOne
 	@JoinColumn(name = "city_id")
 	private City city;
-
-	@Column(name = "system")
-	private Boolean system;
-
-	@Column(name = "isactive")
-	private Boolean active = Boolean.TRUE;
 
 	public String getPlate() {
 		return plate;
@@ -71,22 +65,6 @@ public class Province extends Auditable<String> {
 
 	public void setCity(City city) {
 		this.city = city;
-	}
-
-	public Boolean getSystem() {
-		return system;
-	}
-
-	public void setSystem(Boolean system) {
-		this.system = system;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	@Override

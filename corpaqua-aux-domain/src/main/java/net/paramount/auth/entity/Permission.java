@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A user.
@@ -32,7 +32,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "aux_permission")
 @EqualsAndHashCode(callSuper = true)
-public class Permission extends BizObjectBase{
+public class Permission extends RepoAuditable{
 	private static final long serialVersionUID = 3067524972341936718L;
 
 	@ManyToOne

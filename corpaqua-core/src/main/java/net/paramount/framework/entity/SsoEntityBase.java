@@ -10,8 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+//TODO: consider to get inheritance from AuthenticateAccount
 @MappedSuperclass
-public abstract class SsoEntityBase extends BizObjectBase {
+public abstract class SsoEntityBase extends RepoAuditable {
 	private static final long serialVersionUID = 8261894944163751162L;
 
 	//@Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
@@ -199,10 +200,6 @@ public abstract class SsoEntityBase extends BizObjectBase {
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public boolean isEnabled() {
-		return this.isActivated();
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {

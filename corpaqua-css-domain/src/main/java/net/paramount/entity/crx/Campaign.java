@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
 import net.paramount.entity.contact.Team;
 import net.paramount.entity.general.Currency;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.model.GeneralStatus;
 
 /**
@@ -35,7 +35,7 @@ import net.paramount.model.GeneralStatus;
 @Entity
 @Table(name = "campaign")
 @EqualsAndHashCode(callSuper=false)
-public class Campaign extends BizObjectBase{
+public class Campaign extends RepoAuditable{
 
 	/**
 	 * 

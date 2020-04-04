@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.WorkBunch;
-import net.paramount.entity.stock.Product;
+import net.paramount.entity.stock.ProductProfile;
 
 /**
  * Kurum ile yapılan işlemler için transaction tablosu.
@@ -95,7 +95,7 @@ public class FoundationTxn extends TxnBase {
 	 */
 	@ManyToOne
 	@JoinColumn(name="PRODUCT_ID", foreignKey = @ForeignKey(name = "FK_FOUNDATIONTXN_PRODUCTID"))
-	private Product product;
+	private ProductProfile product;
 	
 	@ManyToOne
     @JoinColumn(name="WORK_BUNCH_ID", foreignKey = @ForeignKey(name = "FK_FOUNDATIONTXN_WORKBUNCHID"))
@@ -121,7 +121,7 @@ public class FoundationTxn extends TxnBase {
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.FoundationTxn[id=" + getId() + "]";
+        return "FoundationTxn[id=" + getId() + "]";
     }
     
 	public Double getRate() {
@@ -196,11 +196,11 @@ public class FoundationTxn extends TxnBase {
 		this.added = added;
 	}
 
-	public Product getProduct() {
+	public ProductProfile getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductProfile product) {
 		this.product = product;
 	}
 

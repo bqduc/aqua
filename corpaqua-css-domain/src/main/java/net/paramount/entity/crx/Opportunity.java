@@ -21,10 +21,10 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.contact.Team;
 import net.paramount.entity.general.Currency;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * An Opportunity or CRX.
@@ -35,7 +35,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "opportunity")
 @EqualsAndHashCode(callSuper=false)
-public class Opportunity extends BizObjectBase{
+public class Opportunity extends RepoAuditable{
 
 	/**
 	 * 
@@ -55,7 +55,7 @@ public class Opportunity extends BizObjectBase{
 
 	@ManyToOne
 	@JoinColumn(name = "account_id")
-	private Account account;
+	private CustomerAccount account;
 
 	@Column(name="type_id")
   @Enumerated(EnumType.ORDINAL)
@@ -94,7 +94,7 @@ public class Opportunity extends BizObjectBase{
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "b2c_contact_id")
-	private Contact b2cContact;
+	private CTAContact b2cContact;
 
 	@Column(name = "info", columnDefinition="TEXT")
 	private String info;
@@ -135,11 +135,11 @@ public class Opportunity extends BizObjectBase{
 		this.amount = amount;
 	}
 
-	public Account getAccount() {
+	public CustomerAccount getAccount() {
 		return account;
 	}
 
-	public void setAccount(Account account) {
+	public void setAccount(CustomerAccount account) {
 		this.account = account;
 	}
 
@@ -215,11 +215,11 @@ public class Opportunity extends BizObjectBase{
 		this.campaign = campaign;
 	}
 
-	public Contact getB2cContact() {
+	public CTAContact getB2cContact() {
 		return b2cContact;
 	}
 
-	public void setB2cContact(Contact b2cContact) {
+	public void setB2cContact(CTAContact b2cContact) {
 		this.b2cContact = b2cContact;
 	}
 

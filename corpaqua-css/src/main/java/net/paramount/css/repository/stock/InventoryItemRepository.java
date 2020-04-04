@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import net.paramount.entity.stock.InventoryItem;
-import net.paramount.framework.repository.CodeNameBaseRepository;
+import net.paramount.framework.repository.CodeNameRepository;
 
 @Repository
-public interface InventoryItemRepository extends CodeNameBaseRepository<InventoryItem, Long> {
+public interface InventoryItemRepository extends CodeNameRepository<InventoryItem, Long> {
 	Optional<InventoryItem> findByBarcode(String barcode);
 
 	@Query(value = "SELECT entity.code FROM #{#entityName} entity ", nativeQuery = true)

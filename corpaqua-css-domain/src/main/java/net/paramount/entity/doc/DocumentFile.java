@@ -24,9 +24,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.trade.OwnerType;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 
 /**
@@ -35,13 +35,13 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="DOCUMENT_FILE")
-public class DocumentFile extends ObjectBase {
+public class DocumentFile extends RepoEntity {
     
 	private static final long serialVersionUID = 1L;
 
     @ManyToOne
 	@JoinColumn(name="CONTACT_ID")
-	private Contact contact;
+	private CTAContact contact;
 
     @Column(name="NAME")
     private String name;
@@ -198,14 +198,14 @@ public class DocumentFile extends ObjectBase {
     /**
      * @return the contact
      */
-    public Contact getContact() {
+    public CTAContact getContact() {
         return contact;
     }
 
     /**
      * @param contact the contact to set
      */
-    public void setContact(Contact contact) {
+    public void setContact(CTAContact contact) {
         this.contact = contact;
     }
 

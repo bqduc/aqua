@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosysException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.osx.model.OsxBucketContainer;
 import net.paramount.osx.model.DataWorkbook;
 import net.paramount.osx.model.DataWorksheet;
@@ -162,9 +162,9 @@ public class XSSFEventDataHelper {
 		this.limitedColumns = procLimitedColumns;
 	}
 
-	public static XSSFEventDataHelper instance(Map<?, ?> params) throws EcosysException {
+	public static XSSFEventDataHelper instance(Map<?, ?> params) throws EcosphereException {
 		if (!params.containsKey(OSXConstants.INPUT_STREAM))
-			throw new EcosysException("No input stream parameter!");
+			throw new EcosphereException("No input stream parameter!");
 
 		OPCPackage opcPackage = null;
 		InputStream decryptedDataStream = null;
@@ -184,14 +184,14 @@ public class XSSFEventDataHelper {
 
 				    decryptedDataStream = decryptor.getDataStream(filesystem);
 				} catch (GeneralSecurityException ex) {
-				    throw new EcosysException("Unable to process encrypted document", ex);
+				    throw new EcosphereException("Unable to process encrypted document", ex);
 				}
 				opcPackage = OPCPackage.open(decryptedDataStream);
 			} else {
 				opcPackage = OPCPackage.open((InputStream)params.get(OSXConstants.INPUT_STREAM));
 			}
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return new XSSFEventDataHelper(opcPackage, params);
 	}
@@ -270,7 +270,7 @@ public class XSSFEventDataHelper {
 		return dataBucket;
 	}
 
-	private OsxBucketContainer extractXlsxData() throws EcosysException {
+	private OsxBucketContainer extractXlsxData() throws EcosphereException {
 		List<String> sheets = (List<String>)this.parameters.get(OSXConstants.PROCESSING_DATASHEET_IDS);
 		AesZipFileZipEntrySource aesZipFileZipEntrySource = null;
 		InputStream stream = null;
@@ -311,13 +311,13 @@ public class XSSFEventDataHelper {
 			}
 			this.xlsxPackage.close();
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 
 		return dataBucket;
 	}
 
-	public OsxBucketContainer parseXlsxData() throws EcosysException {
+	public OsxBucketContainer parseXlsxData() throws EcosphereException {
 		InputStream inputStream = null;
 		String sheetName = null;
 		OsxBucketContainer dataBucket = OsxBucketContainer.instance();
@@ -360,12 +360,12 @@ public class XSSFEventDataHelper {
 			}
 			this.xlsxPackage.close();
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return dataBucket;
 	}
 
-	public DataWorkbook readXlsx() throws EcosysException {
+	public DataWorkbook readXlsx() throws EcosphereException {
 		InputStream inputStream = null;
 		String sheetName = null;
 		ReadOnlySharedStringsTable sharedStringTable = null;
@@ -421,7 +421,7 @@ public class XSSFEventDataHelper {
 			}
 			this.xlsxPackage.close();
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return workbookContainer;
 	}

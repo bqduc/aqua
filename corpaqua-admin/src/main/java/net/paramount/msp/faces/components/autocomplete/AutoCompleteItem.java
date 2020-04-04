@@ -29,7 +29,7 @@ import org.primefaces.event.SelectEvent;
 
 import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ItemService;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 
 @Named(value="autoCompleteItem")
 @ViewScoped
@@ -39,8 +39,8 @@ public class AutoCompleteItem implements Serializable {
 	*/
 	private static final long serialVersionUID = 1180855013001665329L;
 
-	private GeneralItem item;
-	private List<GeneralItem> selectedItems;
+	private GeneralCatalogue item;
+	private List<GeneralCatalogue> selectedItems;
 
 	@Inject
 	private ItemService businessService;
@@ -54,12 +54,12 @@ public class AutoCompleteItem implements Serializable {
 		return results;
 	}
 
-	public List<GeneralItem> completeItem(String query) {
-		List<GeneralItem> allItems = businessService.getObjects();
-		List<GeneralItem> filteredItems = ListUtility.createDataList();
+	public List<GeneralCatalogue> completeItem(String query) {
+		List<GeneralCatalogue> allItems = businessService.getObjects();
+		List<GeneralCatalogue> filteredItems = ListUtility.createDataList();
 
 		for (int i = 0; i < allItems.size(); i++) {
-			GeneralItem skin = allItems.get(i);
+			GeneralCatalogue skin = allItems.get(i);
 			if (skin.getName().toLowerCase().contains(query.toLowerCase())) {
 				filteredItems.add(skin);
 			}
@@ -68,12 +68,12 @@ public class AutoCompleteItem implements Serializable {
 		return filteredItems;
 	}
 
-	public List<GeneralItem> completeItemContains(String query) {
-		List<GeneralItem> allItems = businessService.getObjects();
-		List<GeneralItem> filteredItems = ListUtility.createDataList();
+	public List<GeneralCatalogue> completeItemContains(String query) {
+		List<GeneralCatalogue> allItems = businessService.getObjects();
+		List<GeneralCatalogue> filteredItems = ListUtility.createDataList();
 
 		for (int i = 0; i < allItems.size(); i++) {
-			GeneralItem skin = allItems.get(i);
+			GeneralCatalogue skin = allItems.get(i);
 			if (skin.getName().toLowerCase().contains(query.toLowerCase())) {
 				filteredItems.add(skin);
 			}
@@ -86,23 +86,23 @@ public class AutoCompleteItem implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Selected", event.getObject().toString()));
 	}
 
-	public List<GeneralItem> getSelectedItems() {
+	public List<GeneralCatalogue> getSelectedItems() {
 		return selectedItems;
 	}
 
-	public void setSelectedItems(List<GeneralItem> selectedItems) {
+	public void setSelectedItems(List<GeneralCatalogue> selectedItems) {
 		this.selectedItems = selectedItems;
 	}
 
-	public char getItemGroup(GeneralItem item) {
+	public char getItemGroup(GeneralCatalogue item) {
 		return item.getName().charAt(0);
 	}
 
-	public GeneralItem getItem() {
+	public GeneralCatalogue getItem() {
 		return item;
 	}
 
-	public void setItem(GeneralItem item) {
+	public void setItem(GeneralCatalogue item) {
 		this.item = item;
 	}
 

@@ -57,11 +57,6 @@ import net.paramount.framework.validation.InDateRange;
     @NamedQuery(name = "SaleOrder.findByActive", query = "SELECT s FROM SaleOrder s WHERE s.active = :active"),
     @NamedQuery(name = "SaleOrder.findByName", query = "SELECT s FROM SaleOrder s WHERE s.name = :name")})
 public class SaleOrder implements Serializable {
-
-    
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -4045159319886130910L;
 
 		@Id
@@ -133,7 +128,7 @@ public class SaleOrder implements Serializable {
 
     @OneToMany(mappedBy = "saleOrder", cascade = CascadeType.REMOVE)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Invoice> invoices;
+    private List<CustomerInvoice> invoices;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "saleOrder", orphanRemoval=true)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -299,11 +294,11 @@ public class SaleOrder implements Serializable {
     }
 
    
-    public List<Invoice> getInvoices() {
+    public List<CustomerInvoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<CustomerInvoice> invoices) {
         this.invoices = invoices;
     }
 

@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -18,7 +18,7 @@ import net.paramount.global.GlobalConstants;
 @NoArgsConstructor
 @Entity
 @Table(name = "sequence")
-public class Sequence extends ObjectBase {
+public class Sequence extends RepoEntity {
 	/**
 	 * 
 	 */

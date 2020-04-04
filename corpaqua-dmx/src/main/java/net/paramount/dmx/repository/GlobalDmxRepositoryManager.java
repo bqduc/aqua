@@ -20,9 +20,8 @@ import net.paramount.css.service.general.AttachmentService;
 import net.paramount.dmx.helper.ResourcesStorageServiceHelper;
 import net.paramount.domain.entity.Attachment;
 import net.paramount.entity.config.Configuration;
-import net.paramount.entity.general.GeneralItem;
-import net.paramount.exceptions.DataLoadingException;
-import net.paramount.exceptions.MspDataException;
+import net.paramount.entity.general.GeneralCatalogue;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
@@ -50,7 +49,7 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 	public static final String DEFAULT_COUNTRY = "Việt Nam";
 
 	@Inject
-	private InentoryItemRepositoryManager itemDmxRepository;
+	private InventoryItemRepositoryManager itemDmxRepository;
 
 	@Inject
 	private ContactRepositoryManager contactDmxRepository;
@@ -71,7 +70,7 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 	protected BusinessUnitDataManager businessUnitDataManager;
 
 	@SuppressWarnings("unchecked")
-	public ExecutionContext marshallData(ExecutionContext executionContext) throws DataLoadingException {
+	public ExecutionContext marshallData(ExecutionContext executionContext) throws EcosphereException {
 		List<String> databookIdList = null;
 		Map<String, List<String>> datasheetIdMap = null;
 		String archivedResourceName = null;
@@ -109,7 +108,7 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 				contactDmxRepository.unmarshallBusinessObjects(executionContext);
 			}
 		} catch (Exception e) {
-			 throw new DataLoadingException (e);
+			 throw new EcosphereException (e);
 		}
 		return executionContext;
 	}
@@ -117,7 +116,7 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 	/**
 	 * Archive resource data to database unit
 	 */
-	public void archiveResourceData(final String archivedFileName, final InputStream inputStream, String encryptionKey) throws MspDataException {
+	public void archiveResourceData(final String archivedFileName, final InputStream inputStream, String encryptionKey) throws EcosphereException {
 		Attachment attachment = null;
 		Optional<Attachment> optAttachment = null;
 		try {
@@ -127,11 +126,11 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 				this.attachmentService.save(attachment);
 			}
 		} catch (Exception e) {
-			throw new MspDataException(e);
+			throw new EcosphereException(e);
 		}
 	}
 
-	public OsxBucketContainer marshallDataFromArchivedInAttachment(String archivedName, List<String> databookIds, Map<String, List<String>> datasheetIds) throws MspDataException {
+	public OsxBucketContainer marshallDataFromArchivedInAttachment(String archivedName, List<String> databookIds, Map<String, List<String>> datasheetIds) throws EcosphereException {
 		Optional<Attachment> optAttachment = this.attachmentService.getByName(archivedName);
 		if (!optAttachment.isPresent())
 			return null;
@@ -156,12 +155,12 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 			}
 			osxBucketContainer = officeSuiteServiceProvider.extractOfficeDataFromZip(defaultExecutionContext);
 		} catch (Exception e) {
-			 throw new MspDataException(e);
+			 throw new EcosphereException(e);
 		}
 		return osxBucketContainer;
 	}
 
-	public ExecutionContext marshallDataFromArchived(ExecutionContext executionContext) throws MspDataException {
+	public ExecutionContext marshallDataFromArchived(ExecutionContext executionContext) throws EcosphereException {
 		InputStream inputStream;
 		OsxBucketContainer osxBucketContainer = null;
 		ExecutionContext workingExecutionContext = null;
@@ -173,12 +172,12 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 			osxBucketContainer = officeSuiteServiceProvider.extractOfficeDataFromZip(workingExecutionContext);
 			executionContext.put(OSXConstants.MARSHALLED_CONTAINER, osxBucketContainer);
 		} catch (Exception e) {
-			 throw new MspDataException(e);
+			 throw new EcosphereException(e);
 		}
 		return executionContext;
 	}
 
-	public List<Entity> marshallContacts(String archivedResourceName, String dataWorkbookId, List<String> datasheetIdList) throws MspDataException {
+	public List<Entity> marshallContacts(String archivedResourceName, String dataWorkbookId, List<String> datasheetIdList) throws EcosphereException {
 		List<Entity> contacts = null;
 		DataWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = null;
@@ -194,13 +193,13 @@ public class GlobalDmxRepositoryManager extends ComponentBase {
 
 			contacts = contactDmxRepository.unmarshallBusinessObjects(dataWorkbook, datasheetIdList);
 		} catch (Exception e) {
-			 throw new MspDataException (e);
+			 throw new EcosphereException (e);
 		}
 		return contacts;
 	}
 
-	protected List<GeneralItem> marshallItems(){
-		List<GeneralItem> marshalledList = ListUtility.createDataList();
+	protected List<GeneralCatalogue> marshallItems(){
+		List<GeneralCatalogue> marshalledList = ListUtility.createDataList();
 		
 		return marshalledList;
 	}

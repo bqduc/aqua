@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.model.GeneralStatus;
 
 /**
@@ -33,11 +33,7 @@ import net.paramount.model.GeneralStatus;
  * @author haky
  */
 @MappedSuperclass
-public abstract class DocumentBase extends AuditBase implements Document {
-    
-    /**
-	 * 
-	 */
+public abstract class DocumentBase extends RepoAuditable implements Document {
 	private static final long serialVersionUID = 1L;
 
 		@Column(name="SERIAL", length=10, nullable=false, unique=true)
@@ -56,9 +52,6 @@ public abstract class DocumentBase extends AuditBase implements Document {
     @Column(name="REFERENCE", length=10)
     @Size(max=10)
     private String reference;
-    
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
     
     //Belgenin Düzenlenme Tarihi
     @Column(name="TXNDATE")
@@ -91,7 +84,7 @@ public abstract class DocumentBase extends AuditBase implements Document {
     /**
      * Entegrasyon Fiş ID si
      */
-    @Column(name="INTEGRATION_DOCUMENTID")
+    @Column(name="INTEGRATION_DOCUMENT_ID")
     private Long integrationDocumentId;
 
     /**
@@ -204,22 +197,6 @@ public abstract class DocumentBase extends AuditBase implements Document {
      */
     public void setReference(String reference) {
         this.reference = reference;
-    }
-
-    /**
-     * Returns document status.
-     * @return True if active
-     */
-    public Boolean getActive() {
-        return active;
-    }
-
-    /**
-     * Set document status.
-     * @param active Document activity status
-     */
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     /**

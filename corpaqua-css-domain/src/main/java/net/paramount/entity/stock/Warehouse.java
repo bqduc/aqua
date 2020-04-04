@@ -12,8 +12,6 @@
 
 package net.paramount.entity.stock;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -27,7 +25,7 @@ import net.paramount.entity.contact.ContactPerson;
 import net.paramount.entity.general.City;
 import net.paramount.entity.general.Organization;
 import net.paramount.entity.general.Province;
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Entity class Warehouse
@@ -36,7 +34,7 @@ import net.paramount.framework.entity.AuditBase;
  */
 @Entity
 @Table(name = "WAREHOUSE")
-public class Warehouse extends AuditBase implements Serializable {
+public class Warehouse extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -50,12 +48,6 @@ public class Warehouse extends AuditBase implements Serializable {
 
 	@Column(name = "INFO")
 	private String info;
-
-	@Column(name = "SYSTEM")
-	private Boolean system = Boolean.FALSE;
-
-	@Column(name = "ISACTIVE")
-	private Boolean active = Boolean.TRUE;
 
 	@Embedded
 	private Address address = new Address();
@@ -78,7 +70,7 @@ public class Warehouse extends AuditBase implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ut.tekir.entities.Warehouse[id=" + getId() + "]";
+		return "Warehouse[id=" + getId() + "]";
 	}
 
 	public Organization getOrganization() {
@@ -111,22 +103,6 @@ public class Warehouse extends AuditBase implements Serializable {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public Boolean getSystem() {
-		return system;
-	}
-
-	public void setSystem(Boolean system) {
-		this.system = system;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Address getAddress() {

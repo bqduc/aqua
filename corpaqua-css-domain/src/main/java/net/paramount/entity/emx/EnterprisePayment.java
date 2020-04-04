@@ -96,7 +96,7 @@ public class EnterprisePayment implements Serializable {
     private JournalEntry journalEntry;
     @JoinColumn(name = "invoice_id", referencedColumnName = "id")
     @ManyToOne
-    private Invoice invoice;
+    private CustomerInvoice invoice;
     @JoinColumn(name = "journal_id", referencedColumnName = "id")
     @ManyToOne
     private Journal journal;
@@ -109,7 +109,7 @@ public class EnterprisePayment implements Serializable {
 
     }
 
-    public EnterprisePayment(double amount, Date date, Partner partner, Journal journal, String type, Boolean active, EnterpriseAccount account, JournalEntry journalEntry, Invoice invoice, String state, double overpayment, String partnerType) {
+    public EnterprisePayment(double amount, Date date, Partner partner, Journal journal, String type, Boolean active, EnterpriseAccount account, JournalEntry journalEntry, CustomerInvoice invoice, String state, double overpayment, String partnerType) {
         this.type = type;
         this.active = active;
         this.account = account;
@@ -125,7 +125,7 @@ public class EnterprisePayment implements Serializable {
     }
     
 
-    public EnterprisePayment(double amount, Date date, Partner partner, Journal journal, String type, Boolean active, EnterpriseAccount account, JournalEntry journalEntry, Invoice invoice, String state, String reference, double overpayment, String partnerType) {
+    public EnterprisePayment(double amount, Date date, Partner partner, Journal journal, String type, Boolean active, EnterpriseAccount account, JournalEntry journalEntry, CustomerInvoice invoice, String state, String reference, double overpayment, String partnerType) {
         this.type = type;
         this.active = active;
         this.account = account;
@@ -237,11 +237,11 @@ public class EnterprisePayment implements Serializable {
         this.journalEntry = journalEntry;
     }
 
-    public Invoice getInvoice() {
+    public CustomerInvoice getInvoice() {
         return invoice;
     }
 
-    public void setInvoice(Invoice invoice) {
+    public void setInvoice(CustomerInvoice invoice) {
         this.invoice = invoice;
     }
 

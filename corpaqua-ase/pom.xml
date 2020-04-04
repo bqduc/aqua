@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>corpaqua-core</artifactId>
+			<artifactId>corpaqua-css</artifactId>
 			<version>${project.version}</version>
 		</dependency>	
 

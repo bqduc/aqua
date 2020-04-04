@@ -27,22 +27,22 @@ import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosphereRuntimeException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.exceptions.ExecutionContextException;
-import net.paramount.exceptions.MspDataException;
 import net.paramount.exceptions.ObjectNotFoundException;
-import net.paramount.framework.entity.BizObjectBase;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.model.SearchSpec;
 import net.paramount.framework.predicator.BrilliancePredicator;
 import net.paramount.framework.repository.BaseRepository;
+import net.paramount.framework.repository.CodeSerialRepository;
 import net.paramount.framework.specification.DefaultSpecification;
 
 
 @Service
-public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key extends Serializable> extends BaseServiceImpl<ClassType, Key> implements GenericService<ClassType, Key>{
+public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key extends Serializable> extends BaseServiceImpl<ClassType, Key> implements GenericService<ClassType, Key>{
 	private static final long serialVersionUID = 7066816485194481124L;
 
 	@Inject 
@@ -114,8 +114,8 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 		return getBizObject(contextParams);
 	}
 
-	protected Optional<ClassType> fetchBusinessObject(Object key) throws MspDataException {
-    throw new MspDataException("Not implemented yet. ");
+	protected Optional<ClassType> fetchBusinessObject(Object key) throws EcosphereException {
+    throw new EcosphereException("Not implemented yet. ");
 	}
 
 	protected Page<ClassType> getPaginatedObjects(Integer page, Integer size){
@@ -171,13 +171,13 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public long count() {
+	public Long count() {
 		return getRepository().count();
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public long count(String countByProperty, Object value) {
+	public Long count(String countByProperty, Object value) {
 		String invokeMethod = "countBy" + StringUtils.capitalize(countByProperty);
 		Map<?, ?> parameters = ListUtility.createMap(countByProperty, value);
 		return countEntity(invokeMethod, parameters);
@@ -186,7 +186,7 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public long count(String countMethodName, Map<?, ?> parameters) {
+	public Long count(String countMethodName, Map<?, ?> parameters) {
 		return countEntity(countMethodName, parameters);
 	}
 
@@ -203,7 +203,7 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 		return count;
 	}
 
-	private boolean existsEntity(String methodName, Map<?, ?> parameters) throws EcosphereRuntimeException {
+	private boolean existsEntity(String methodName, Map<?, ?> parameters) throws EcosphereException {
 		Object retData = null;
 		boolean exists = false;
 		try {
@@ -212,7 +212,7 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException e) {
 			//log.error(e);
-			throw new EcosphereRuntimeException(e);
+			throw new EcosphereException(e);
 		}
 		return exists;
 	}
@@ -224,7 +224,13 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 		getRepository().findAll().forEach(results::add);
 		return results;
 	}
-	
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<ClassType> getVisibleObjects() {
+		return getRepository().findVisible();
+	}
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Page<ClassType> getObjects(Integer pageNumber) {
@@ -236,17 +242,6 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 	public Page<ClassType> getObjects(Integer pageNumber, Integer size) {
 		return getPaginatedObjects(pageNumber, size);
 	}
-
-	/*@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	public Page<ClassType> searchObjects(String keyword, Pageable pageable) {
-		return performSearch(keyword, pageable);
-	}
-
-	@Transactional(readOnly = true)
-	public Page<ClassType> search(Map<String, Object> parameters){
-		return searchObjects((String)parameters.get(CommonConstants.PARAM_KEYWORD), (Pageable)parameters.get(CommonConstants.PARAM_PAGEABLE));
-	}*/
 
   @Override
   @Transactional(propagation = Propagation.REQUIRED)
@@ -310,13 +305,13 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 				searchParameter.getPageable());
 	}
 
-	public Optional<ClassType> getBusinessObject(Object key) throws MspDataException {
+	public Optional<ClassType> getBusinessObject(Object key) throws EcosphereException {
 		Optional<ClassType> fetchedBizObject = this.fetchBusinessObject(key);
 		if (!fetchedBizObject.isPresent())
 			return Optional.empty();
 
-		if (fetchedBizObject.get() instanceof BizObjectBase && 
-				(!Boolean.TRUE.equals(((BizObjectBase)fetchedBizObject.get()).isActivated())||!Boolean.TRUE.equals(((BizObjectBase)fetchedBizObject.get()).isVisible()))) {
+		if (fetchedBizObject.get() instanceof RepoAuditable && 
+				(!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getActive())||!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getSystem()))) {
 			log.error("The business object with key: [" + key + "] not activated or visible yet. ");
 			return Optional.empty();
 		}
@@ -324,7 +319,15 @@ public abstract class GenericServiceImpl<ClassType extends ObjectBase, Key exten
 		return fetchedBizObject;
 	}
 
-	public String nextSerial(String prefix) throws MspDataException {
-		throw new MspDataException("Not implemented yet!");
+	public String nextSerial(String prefix) throws EcosphereException {
+		throw new EcosphereException("Not implemented yet!");
+	}
+
+	public Optional<ClassType> getByCode(String code) throws ObjectNotFoundException {
+		return ((CodeSerialRepository<ClassType, Key>)getRepository()).findByCode(code);
+	}
+
+	public Optional<ClassType> getBySerial(String serial) throws ObjectNotFoundException {
+		return ((CodeSerialRepository<ClassType, Key>)getRepository()).findBySerial(serial);
 	}
 }

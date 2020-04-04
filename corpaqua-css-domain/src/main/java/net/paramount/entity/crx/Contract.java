@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
 import net.paramount.entity.contact.Team;
 import net.paramount.entity.general.Currency;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 import net.paramount.model.GeneralStatus;
 
@@ -36,7 +36,7 @@ import net.paramount.model.GeneralStatus;
 @Entity
 @Table(name = "contract")
 @EqualsAndHashCode(callSuper=false)
-public class Contract extends BizObjectBase{
+public class Contract extends RepoAuditable{
 	/**
 	 * 
 	 */
@@ -58,7 +58,7 @@ public class Contract extends BizObjectBase{
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "account_id")
-	private Account account;
+	private CustomerAccount account;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "type_id")
@@ -167,11 +167,11 @@ public class Contract extends BizObjectBase{
 		this.code = code;
 	}
 
-	public Account getAccount() {
+	public CustomerAccount getAccount() {
 		return account;
 	}
 
-	public void setAccount(Account account) {
+	public void setAccount(CustomerAccount account) {
 		this.account = account;
 	}
 

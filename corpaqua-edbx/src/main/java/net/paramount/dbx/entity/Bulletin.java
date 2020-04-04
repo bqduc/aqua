@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import net.paramount.dbx.enums.ComponentType;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -29,7 +29,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Builder
 @Table(name = "edb_bulletin")
-public class Bulletin extends BizObjectBase{
+public class Bulletin extends RepoAuditable{
 	private static final long serialVersionUID = 5462810149346361246L;
 
 	@Column(name = "serial", length=GlobalConstants.SIZE_SERIAL)

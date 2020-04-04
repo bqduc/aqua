@@ -6,7 +6,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.MappedSuperclass;
 
 import net.paramount.entity.general.PosTax;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 
 /**
@@ -18,7 +18,7 @@ import net.paramount.framework.entity.BizObjectBase;
  *  table="TAX_GROUP"
  */
 @MappedSuperclass
-public abstract class BaseTaxGroup extends BizObjectBase {
+public abstract class BaseTaxGroup extends RepoAuditable {
 
 	/**
 	 * 

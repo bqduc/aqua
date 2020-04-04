@@ -5,25 +5,20 @@ package net.paramount.lingual.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import net.paramount.domain.entity.general.Language;
-import net.paramount.framework.repository.BaseRepository;
-import net.paramount.lingual.entity.Label;
 import net.paramount.lingual.entity.Message;
 
 /**
- * @author bqduc
+ * @author ducbq
  *
  */
 @Repository
-public interface MessageRepository extends BaseRepository<Message, Long> {
-	List<Message> findByLanguage(Language language);
+public interface MessageRepository extends JpaRepository<Message, Integer> {
+	List<Message> findByLocale(String locale);
 
-	Message findByLabelAndLanguage(Label label, Language language);
+	Message findByKeyAndLocale(String key, String locale);
 
-	@Query("SELECT entity FROM #{#entityName} entity WHERE LOWER(entity.label.name) like LOWER(:keyword) or LOWER(entity.language.code) like LOWER(:keyword) or LOWER(entity.language.name) like LOWER(:keyword)")
-	List<Message> find(@Param("keyword") String keyword);
+	boolean existsByKey(String key);
 }

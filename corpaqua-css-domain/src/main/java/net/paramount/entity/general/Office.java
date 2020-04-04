@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.AuthenticateAccount;
 import net.paramount.embeddable.Address;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -37,7 +37,7 @@ import net.paramount.global.GlobalConstants;
 @Table(name = "office")
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class Office extends BizObjectBase{
+public class Office extends RepoAuditable{
 	/**
 	 * 
 	 */

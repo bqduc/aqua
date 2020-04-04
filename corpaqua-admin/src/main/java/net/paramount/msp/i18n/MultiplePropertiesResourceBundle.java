@@ -35,8 +35,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.i18n.DatabaseMessageServiceImpl;
-import net.paramount.i18n.PersistenceMessageService;
+import net.paramount.context.DatabaseMessageServiceImpl;
+import net.paramount.context.MessagePersistenceService;
 
 /**
  * <code>MultiplePropertiesResourceBundle</code> is an abstract base implementation to allow to
@@ -210,7 +210,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 			//Load all messages from database
 			loadPersistenceMessages();
 		} else if (!this.localMessages.containsKey(key)) {
-			PersistenceMessageService persistenceMessageService = (PersistenceMessageService)this.getMessageSource();
+			MessagePersistenceService persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
 			String message = persistenceMessageService.getMessage(key, null, locale);
 			if (CommonUtility.isNotEmpty(message)) {
 				this.localMessages.put(key, message);
@@ -239,7 +239,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	}
 
 	private void loadPersistenceMessages() {
-		PersistenceMessageService persistenceMessageService = (PersistenceMessageService)this.getMessageSource();
+		MessagePersistenceService persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
 		this.localMessages = persistenceMessageService.getMessagesMap(locale);
 	}
 

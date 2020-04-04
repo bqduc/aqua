@@ -21,9 +21,9 @@ import net.paramount.css.service.contact.ContactService;
 import net.paramount.dmx.helper.DmxCollaborator;
 import net.paramount.dmx.repository.base.DmxRepositoryBase;
 import net.paramount.embeddable.Address;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.general.Office;
-import net.paramount.exceptions.DataLoadingException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.DataWorkbook;
@@ -50,11 +50,11 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	private ContactService contactService;
 
 	@Override
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws DataLoadingException {
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
 		DataWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
-			throw new DataLoadingException("There is no data in OSX container!");
+			throw new EcosphereException("There is no data in OSX container!");
 
 		if (osxBucketContainer.containsKey(dmxCollaborator.getConfiguredContactWorkbookId())){
 			dataWorkbook = (DataWorkbook)osxBucketContainer.get(dmxCollaborator.getConfiguredContactWorkbookId());
@@ -63,16 +63,16 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 		List<Entity> marshalledObjects = unmarshallBusinessObjects(dataWorkbook, ListUtility.createDataList(dmxCollaborator.getConfiguredContactWorksheetIds()));
 		if (CommonUtility.isNotEmpty(marshalledObjects)) {
 			for (Entity entityBase :marshalledObjects) {
-				contactService.save((Contact)entityBase);
+				contactService.save((CTAContact)entityBase);
 			}
 		}
 		return executionContext;
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws DataLoadingException {
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
 		List<Entity> results = ListUtility.createDataList();
-		Contact currentContact = null;
+		CTAContact currentContact = null;
 		if (null != datasheetIds) {
 			for (DataWorksheet dataWorksheet :dataWorkbook.datasheets()) {
 				if (!datasheetIds.contains(dataWorksheet.getId()))
@@ -81,8 +81,8 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 				System.out.println("Processing sheet: " + dataWorksheet.getId());
 				for (Integer key :dataWorksheet.getKeys()) {
 					try {
-						currentContact = (Contact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-					} catch (DataLoadingException e) {
+						currentContact = (CTAContact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
+					} catch (EcosphereException e) {
 						e.printStackTrace();
 					}
 					if (null != currentContact) {
@@ -95,8 +95,8 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 				System.out.println("Processing sheet: " + dataWorksheet.getId());
 				for (Integer key :dataWorksheet.getKeys()) {
 					try {
-						currentContact = (Contact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-					} catch (DataLoadingException e) {
+						currentContact = (CTAContact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
+					} catch (EcosphereException e) {
 						e.printStackTrace();
 					}
 					results.add(currentContact);
@@ -107,7 +107,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws DataLoadingException {
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
 		String firstName = "";
 		String lastName = "";
 		String fullName = (String)marshallingDataRow.get(1);
@@ -119,9 +119,9 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 			firstName = fullName;
 		}
 
-		Contact marshalledObject = null;
+		CTAContact marshalledObject = null;
 		try {
-			marshalledObject = Contact.builder()
+			marshalledObject = CTAContact.builder()
 					.code((String)marshallingDataRow.get(0))
 					.firstName(firstName)
 					.lastName(lastName)
@@ -181,13 +181,13 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 		return results;
 	}
 
-	public List<Contact> generateFakeContactProfiles(){
-		List<Contact> results = ListUtility.createDataList();
-		Contact currentObject = null;
+	public List<CTAContact> generateFakeContactProfiles(){
+		List<CTAContact> results = ListUtility.createDataList();
+		CTAContact currentObject = null;
 		Faker faker = new Faker();
 		for (int i = 0; i < NUMBER_TO_GENERATE; i++) {
 			try {
-				currentObject = Contact.builder()
+				currentObject = CTAContact.builder()
 						.code(faker.code().ean13())
 						.firstName(CommonUtility.stringTruncate(faker.name().firstName(), 50))
 						.lastName(CommonUtility.stringTruncate(faker.name().lastName(), 150))

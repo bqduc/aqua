@@ -10,8 +10,8 @@ import org.springframework.security.web.FilterInvocation;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
-import net.paramount.auth.entity.UserAccount;
-import net.paramount.exceptions.CorporateAuthException;
+import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.exceptions.EcosphereAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 import net.paramount.framework.model.ExecutionContext;
@@ -21,16 +21,16 @@ import net.paramount.framework.model.ExecutionContext;
  *
  */
 public interface AuthorizationService {
-	SecurityPrincipalProfile authenticate(String ssoId, String password) throws CorporateAuthException;
-	SecurityPrincipalProfile authenticate(String token) throws CorporateAuthException;
+	SecurityPrincipalProfile authenticate(String ssoId, String password) throws EcosphereAuthException;
+	SecurityPrincipalProfile authenticate(String token) throws EcosphereAuthException;
 
-	SecurityPrincipalProfile getSecuredProfile() throws CorporateAuthException;
+	SecurityPrincipalProfile getSecuredProfile() throws EcosphereAuthException;
 	
-	boolean hasPermission(String target, String action) throws CorporateAuthException;
+	boolean hasPermission(String target, String action) throws EcosphereAuthException;
 
-	SecurityPrincipalProfile register(ExecutionContext context) throws CorporateAuthException;
+	SecurityPrincipalProfile register(ExecutionContext context) throws EcosphereAuthException;
 
-	UserAccount getUserAccount(String ssoId)  throws ObjectNotFoundException;
+	SecurityAccountProfile getUserAccount(String ssoId)  throws ObjectNotFoundException;
 
 	SecurityPrincipalProfile confirmByToken(String token)  throws ObjectNotFoundException;
 

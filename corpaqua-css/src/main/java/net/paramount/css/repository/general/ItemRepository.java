@@ -6,17 +6,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.framework.repository.BaseRepository;
 
 @Repository
-public interface ItemRepository extends BaseRepository<GeneralItem, Long>{
+public interface ItemRepository extends BaseRepository<GeneralCatalogue, Long>{
 	@Query("SELECT entity FROM #{#entityName} entity WHERE ("
 			+ " LOWER(entity.code) like LOWER(CONCAT('%',:keyword,'%')) "
 			+ ")"
 	)
-	Page<GeneralItem> search(@Param("keyword") String keyword, Pageable pageable);
+	Page<GeneralCatalogue> search(@Param("keyword") String keyword, Pageable pageable);
 
-	GeneralItem findByCode(String code);
-	GeneralItem findByName(String name);
+	GeneralCatalogue findByCode(String code);
+	GeneralCatalogue findByName(String name);
 }

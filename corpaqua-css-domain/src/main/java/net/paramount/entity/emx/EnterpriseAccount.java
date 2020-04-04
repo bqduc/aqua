@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * 
@@ -35,7 +35,7 @@ import net.paramount.framework.entity.ObjectBase;
     @NamedQuery(name = "Account.findById", query = "SELECT a FROM EnterpriseAccount a WHERE a.id = :id"),
     @NamedQuery(name = "Account.findByName", query = "SELECT a FROM EnterpriseAccount a WHERE a.title = :name"),
     @NamedQuery(name = "Account.findByActive", query = "SELECT a FROM EnterpriseAccount a WHERE a.active = :active")})
-public class EnterpriseAccount extends ObjectBase {
+public class EnterpriseAccount extends RepoEntity {
     private static final long serialVersionUID = 1L;
 
     @Basic(optional = false)
@@ -85,7 +85,7 @@ public class EnterpriseAccount extends ObjectBase {
 
     @OneToMany(mappedBy = "account")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Invoice> invoices;
+    private List<CustomerInvoice> invoices;
 
     public EnterpriseAccount() {
     }
@@ -170,11 +170,11 @@ public class EnterpriseAccount extends ObjectBase {
         this.payments = payments;
     }
 
-    public List<Invoice> getInvoices() {
+    public List<CustomerInvoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<CustomerInvoice> invoices) {
         this.invoices = invoices;
     }
 

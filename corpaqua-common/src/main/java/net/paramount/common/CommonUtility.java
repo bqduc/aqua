@@ -578,7 +578,7 @@ public class CommonUtility implements CommonConstants {
 		return retValue;
 	}
 
-	public static Long toLong(Object fromValue) {
+	public static Long parseLong(Object fromValue) {
 		if (CommonUtility.isEmpty(fromValue))
 			return null;
 

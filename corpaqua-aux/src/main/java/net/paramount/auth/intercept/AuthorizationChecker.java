@@ -17,6 +17,7 @@ import org.springframework.util.PathMatcher;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
+import net.paramount.auth.model.AccessDecision;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.common.ListUtility;
 
@@ -47,7 +48,11 @@ public class AuthorizationChecker {
   		for (GrantedAuthority authority :authentication.getAuthorities()) {
   			currentADPs = accessDecisionPolicyService.getAccessDecisionPoliciesByAuthority((Authority)authority);
   			if (!currentADPs.isEmpty()) {
-  				accessDecisionPolicies.addAll(currentADPs);
+  	  		for (AccessDecisionPolicy accessDecisionPolicy :currentADPs) {
+  	  			if (AccessDecision.ACCESS_GRANTED.equals(accessDecisionPolicy.getAccessDecision())) {
+  	  				accessDecisionPolicies.add(accessDecisionPolicy);
+  	  			}
+  	  		}
   			}
   		}
 

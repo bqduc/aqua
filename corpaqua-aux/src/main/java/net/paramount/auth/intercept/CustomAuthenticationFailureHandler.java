@@ -14,8 +14,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
 
-import net.paramount.exceptions.AuthenticationCode;
-import net.paramount.exceptions.CorporateAuthException;
+import net.paramount.exceptions.EcosExceptionCode;
+import net.paramount.exceptions.EcosphereAuthException;
 import net.paramount.framework.logging.LogService;
 
 /**
@@ -30,9 +30,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		StringBuilder message = new StringBuilder("/login.xhtml?authfailed=true");
-		CorporateAuthException cae = null;
-		if (exception.getCause() instanceof CorporateAuthException) {
-			cae = (CorporateAuthException) exception.getCause();
+		EcosphereAuthException cae = null;
+		if (exception.getCause() instanceof EcosphereAuthException) {
+			cae = (EcosphereAuthException) exception.getCause();
 			request.getSession().setAttribute("authenticateResultAtt", generateAuthMessage(cae.getAuthenticationCode()));
 		}
 
@@ -43,7 +43,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		}
 	}
 
-	private String generateAuthMessage(AuthenticationCode authenticationCode) {
+	private String generateAuthMessage(EcosExceptionCode authenticationCode) {
 		return authenticationCode.getMessage();
 	}
 }

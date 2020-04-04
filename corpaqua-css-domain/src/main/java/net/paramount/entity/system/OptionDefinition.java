@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Uygulama içinde kullanılacak olan seçenekleri tanımlar.
@@ -36,7 +36,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="option_definition")
-public class OptionDefinition extends ObjectBase {
+public class OptionDefinition extends RepoEntity {
     /**
 	 * 
 	 */

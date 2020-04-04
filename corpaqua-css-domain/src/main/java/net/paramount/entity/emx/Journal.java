@@ -82,7 +82,7 @@ public class Journal implements Serializable {
 
     @OneToMany(mappedBy = "journal")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Invoice> invoices;
+    private List<CustomerInvoice> invoices;
 
     public Journal() {
     }
@@ -151,11 +151,11 @@ public class Journal implements Serializable {
         this.payments = payments;
     }
 
-    public List<Invoice> getInvoices() {
+    public List<CustomerInvoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<CustomerInvoice> invoices) {
         this.invoices = invoices;
     }
 

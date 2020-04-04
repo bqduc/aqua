@@ -11,31 +11,31 @@ import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
 import net.paramount.lingual.entity.Label;
-import net.paramount.lingual.entity.Message;
-import net.paramount.lingual.repository.MessageRepository;
+import net.paramount.lingual.entity.ResxMessage;
+import net.paramount.lingual.repository.ResxMessageRepository;
 
 
 @Service
-public class MessageServiceImpl extends GenericServiceImpl<Message, Long> implements MessageService {
+public class MessageServiceImpl extends GenericServiceImpl<ResxMessage, Long> implements MessageService {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4336689659408835418L;
 
 	@Inject 
-	private MessageRepository repository;
+	private ResxMessageRepository repository;
 	
-	protected BaseRepository<Message, Long> getRepository() {
+	protected BaseRepository<ResxMessage, Long> getRepository() {
 		return this.repository;
 	}
 
 	@Override
-	public List<Message> getByLanguage(Language language) throws ObjectNotFoundException {
+	public List<ResxMessage> getByLanguage(Language language) throws ObjectNotFoundException {
 		return this.repository.findByLanguage(language);
 	}
 
 	@Override
-	public Message getByLabelAndLanguage(Label label, Language language) throws ObjectNotFoundException {
+	public ResxMessage getByLabelAndLanguage(Label label, Language language) throws ObjectNotFoundException {
 		return this.repository.findByLabelAndLanguage(label, language);
 	}
 }

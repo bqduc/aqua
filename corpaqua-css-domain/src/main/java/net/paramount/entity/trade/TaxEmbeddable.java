@@ -25,6 +25,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import net.paramount.common.CommonConstants;
 import net.paramount.entity.base.BaseConsts;
 
 /**
@@ -62,7 +63,7 @@ public class TaxEmbeddable implements Serializable {
 	 */
 	@Column(name="CCY", length=3)
     @Size(max=3)
-    private String currency = BaseConsts.SYSTEM_CURRENCY_CODE;
+    private String currency = CommonConstants.SYSTEM_CURRENCY_CODE;
     
     @Column(name="CCYVAL", precision=10, scale=2)
     private BigDecimal value = BigDecimal.ZERO;

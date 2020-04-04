@@ -21,9 +21,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import net.paramount.framework.entity.BizObjectBase;
+import lombok.NoArgsConstructor;
+import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -31,14 +33,13 @@ import net.paramount.global.GlobalConstants;
  * 
  * @author bqduc
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "language")
 @EqualsAndHashCode(callSuper = true)
-public class Language extends BizObjectBase {
-	/**
-	 * 
-	 */
+public class Language extends RepoAuditable {
 	private static final long serialVersionUID = 5758472967525705924L;
 
 	@NotNull

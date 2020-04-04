@@ -9,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.paramount.auth.entity.UserAccount;
+import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
@@ -28,17 +28,17 @@ public class UserAccountBrowser implements Serializable {
 	private static final long serialVersionUID = -3867358136696124359L;
 	@Inject
 	private UserAccountService businessService;
-	private List<UserAccount> selectedObjects;
-	private List<UserAccount> businessObjects;
-	private Filter<UserAccount> bizFilter = new Filter<>(new UserAccount());
-	private List<UserAccount> filteredObjects;// datatable filteredValue attribute (column filters)
+	private List<SecurityAccountProfile> selectedObjects;
+	private List<SecurityAccountProfile> businessObjects;
+	private Filter<SecurityAccountProfile> bizFilter = new Filter<>(new SecurityAccountProfile());
+	private List<SecurityAccountProfile> filteredObjects;// datatable filteredValue attribute (column filters)
 
 	private String instantSearch;
 	Long id;
 
-	Filter<UserAccount> filter = new Filter<>(new UserAccount());
+	Filter<SecurityAccountProfile> filter = new Filter<>(new SecurityAccountProfile());
 
-	List<UserAccount> filteredValue;// datatable filteredValue attribute (column filters)
+	List<SecurityAccountProfile> filteredValue;// datatable filteredValue attribute (column filters)
 
 	@PostConstruct
 	public void initDataModel() {
@@ -51,7 +51,7 @@ public class UserAccountBrowser implements Serializable {
 	}
 
 	public void clear() {
-		filter = new Filter<UserAccount>(new UserAccount());
+		filter = new Filter<SecurityAccountProfile>(new SecurityAccountProfile());
 	}
 
 	public List<String> completeModel(String query) {
@@ -69,7 +69,7 @@ public class UserAccountBrowser implements Serializable {
 
 	public void delete() {
 		if (CommonUtility.isNotEmpty(this.selectedObjects)) {
-			for (UserAccount removalItem : this.selectedObjects) {
+			for (SecurityAccountProfile removalItem : this.selectedObjects) {
 				System.out.println("#" + removalItem.getDisplayName());
 				this.businessObjects.remove(removalItem);
 			}
@@ -77,19 +77,19 @@ public class UserAccountBrowser implements Serializable {
 		}
 	}
 
-	public List<UserAccount> getFilteredValue() {
+	public List<SecurityAccountProfile> getFilteredValue() {
 		return filteredValue;
 	}
 
-	public void setFilteredValue(List<UserAccount> filteredValue) {
+	public void setFilteredValue(List<SecurityAccountProfile> filteredValue) {
 		this.filteredValue = filteredValue;
 	}
 
-	public Filter<UserAccount> getFilter() {
+	public Filter<SecurityAccountProfile> getFilter() {
 		return filter;
 	}
 
-	public void setFilter(Filter<UserAccount> filter) {
+	public void setFilter(Filter<SecurityAccountProfile> filter) {
 		this.filter = filter;
 	}
 
@@ -101,35 +101,35 @@ public class UserAccountBrowser implements Serializable {
 		this.id = id;
 	}
 
-	public List<UserAccount> getBusinessObjects() {
+	public List<SecurityAccountProfile> getBusinessObjects() {
 		return businessObjects;
 	}
 
-	public void setBusinessObjects(List<UserAccount> businessObjects) {
+	public void setBusinessObjects(List<SecurityAccountProfile> businessObjects) {
 		this.businessObjects = businessObjects;
 	}
 
-	public List<UserAccount> getSelectedObjects() {
+	public List<SecurityAccountProfile> getSelectedObjects() {
 		return selectedObjects;
 	}
 
-	public void setSelectedObjects(List<UserAccount> selectedObjects) {
+	public void setSelectedObjects(List<SecurityAccountProfile> selectedObjects) {
 		this.selectedObjects = selectedObjects;
 	}
 
-	public Filter<UserAccount> getBizFilter() {
+	public Filter<SecurityAccountProfile> getBizFilter() {
 		return bizFilter;
 	}
 
-	public void setBizFilter(Filter<UserAccount> bizFilter) {
+	public void setBizFilter(Filter<SecurityAccountProfile> bizFilter) {
 		this.bizFilter = bizFilter;
 	}
 
-	public List<UserAccount> getFilteredObjects() {
+	public List<SecurityAccountProfile> getFilteredObjects() {
 		return filteredObjects;
 	}
 
-	public void setFilteredObjects(List<UserAccount> filteredObjects) {
+	public void setFilteredObjects(List<SecurityAccountProfile> filteredObjects) {
 		this.filteredObjects = filteredObjects;
 	}
 

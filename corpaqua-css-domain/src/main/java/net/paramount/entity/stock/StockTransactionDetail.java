@@ -19,9 +19,9 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.trade.Tax;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.validation.StrictlyPositiveNumber;
 
 /**
@@ -34,7 +34,7 @@ import net.paramount.framework.validation.StrictlyPositiveNumber;
 @Builder
 @Entity
 @Table(name = "stock_transaction_detail")
-public class StockTransactionDetail extends ObjectBase {
+public class StockTransactionDetail extends RepoEntity {
 	/**
 	 * 
 	 */
@@ -101,7 +101,7 @@ public class StockTransactionDetail extends ObjectBase {
 
     @JoinColumn(name = "vendor_id", referencedColumnName = "id")
     @ManyToOne
-    private Contact vendor;
+    private CTAContact vendor;
 
     @Size(max = 100, message = "{LongString}")
     @Column(name = "info")
@@ -236,11 +236,11 @@ public class StockTransactionDetail extends ObjectBase {
 			this.info = info;
 		}
 
-		public Contact getVendor() {
+		public CTAContact getVendor() {
 			return vendor;
 		}
 
-		public void setVendor(Contact vendor) {
+		public void setVendor(CTAContact vendor) {
 			this.vendor = vendor;
 		}
     

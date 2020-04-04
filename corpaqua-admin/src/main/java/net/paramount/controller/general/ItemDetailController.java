@@ -19,7 +19,7 @@ import org.primefaces.event.SelectEvent;
 import com.github.adminfaces.template.exception.AccessDeniedException;
 
 import net.paramount.css.service.config.ItemService;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.utility.FacesUtilities;
 
 /**
@@ -41,8 +41,8 @@ public class ItemDetailController implements Serializable {
 	private FacesUtilities utils;
 
 	private Long id;
-	private GeneralItem businessObject;
-	private GeneralItem parent;
+	private GeneralCatalogue businessObject;
+	private GeneralCatalogue parent;
 
 	public void init() {
 		if (Faces.isAjaxRequest()) {
@@ -51,7 +51,7 @@ public class ItemDetailController implements Serializable {
 		if (has(id)) {
 			businessObject = businessService.getObject(id);
 		} else {
-			businessObject = new GeneralItem();
+			businessObject = new GeneralCatalogue();
 		}
 	}
 
@@ -63,11 +63,11 @@ public class ItemDetailController implements Serializable {
 		this.id = id;
 	}
 
-	public GeneralItem getBusinessObject() {
+	public GeneralCatalogue getBusinessObject() {
 		return businessObject;
 	}
 
-	public void setBusinessObject(GeneralItem businessObject) {
+	public void setBusinessObject(GeneralCatalogue businessObject) {
 		this.businessObject = businessObject;
 	}
 
@@ -97,7 +97,7 @@ public class ItemDetailController implements Serializable {
 	}
 
 	public void clear() {
-		businessObject = new GeneralItem();
+		businessObject = new GeneralCatalogue();
 		id = null;
 	}
 
@@ -107,8 +107,8 @@ public class ItemDetailController implements Serializable {
 
 	public void handleParentSelect(SelectEvent event) { 
 		Object item = event.getObject(); 
-		if (item instanceof GeneralItem) {
-			this.parent = (GeneralItem)item;
+		if (item instanceof GeneralCatalogue) {
+			this.parent = (GeneralCatalogue)item;
 		}
 		//FacesMessage msg = new FacesMessage("Selected", "Item:" + item); 
 	}

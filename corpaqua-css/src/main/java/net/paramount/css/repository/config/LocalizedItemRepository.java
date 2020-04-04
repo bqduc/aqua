@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import net.paramount.domain.entity.general.Language;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.entity.general.LocalizedItem;
 import net.paramount.framework.repository.BaseRepository;
 
@@ -15,5 +15,5 @@ public interface LocalizedItemRepository extends BaseRepository<LocalizedItem, L
 			+ " entity.item = :item and entity.language = :language"
 			+ ")"
 	)
-	public LocalizedItem findByLocalizedItem(Language language, GeneralItem item);
+	public LocalizedItem findByLocalizedItem(Language language, GeneralCatalogue item);
 }

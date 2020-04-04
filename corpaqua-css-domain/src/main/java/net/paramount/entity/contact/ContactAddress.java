@@ -26,26 +26,25 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.embeddable.Address;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A contact base abstract class.
  * 
  * @author Bui Quy Duc
  */
-@Entity
-@Table(name = "contact_address")
-@EqualsAndHashCode(callSuper = true)
+@Data
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class ContactAddress extends BizObjectBase {
-	/**
-	 * 
-	 */
+@Entity
+@Table(name = "contact_address")
+@EqualsAndHashCode(callSuper = true)
+public class ContactAddress extends RepoAuditable {
 	private static final long serialVersionUID = 352122883509888259L;
 
 	@Embedded
@@ -60,21 +59,5 @@ public class ContactAddress extends BizObjectBase {
 
 	@ManyToOne
 	@JoinColumn(name = "contact_id")
-	private Contact contact;
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public Contact getContact() {
-		return contact;
-	}
-
-	public void setContact(Contact contact) {
-		this.contact = contact;
-	}
+	private ContactProfile owner;
 }

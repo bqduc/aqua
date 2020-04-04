@@ -12,11 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.paramount.common.CommonConstants;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.repository.BaseRepository;
 
 
-public abstract class BaseServiceImpl<T extends ObjectBase, PK extends Serializable> extends ServiceImpl <T, PK>{
+public abstract class BaseServiceImpl<T extends RepoEntity, PK extends Serializable> extends ServiceImpl <T, PK>{
 	private static final long serialVersionUID = -1326030262778654331L;
 
 	protected abstract BaseRepository<T, PK> getRepository();
@@ -91,7 +91,7 @@ public abstract class BaseServiceImpl<T extends ObjectBase, PK extends Serializa
 		return entity;
 	}
 
-	public long count() {
+	public Long count() {
 		return getRepository().count();
 	}
 

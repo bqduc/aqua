@@ -17,14 +17,14 @@ package net.paramount.framework.entity.auth;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import net.paramount.framework.entity.BizEntity;
+import net.paramount.framework.entity.Entity;
 
 /**
  * An abstract authentication account entity.
  * 
  * @author bqduc
  */
-public interface AuthenticationDetails extends UserDetails, BizEntity {
+public interface AuthenticationDetails extends UserDetails, Entity {
 	String getSsoId();
 	void setSsoId(String ssoId);
 

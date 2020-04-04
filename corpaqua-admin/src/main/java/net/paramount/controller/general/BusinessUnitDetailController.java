@@ -19,7 +19,7 @@ import com.github.adminfaces.template.exception.AccessDeniedException;
 
 import net.paramount.css.service.contact.ContactService;
 import net.paramount.domain.dummy.Car;
-import net.paramount.entity.contact.Contact;
+import net.paramount.entity.contact.CTAContact;
 import net.paramount.utility.FacesUtilities;
 
 /**
@@ -43,7 +43,7 @@ public class BusinessUnitDetailController implements Serializable {
     private Long id;
     private Car car;
     
-    private Contact contact;
+    private CTAContact contact;
 
     public void init() {
         if (Faces.isAjaxRequest()) {
@@ -52,7 +52,7 @@ public class BusinessUnitDetailController implements Serializable {
         if (has(id)) {
         	this.contact = contactService.getObject(Long.valueOf(id));
         } else {
-        	this.contact = Contact.builder().build();
+        	this.contact = CTAContact.builder().build();
         }
     }
 
@@ -76,7 +76,7 @@ public class BusinessUnitDetailController implements Serializable {
     }
 
     public void clear() {
-        this.contact = Contact.builder().build();
+        this.contact = CTAContact.builder().build();
         id = null;
     }
 
@@ -84,11 +84,11 @@ public class BusinessUnitDetailController implements Serializable {
         return this.contact == null || this.contact.getId() == null;
     }
 
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 

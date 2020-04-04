@@ -22,7 +22,5 @@ public class BaseConsts {
 
     public static final String SUCCESS = "success";
     public static final String FAIL = "fail";
-    public static final String SYSTEM_CURRENCY_CODE = "TL";
-    public static final String SYSTEM_CURRENCYDEC_CODE = "KR";
     
 }

@@ -23,8 +23,8 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.paramount.entity.general.Catalogue;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.domain.entity.general.Catalogue;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A user.
@@ -35,7 +35,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "product_catalog")
 @EqualsAndHashCode(callSuper = true)
-public class ProductCatalog extends BizObjectBase {
+public class ProductCatalog extends RepoAuditable {
 	/**
 	 * 
 	 */
@@ -45,15 +45,15 @@ public class ProductCatalog extends BizObjectBase {
 	@JoinColumn(name = "catalog_id")
 	private Catalogue catalog;
 
-	@ManyToOne(targetEntity=Product.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=ProductProfile.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "product_id")
-	private Product product;
+	private ProductProfile product;
 
-	public Product getProduct() {
+	public ProductProfile getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductProfile product) {
 		this.product = product;
 	}
 
@@ -65,7 +65,7 @@ public class ProductCatalog extends BizObjectBase {
 		this.catalog = catalog;
 	}
 
-	public static ProductCatalog getInstance(Product product, Catalogue catalog){
+	public static ProductCatalog getInstance(ProductProfile product, Catalogue catalog){
 		ProductCatalog instance = new ProductCatalog();
 		instance.setProduct(product);
 		instance.setCatalog(catalog);

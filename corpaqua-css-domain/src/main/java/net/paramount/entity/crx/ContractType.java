@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * An region or CRX.
@@ -20,7 +20,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "contract_type")
 @EqualsAndHashCode(callSuper=false)
-public class ContractType extends BizObjectBase{
+public class ContractType extends RepoAuditable{
 	/**
 	 * 
 	 */

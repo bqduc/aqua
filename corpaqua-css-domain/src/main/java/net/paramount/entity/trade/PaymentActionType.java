@@ -16,14 +16,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Ödeme Hareket Tip Tanımları
@@ -33,15 +30,10 @@ import net.paramount.framework.entity.AuditBase;
  */
 @Entity
 @Table(name="PAYMENT_ACTION_TYPE")
-public class PaymentActionType extends AuditBase implements Serializable {
+public class PaymentActionType extends RepoAuditable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-	private Long id;
-	
     @Column(name="CODE", length=20, unique=true, nullable=false)
     @Size(max=20, min=1)
     @NotNull
@@ -54,22 +46,8 @@ public class PaymentActionType extends AuditBase implements Serializable {
     @Column(name="INFO")
 	private String info;
 
-    @Column(name="SYSTEM")
-    private Boolean system = Boolean.FALSE;
-
-    @Column(name="ISACTIVE")
-	private Boolean active = Boolean.TRUE;
-
     @Column(name="WEIGHT")
     private Integer weight ;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getCode() {
 		return code;
@@ -95,22 +73,6 @@ public class PaymentActionType extends AuditBase implements Serializable {
 		this.info = info;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-     public Boolean getSystem() {
-        return system;
-    }
-
-    public void setSystem(Boolean system) {
-        this.system = system;
-    }
-
     public Integer getWeight() {
         return weight;
     }
@@ -119,28 +81,9 @@ public class PaymentActionType extends AuditBase implements Serializable {
         this.weight = weight;
     }
 
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.id != null ? this.id.hashCode() : 0);
-        return hash;
-    }
-	
-	@Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PaymentActionType)) {
-            return false;
-        }
-        PaymentActionType other = (PaymentActionType)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-	
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.PaymentActionType[id=" + id + "]";
+        return "PaymentActionType[id=" + getId() + "]";
     }
 
    	

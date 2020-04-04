@@ -29,133 +29,119 @@ import net.paramount.ase.service.JobsListener;
 import net.paramount.ase.service.TriggerListner;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class QuartzJobSchedulerConfiguration {
-    private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-    @Inject
-    private DataSource dataSource;
+	@Inject
+	private DataSource dataSource;
 
-    public QuartzJobSchedulerConfiguration(ApplicationContext applicationContext, DataSource dataSource) {
-        this.applicationContext = applicationContext;
-        //this.dataSource = dataSource;
-    }
+	public QuartzJobSchedulerConfiguration(ApplicationContext applicationContext, DataSource dataSource) {
+		this.applicationContext = applicationContext;
+		// this.dataSource = dataSource;
+	}
 
-    @Bean
-    public SpringBeanJobFactory springBeanJobFactory() {
-        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-        jobFactory.setApplicationContext(applicationContext);
-        return jobFactory;
-    }
+	@Bean
+	public SpringBeanJobFactory springBeanJobFactory() {
+		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+		jobFactory.setApplicationContext(applicationContext);
+		return jobFactory;
+	}
 
-    /*@Bean
-    public SchedulerFactoryBean scheduler(Trigger... triggers) {
-        SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
+	/*
+	 * @Bean public SchedulerFactoryBean scheduler(Trigger... triggers) { SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
+	 * 
+	 * Properties properties = new Properties(); properties.setProperty("org.quartz.scheduler.instanceName", "MyInstanceName");
+	 * properties.setProperty("org.quartz.scheduler.instanceId", "Instance1");
+	 * 
+	 * schedulerFactory.setOverwriteExistingJobs(true); schedulerFactory.setAutoStartup(true); schedulerFactory.setQuartzProperties(properties);
+	 * //schedulerFactory.setDataSource(dataSource); schedulerFactory.setJobFactory(springBeanJobFactory()); schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
+	 * 
+	 * if (ArrayUtils.isNotEmpty(triggers)) { schedulerFactory.setTriggers(triggers); }
+	 * 
+	 * return schedulerFactory; }
+	 */
 
-        Properties properties = new Properties();
-        properties.setProperty("org.quartz.scheduler.instanceName", "MyInstanceName");
-        properties.setProperty("org.quartz.scheduler.instanceId", "Instance1");
+	static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs, String triggerName) {
+		log.debug("createTrigger(jobDetail={}, pollFrequencyMs={}, triggerName={})", jobDetail.toString(), pollFrequencyMs, triggerName);
 
-        schedulerFactory.setOverwriteExistingJobs(true);
-        schedulerFactory.setAutoStartup(true);
-        schedulerFactory.setQuartzProperties(properties);
-        //schedulerFactory.setDataSource(dataSource);
-        schedulerFactory.setJobFactory(springBeanJobFactory());
-        schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
+		SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
+		factoryBean.setJobDetail(jobDetail);
+		factoryBean.setStartDelay(0L);
+		factoryBean.setRepeatInterval(pollFrequencyMs);
+		factoryBean.setName(triggerName);
+		factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+		factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
 
-        if (ArrayUtils.isNotEmpty(triggers)) {
-            schedulerFactory.setTriggers(triggers);
-        }
+		return factoryBean;
+	}
 
-        return schedulerFactory;
-    }*/
+	static CronTriggerFactoryBean createCronTrigger(JobDetail jobDetail, String cronExpression, String triggerName) {
+		log.debug("createCronTrigger(jobDetail={}, cronExpression={}, triggerName={})", jobDetail.toString(), cronExpression, triggerName);
 
-    static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, long pollFrequencyMs, String triggerName) {
-        log.debug("createTrigger(jobDetail={}, pollFrequencyMs={}, triggerName={})", jobDetail.toString(), pollFrequencyMs, triggerName);
+		// To fix a known issue with time-based cron jobs
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 
-        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-        factoryBean.setJobDetail(jobDetail);
-        factoryBean.setStartDelay(0L);
-        factoryBean.setRepeatInterval(pollFrequencyMs);
-        factoryBean.setName(triggerName);
-        factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-        factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
+		CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
+		factoryBean.setJobDetail(jobDetail);
+		factoryBean.setCronExpression(cronExpression);
+		factoryBean.setStartTime(calendar.getTime());
+		factoryBean.setStartDelay(0L);
+		factoryBean.setName(triggerName);
+		factoryBean.setMisfireInstruction(CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
 
-        return factoryBean;
-    }
+		return factoryBean;
+	}
 
-    static CronTriggerFactoryBean createCronTrigger(JobDetail jobDetail, String cronExpression, String triggerName) {
-        log.debug("createCronTrigger(jobDetail={}, cronExpression={}, triggerName={})", jobDetail.toString(), cronExpression, triggerName);
+	static JobDetailFactoryBean createJobDetail(Class jobClass, String jobName) {
+		log.debug("createJobDetail(jobClass={}, jobName={})", jobClass.getName(), jobName);
 
-        // To fix a known issue with time-based cron jobs
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+		JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
+		factoryBean.setName(jobName);
+		factoryBean.setJobClass(jobClass);
+		factoryBean.setDurability(true);
 
-        CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
-        factoryBean.setJobDetail(jobDetail);
-        factoryBean.setCronExpression(cronExpression);
-        factoryBean.setStartTime(calendar.getTime());
-        factoryBean.setStartDelay(0L);
-        factoryBean.setName(triggerName);
-        factoryBean.setMisfireInstruction(CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
+		return factoryBean;
+	}
 
-        return factoryBean;
-    }
+	@Autowired
+	private TriggerListner triggerListner;
 
-    static JobDetailFactoryBean createJobDetail(Class jobClass, String jobName) {
-        log.debug("createJobDetail(jobClass={}, jobName={})", jobClass.getName(), jobName);
+	@Autowired
+	private JobsListener jobsListener;
 
-        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-        factoryBean.setName(jobName);
-        factoryBean.setJobClass(jobClass);
-        factoryBean.setDurability(true);
+	/**
+	 * create scheduler
+	 */
+	@Bean
+	public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
 
-        return factoryBean;
-    }
-    
-    
-    
-    
-    
-    
-    
-    @Autowired
-    private TriggerListner triggerListner;
+		SchedulerFactoryBean factory = new SchedulerFactoryBean();
+		factory.setOverwriteExistingJobs(true);
+		factory.setDataSource(dataSource);
+		factory.setQuartzProperties(quartzProperties());
 
-    @Autowired
-    private JobsListener jobsListener;
-    
-    /**
-     * create scheduler
-     */
-    @Bean
-    public SchedulerFactoryBean schedulerFactoryBean() throws IOException {
- 
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setOverwriteExistingJobs(true);
-        factory.setDataSource(dataSource);
-        factory.setQuartzProperties(quartzProperties());
-        
-        //Register listeners to get notification on Trigger misfire etc
-        factory.setGlobalTriggerListeners(triggerListner);
-        factory.setGlobalJobListeners(jobsListener);
-        
-        AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
-        jobFactory.setApplicationContext(applicationContext);
-        factory.setJobFactory(jobFactory);
-        
-        return factory;
-    }
- 
-    /**
-     * Configure quartz using properties file
-     */
-    @Bean
-    public Properties quartzProperties() throws IOException {
-        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
-        propertiesFactoryBean.setLocation(new ClassPathResource("/config/quartz.properties"));
-        propertiesFactoryBean.afterPropertiesSet();
-        return propertiesFactoryBean.getObject();
-    }     
+		// Register listeners to get notification on Trigger misfire etc
+		factory.setGlobalTriggerListeners(triggerListner);
+		factory.setGlobalJobListeners(jobsListener);
+
+		AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
+		jobFactory.setApplicationContext(applicationContext);
+		factory.setJobFactory(jobFactory);
+
+		return factory;
+	}
+
+	/**
+	 * Configure quartz using properties file
+	 */
+	@Bean
+	public Properties quartzProperties() throws IOException {
+		PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+		propertiesFactoryBean.setLocation(new ClassPathResource("/config/quartz.properties"));
+		propertiesFactoryBean.afterPropertiesSet();
+		return propertiesFactoryBean.getObject();
+	}
 }

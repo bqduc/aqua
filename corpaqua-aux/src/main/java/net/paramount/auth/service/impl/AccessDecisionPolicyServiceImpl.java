@@ -6,10 +6,13 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import net.paramount.auth.entity.AccessDecisionAuthority;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
+import net.paramount.auth.repository.AccessDecisionAuthorityRepository;
 import net.paramount.auth.repository.AccessDecisionPolicyRepository;
 import net.paramount.auth.service.AccessDecisionPolicyService;
+import net.paramount.common.ListUtility;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
 
@@ -20,6 +23,9 @@ public class AccessDecisionPolicyServiceImpl extends GenericServiceImpl<AccessDe
 
 	@Inject 
 	private AccessDecisionPolicyRepository repository;
+
+	@Inject
+	private AccessDecisionAuthorityRepository accessDecisionAuthorityRepository;
 	
 	protected BaseRepository<AccessDecisionPolicy, Long> getRepository() {
 		return this.repository;
@@ -32,6 +38,11 @@ public class AccessDecisionPolicyServiceImpl extends GenericServiceImpl<AccessDe
 
 	@Override
 	public List<AccessDecisionPolicy> getAccessDecisionPoliciesByAuthority(Authority authority) {
-		return this.repository.findByAuthority(authority);
+		List<AccessDecisionPolicy> fetchedResults = ListUtility.createList();
+		List<AccessDecisionAuthority> accessDecisionAuthorities = accessDecisionAuthorityRepository.findByAuthority(authority);
+		for (AccessDecisionAuthority accessDecisionAuthority :accessDecisionAuthorities) {
+			fetchedResults.add(accessDecisionAuthority.getAccessDecisionPolicy());
+		}
+		return fetchedResults;//this.repository.findByAuthority(authority);
 	}
 }

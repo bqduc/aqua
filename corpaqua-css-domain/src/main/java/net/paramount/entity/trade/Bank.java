@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import net.paramount.framework.entity.AuditBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 //FIXME:bankaların yerli mi yabancı mı olduğu bilgisini tutacak bi alan eklemeli.
 
@@ -33,48 +33,45 @@ import net.paramount.framework.entity.AuditBase;
  *
  */
 @Entity
-@Table(name="BANKS")
-public class Bank extends AuditBase {
+@Table(name="BANK")
+public class Bank extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;
 
-    @Column(name="CODE", length=20, unique=true, nullable=false)
-    @Size(max=20, min=1)
-    @NotNull
+	@Column(name = "CODE", length = 20, unique = true, nullable = false)
+	@Size(max = 20, min = 1)
+	@NotNull
 	private String code;
 
-    @Column(name="NAME", length=50)
-    @Size(max=50)
-    private String name;
+	@Column(name = "NAME", length = 50)
+	@Size(max = 50)
+	private String name;
 
-    @Column(name="INFO")
+	@Column(name = "INFO")
 	private String info;
 
-    @Column(name="SWIFT_CODE", length=20, unique=true)
-    @Size(max=20, min=1)
+	@Column(name = "SWIFT_CODE", length = 20, unique = true)
+	@Size(max = 20, min = 1)
 	private String swiftCode;
 
-    @Column(name="ISACTIVE")
-	private Boolean active = Boolean.TRUE;
+	@Column(name = "WORK_BEGIN")
+	@Temporal(TemporalType.DATE)
+	private Date workBegin;
 
-    @Column(name="WORK_BEGIN")
-    @Temporal(TemporalType.DATE)
-    private Date workBegin;
-	
-    @Column(name="WORK_END")
-    @Temporal(TemporalType.DATE)
-    private Date workEnd;
-    
-    @Column(name="VALOR")
+	@Column(name = "WORK_END")
+	@Temporal(TemporalType.DATE)
+	private Date workEnd;
+
+	@Column(name = "VALOR")
 	private Integer valor;
-    
-    @Column(name="BANK_CODE", length=35, nullable=false, unique=true)
-    @Size(max=35, min=3)
-    @NotNull
+
+	@Column(name = "BANK_CODE", length = 35, nullable = false, unique = true)
+	@Size(max = 35, min = 3)
+	@NotNull
 	private String bankCode;
-	
-    @Column(name="WEIGHT")
-    private Integer weight;
+
+	@Column(name = "WEIGHT")
+	private Integer weight;
     /*
     @OneToMany(mappedBy = "bank", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<BankBranch> items = new ArrayList<BankBranch>();
@@ -102,14 +99,6 @@ public class Bank extends AuditBase {
 
 	public void setInfo(String info) {
 		this.info = info;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Date getWorkBegin() {
@@ -146,7 +135,7 @@ public class Bank extends AuditBase {
 	
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.Bank[id=" + getId() + "]";
+        return "Bank[id=" + getId() + "]";
     }
 
 	public String getSwiftCode() {

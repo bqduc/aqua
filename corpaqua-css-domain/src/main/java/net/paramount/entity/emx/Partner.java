@@ -193,7 +193,7 @@ public class Partner implements Serializable {
 
     @OneToMany(mappedBy = "partner")
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Invoice> invoices;
+    private List<CustomerInvoice> invoices;
     
     
 
@@ -464,11 +464,11 @@ public class Partner implements Serializable {
         this.payments = payments;
     }
 
-    public List<Invoice> getInvoices() {
+    public List<CustomerInvoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(List<CustomerInvoice> invoices) {
         this.invoices = invoices;
     }
 

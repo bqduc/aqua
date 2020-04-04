@@ -78,7 +78,7 @@ public class ProductTransfer extends DocumentBase {
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.ProductTransfer[id=" + getId() + "]";
+        return "ProductTransfer[id=" + getId() + "]";
     }
     
 }

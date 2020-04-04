@@ -28,7 +28,7 @@ import org.hibernate.annotations.Type;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.paramount.domain.entity.general.Language;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * A localized item.
@@ -39,15 +39,12 @@ import net.paramount.framework.entity.BizObjectBase;
 @Entity
 @Table(name = "localized_item")
 @EqualsAndHashCode(callSuper = true)
-public class LocalizedItem extends BizObjectBase {
-	/**
-	 * 
-	 */
+public class LocalizedItem extends RepoAuditable {
 	private static final long serialVersionUID = 3048307487182721300L;
 
 	@ManyToOne
 	@JoinColumn(name = "item_id")
-	private GeneralItem item;
+	private GeneralCatalogue item;
 
 	@ManyToOne
 	@JoinColumn(name = "language_id")
@@ -71,11 +68,11 @@ public class LocalizedItem extends BizObjectBase {
 		return this;
 	}
 
-	public GeneralItem getItem() {
+	public GeneralCatalogue getItem() {
 		return item;
 	}
 
-	public LocalizedItem setItem(GeneralItem item) {
+	public LocalizedItem setItem(GeneralCatalogue item) {
 		this.item = item;
 		return this;
 	}

@@ -20,145 +20,130 @@ import java.text.NumberFormat;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import net.paramount.entity.base.BaseConsts;
-
 /**
  * Money sınıfına bir de local tutarı ekler...
+ * 
  * @author haky
  *
  */
 @Embeddable
 public class MoneySet extends Money implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  	@Column(name="LCYVAL", precision=19, scale=2)
-    private BigDecimal localAmount = BigDecimal.ZERO;
+	@Column(name = "LCYVAL", precision = 19, scale = 2)
+	private BigDecimal localAmount = BigDecimal.ZERO;
 
-    public MoneySet(){
-        super();
-        localAmount = BigDecimal.ZERO;
-        localAmount.setScale(2, RoundingMode.HALF_UP);
-    }
-
-    public MoneySet(Long currencyId){
-    	super(currencyId);
-    }
-
-    public MoneySet(BigDecimal ccyAmt, BigDecimal localAmt, Long currencyId){
-        super(ccyAmt, currencyId);
-        this.localAmount = localAmt;
-    }
-
-    public MoneySet(BigDecimal ccyAmt, BigDecimal localAmt) {
-        super( ccyAmt );
-        this.localAmount = localAmt;
+	public MoneySet() {
+		super();
+		localAmount = BigDecimal.ZERO;
+		localAmount.setScale(2, RoundingMode.HALF_UP);
 	}
 
-    public MoneySet(BigDecimal ccyAmt, Long currencyId) {
-    	super( ccyAmt );
-    	setCurrency(currencyId);
-    }
+	public MoneySet(BigDecimal ccyAmt, BigDecimal localAmt, Long currencyId) {
+		this.localAmount = localAmt;
+	}
 
-    public MoneySet(BigDecimal ccyAmt) {
-    	super( ccyAmt );
-    }
+	public MoneySet(BigDecimal ccyAmt, BigDecimal localAmt) {
+		super(ccyAmt);
+		this.localAmount = localAmt;
+	}
 
-    public MoneySet(MoneySet amount) {
-        super(amount.getValue(), amount.getCurrency());
-        localAmount = amount.getLocalAmount();
-    }
-    
-    public MoneySet(Money amount) {
-    	super( amount.getValue(), amount.getCurrency());
-    	localAmount = amount.getValue();
-    }
+	public MoneySet(BigDecimal ccyAmt) {
+		super(ccyAmt);
+	}
 
+	public MoneySet(MoneySet amount) {
+		super(amount.getValue(), amount.getCurrency());
+		localAmount = amount.getLocalAmount();
+	}
 
-    public BigDecimal getLocalAmount() {
-        return localAmount;
-    }
-    
-    public void setLocalAmount(BigDecimal localAmount) {
-        this.localAmount = localAmount;
-    }
+	public MoneySet(Money amount) {
+		super(amount.getValue(), amount.getCurrency());
+		localAmount = amount.getValue();
+	}
 
-    public String localAmountString(){
-        NumberFormat f = NumberFormat.getInstance();
-        f.setMaximumFractionDigits(2);
-        f.setMinimumFractionDigits(2);
+	public BigDecimal getLocalAmount() {
+		return localAmount;
+	}
 
-        return f.format(getLocalAmount()) + " " + getCurrency();
-    }
+	public void setLocalAmount(BigDecimal localAmount) {
+		this.localAmount = localAmount;
+	}
 
-    public String valueString() {
-    	NumberFormat f = NumberFormat.getInstance();
-    	f.setMaximumFractionDigits(2);
-    	f.setMinimumFractionDigits(2);
-    	
-    	return f.format(getValue()) + " " + getCurrency();
-    }
+	public String localAmountString() {
+		NumberFormat f = NumberFormat.getInstance();
+		f.setMaximumFractionDigits(2);
+		f.setMinimumFractionDigits(2);
+
+		return f.format(getLocalAmount()) + " " + getCurrency();
+	}
+
+	public String valueString() {
+		NumberFormat f = NumberFormat.getInstance();
+		f.setMaximumFractionDigits(2);
+		f.setMinimumFractionDigits(2);
+
+		return f.format(getValue()) + " " + getCurrency();
+	}
 
 	private NumberFormat getNumberFormat() {
-        NumberFormat f = NumberFormat.getInstance();
-        f.setMaximumFractionDigits(2);
-        f.setMinimumFractionDigits(2);
-        return f;
+		NumberFormat f = NumberFormat.getInstance();
+		f.setMaximumFractionDigits(2);
+		f.setMinimumFractionDigits(2);
+		return f;
 	}
 
 	public String valueWithLocalAmountString() {
 		StringBuffer result = new StringBuffer();
 
-    	result.append(getNumberFormat().format(getValue()));
-    	
-    	/*if (!getCurrencyId().equals(BaseConsts.SYSTEM_CURRENCY_CODE)) {
-    		result.append("(")
-    			  .append(getNumberFormat().format(getLocalAmount()))
-    			  .append(")");
-    	} */
-    	return result.toString();
-    }
+		result.append(getNumberFormat().format(getValue()));
 
+		/*
+		 * if (!getCurrencyId().equals(BaseConsts.SYSTEM_CURRENCY_CODE)) { result.append("(") .append(getNumberFormat().format(getLocalAmount())) .append(")"); }
+		 */
+		return result.toString();
+	}
 
-    public void clearMoney() {
-    	//setCurrency(BaseConsts.SYSTEM_CURRENCY_CODE);
-    	setLocalAmount(BigDecimal.ZERO);
-    	setValue(BigDecimal.ZERO);
-    }
-    
-    public void moveFieldsOf(MoneySet anotherMoneySet) {
-    	setCurrency(anotherMoneySet.getCurrency());
-    	setLocalAmount(anotherMoneySet.getLocalAmount());
-    	setValue(anotherMoneySet.getValue());
-    }
+	public void clearMoney() {
+		// setCurrency(BaseConsts.SYSTEM_CURRENCY_CODE);
+		setLocalAmount(BigDecimal.ZERO);
+		setValue(BigDecimal.ZERO);
+	}
 
-    public MoneySet add(MoneySet moneySet) {
-        super.add(moneySet);
-        localAmount = localAmount.add(moneySet.getLocalAmount());
-        return this;
-    }
+	public void moveFieldsOf(MoneySet anotherMoneySet) {
+		setCurrency(anotherMoneySet.getCurrency());
+		setLocalAmount(anotherMoneySet.getLocalAmount());
+		setValue(anotherMoneySet.getValue());
+	}
 
-    public MoneySet substract(MoneySet moneySet) {
-    	super.substract(moneySet);
-    	localAmount = localAmount.subtract(moneySet.getLocalAmount());
-    	return this;
-    }
+	public MoneySet add(MoneySet moneySet) {
+		super.add(moneySet);
+		localAmount = localAmount.add(moneySet.getLocalAmount());
+		return this;
+	}
 
-    public void divide(MoneySet moneySet) {
-    	super.divide(moneySet);
-    	localAmount = localAmount.divide(moneySet.getLocalAmount(), 2, RoundingMode.HALF_UP);
-    }
-    
-    public MoneySet divide(BigDecimal divisor, int scale) {
-    	setValue( getValue().divide(divisor, scale, RoundingMode.HALF_UP) );
-    	localAmount = localAmount.divide(divisor, scale, RoundingMode.HALF_UP);
-    	return this;
-    }
+	public MoneySet substract(MoneySet moneySet) {
+		super.substract(moneySet);
+		localAmount = localAmount.subtract(moneySet.getLocalAmount());
+		return this;
+	}
 
-    public MoneySet multiply(BigDecimal multiplicand) {
-    	setValue( getValue().multiply(multiplicand) );
-    	setLocalAmount( getLocalAmount().multiply(multiplicand) );
-    	return this;
-    }
+	public void divide(MoneySet moneySet) {
+		super.divide(moneySet);
+		localAmount = localAmount.divide(moneySet.getLocalAmount(), 2, RoundingMode.HALF_UP);
+	}
+
+	public MoneySet divide(BigDecimal divisor, int scale) {
+		setValue(getValue().divide(divisor, scale, RoundingMode.HALF_UP));
+		localAmount = localAmount.divide(divisor, scale, RoundingMode.HALF_UP);
+		return this;
+	}
+
+	public MoneySet multiply(BigDecimal multiplicand) {
+		setValue(getValue().multiply(multiplicand));
+		setLocalAmount(getLocalAmount().multiply(multiplicand));
+		return this;
+	}
 
 }

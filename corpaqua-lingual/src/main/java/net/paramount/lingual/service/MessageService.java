@@ -6,9 +6,9 @@ import net.paramount.domain.entity.general.Language;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
 import net.paramount.lingual.entity.Label;
-import net.paramount.lingual.entity.Message;
+import net.paramount.lingual.entity.ResxMessage;
 
-public interface MessageService extends GenericService<Message, Long> {
-	List<Message> getByLanguage(Language language) throws ObjectNotFoundException;
-	Message getByLabelAndLanguage(Label label, Language language) throws ObjectNotFoundException;
+public interface MessageService extends GenericService<ResxMessage, Long> {
+	List<ResxMessage> getByLanguage(Language language) throws ObjectNotFoundException;
+	ResxMessage getByLabelAndLanguage(Label label, Language language) throws ObjectNotFoundException;
 }

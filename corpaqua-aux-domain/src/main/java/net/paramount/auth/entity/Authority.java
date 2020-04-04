@@ -14,8 +14,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.ObjectBase;
+import lombok.Setter;
+import net.paramount.domain.entity.general.Catalogue;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * 
@@ -27,104 +30,67 @@ import net.paramount.framework.entity.ObjectBase;
 @Builder
 @Entity
 @Table(name = "aux_authority")
-public class Authority extends ObjectBase implements GrantedAuthority {
+public class Authority extends RepoEntity implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
 
+	@Setter
+	@Getter
 	@Basic(optional = false)
 	@NotNull
 	@Size(min = 1, max = 64, message = "{LongString}")
 	@Column(name = "name")
 	private String name;
 
+	@Setter
+	@Getter
 	@NotNull
 	@Size(min = 1, max = 150)
 	@Column(name = "display_name")
 	private String displayName;
 
+	@Setter
+	@Getter
 	@Builder.Default
 	@Basic(optional = false)
 	@NotNull
 	@Column(name = "active")
 	private Boolean active = Boolean.FALSE;
 
+	@Setter
+	@Getter
 	@Column(name = "info")
 	private String info;
 
+	@Setter
+	@Getter
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private Authority parent;
 
+	/*@Setter
+	@Getter
 	@Column(name = "category_id")
-	private Long categoryId;
+	private Long categoryId;*/
 	
+	@Setter
+	@Getter
 	@Builder.Default
 	@Column(name = "is_administration")
 	private Boolean isAdministration = Boolean.FALSE;
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
-	}
+	@Setter
+	@Getter
+	@ManyToOne
+	@JoinColumn(name = "category_catalogue_id")
+	private Catalogue category;
 
 	@Override
 	public String toString() {
 		return "Authority [ id=" + getId() + " ]";
 	}
 
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public Authority getParent() {
-		return parent;
-	}
-
-	public void setParent(Authority parent) {
-		this.parent = parent;
-	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public Boolean getIsAdministration() {
-		return isAdministration;
-	}
-
-	public void setIsAdministration(Boolean isAdministration) {
-		this.isAdministration = isAdministration;
-	}
-
 	@Override
 	public String getAuthority() {
 		return this.name;
 	}
-
 }

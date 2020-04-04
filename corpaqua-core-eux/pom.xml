@@ -96,5 +96,11 @@
 			<version>${version.lombok}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>javax.faces-api</artifactId>
+			<version>${version.javax.faces-api}</version>
+		</dependency>		
 	</dependencies>
 </project>

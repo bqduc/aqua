@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import lombok.Builder;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosysException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.OsxBucketContainer;
@@ -49,7 +49,7 @@ public class OfficeSuiteServicesHelper extends ComponentBase {
 		return executionContext;
 	}
 
-	public OsxBucketContainer loadDefaultZipConfiguredData(final File sourceZipFile) throws EcosysException {
+	public OsxBucketContainer loadDefaultZipConfiguredData(final File sourceZipFile) throws EcosphereException {
 		OsxBucketContainer bucketContainer = null;
 		ExecutionContext executionContext = null;
 		try {
@@ -59,19 +59,19 @@ public class OfficeSuiteServicesHelper extends ComponentBase {
 					.build()
 					.readOfficeDataInZip(executionContext);
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return bucketContainer;
 	}
 
-	public OsxBucketContainer loadDefaultZipConfiguredData(final ExecutionContext executionContext) throws EcosysException {
+	public OsxBucketContainer loadDefaultZipConfiguredData(final ExecutionContext executionContext) throws EcosphereException {
 		return OfficeSuiteServiceProvider
 					.builder()
 					.build()
 					.readOfficeDataInZip(executionContext);
 	}
 
-	public OsxBucketContainer loadZipDataFromInputStream(final String originFileName, final InputStream inputStream) throws EcosysException {
+	public OsxBucketContainer loadZipDataFromInputStream(final String originFileName, final InputStream inputStream) throws EcosphereException {
 		OsxBucketContainer bucketContainer = null;
 		ExecutionContext executionContext = null;
 		File targetDataFile = null;
@@ -83,7 +83,7 @@ public class OfficeSuiteServicesHelper extends ComponentBase {
 					.build()
 					.readOfficeDataInZip(executionContext);
 		} catch (Exception e) {
-			throw new EcosysException(e);
+			throw new EcosphereException(e);
 		}
 		return bucketContainer;
 	}

@@ -25,7 +25,7 @@ public class JobSchedulerBase extends CompCore implements Job {
 	protected static final String SCHEDULER_STAGE_ENTER = "Enter";
 	protected static final String SCHEDULER_STAGE_LEAVE = "Leave";
 
-	public void execute(JobExecutionContext context) throws JobExecutionException {
+	public final void execute(JobExecutionContext context) throws JobExecutionException {
 		ExecutionContext executionContext = null;
 		log.info("Job ** {} ** starting @ {}", context.getJobDetail().getKey().getName(), context.getFireTime());
     try {
@@ -41,7 +41,7 @@ public class JobSchedulerBase extends CompCore implements Job {
 		throw new JobScheduleException("Not implemented yet!");
 	}
 
-	protected ExecutionContext buildScheduleExecutionContext(String stageTitle, String stage) {
+	protected final ExecutionContext buildScheduleExecutionContext(String stageTitle, String stage) {
 		ExecutionContext executionContext = ExecutionContext.builder().build();
 		executionContext.set(stageTitle, stage);
 		return executionContext;

@@ -22,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Uygulama için tanımlanmış olan seçeneklerin kullanıcı ya da sistem için değerlerini saklar.
@@ -31,7 +31,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name = "option")
-public class Option extends ObjectBase {
+public class Option extends RepoEntity {
 	/**
 	* 
 	*/

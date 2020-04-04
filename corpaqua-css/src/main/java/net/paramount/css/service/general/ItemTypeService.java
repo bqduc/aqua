@@ -1,5 +1,7 @@
 package net.paramount.css.service.general;
 
+import java.util.Optional;
+
 import net.paramount.entity.general.ItemType;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
@@ -13,7 +15,7 @@ public interface ItemTypeService extends GenericService<ItemType, Long>{
    * @return The item
    * @throws ObjectNotFoundException If no such account exists.
    */
-	ItemType getByCode(String code) throws ObjectNotFoundException;
+	Optional<ItemType> getByCode(String code) throws ObjectNotFoundException;
 
   /**
    * Get one item with the provided code.

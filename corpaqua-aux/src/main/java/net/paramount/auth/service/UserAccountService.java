@@ -4,12 +4,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
-import net.paramount.auth.entity.UserAccount;
-import net.paramount.exceptions.CorporateAuthException;
+import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.exceptions.EcosphereAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
 
-public interface UserAccountService extends GenericService<UserAccount, Long>, UserDetailsService{
+public interface UserAccountService extends GenericService<SecurityAccountProfile, Long>, UserDetailsService{
     /**
      * Finds the user with the provided name.
      * 
@@ -17,17 +17,17 @@ public interface UserAccountService extends GenericService<UserAccount, Long>, U
      * @return The user
      * @throws ObjectNotFoundException If no such user exists.
      */
-	UserAccount get(String username) throws ObjectNotFoundException;
+	SecurityAccountProfile get(String username) throws ObjectNotFoundException;
 
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	SecurityPrincipalProfile register(UserAccount user) throws CorporateAuthException;
+	SecurityPrincipalProfile register(SecurityAccountProfile user) throws EcosphereAuthException;
 
 	/**
 	 * Update the specified user.
 	 */
-	void updateUser(UserAccount user);
+	void updateUser(SecurityAccountProfile user);
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -56,11 +56,11 @@ public interface UserAccountService extends GenericService<UserAccount, Long>, U
 	int countByLogin(String login);
 
 	UserDetails loadUserByEmail(final String email);
-	UserAccount save(UserAccount user);
-	UserAccount getUserAccount(String loginId, String password) throws CorporateAuthException;
-	UserAccount getUserAccount(String userToken) throws CorporateAuthException;
-	UserAccount confirm(String confirmedEmail) throws CorporateAuthException;
-	void initializeMasterData() throws CorporateAuthException;
+	SecurityAccountProfile save(SecurityAccountProfile user);
+	SecurityAccountProfile getUserAccount(String loginId, String password) throws EcosphereAuthException;
+	SecurityAccountProfile getUserAccount(String userToken) throws EcosphereAuthException;
+	SecurityAccountProfile confirm(String confirmedEmail) throws EcosphereAuthException;
+	void initializeMasterData() throws EcosphereAuthException;
 
 	
 }

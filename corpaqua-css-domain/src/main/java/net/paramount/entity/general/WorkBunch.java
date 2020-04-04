@@ -26,8 +26,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-import net.paramount.entity.contact.Contact;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.entity.contact.CTAContact;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * İş takibi bilgilerini tutan model sınıfımızdır.
@@ -37,13 +37,13 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="WORK_BUNCH")
-public class WorkBunch extends ObjectBase {
+public class WorkBunch extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 
     @ManyToOne
     @JoinColumn(name="CONTACT_ID", foreignKey = @ForeignKey(name = "FK_WORKBUNCH_CONTACTID"))
-    private Contact contact;
+    private CTAContact contact;
     
     @Column(name="INFO")
     private String info;
@@ -67,9 +67,6 @@ public class WorkBunch extends ObjectBase {
     @Column(name="END_DATE")
     private Date endDate;
     
-    @Column(name="ISACTIVE")
-    private Boolean active = Boolean.TRUE;
-
 	public WorkBunch() {
 		super();
 	}
@@ -85,18 +82,18 @@ public class WorkBunch extends ObjectBase {
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.WorkBunch[id=" + getId() + "]";
+        return "WorkBunch[id=" + getId() + "]";
     }
 
     public String getCaption(){
         return "[" + getCode() + "] " + getName();
     }
     
-	public Contact getContact() {
+	public CTAContact getContact() {
 		return contact;
 	}
 
-	public void setContact(Contact contact) {
+	public void setContact(CTAContact contact) {
 		this.contact = contact;
 	}
 
@@ -130,14 +127,6 @@ public class WorkBunch extends ObjectBase {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-
-    public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
     public String getName() {

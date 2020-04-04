@@ -160,7 +160,11 @@ public interface CommonConstants {
 	static final String CONTEXT_CAST_MARHSALLER = "contextCastMarshaller";
 	
 	
-	static String globalCurrencyCode = "VND";//"USD";
+	static final String SYSTEM_COUNTRY_CODE = "VN";
+	static final String SYSTEM_CURRENCY_CODE = "VND";
+  static final String SYSTEM_CURRENCYDEC_CODE = "₫";
+
+	static String globalCurrencyCode = SYSTEM_CURRENCY_CODE;//"USD";
 
 	static final String REMOTE_API_PATTERN = "/rest/";
 

@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * @author bilga
@@ -28,13 +28,13 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name = "PRODUCT_UNIT")
-public class ProductUnit extends ObjectBase {
+public class ProductUnit extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID")
-	private Product product;
+	private ProductProfile product;
 
 	@Column(name = "CHANGE_UNIT")
 	private String changeUnit;
@@ -65,11 +65,11 @@ public class ProductUnit extends ObjectBase {
 		return getChangeUnit();
 	}
 
-	public void setProduct(Product product) {
+	public void setProduct(ProductProfile product) {
 		this.product = product;
 	}
 
-	public Product getProduct() {
+	public ProductProfile getProduct() {
 		return product;
 	}
 

@@ -6,7 +6,7 @@ package net.paramount.css.specification;
 import org.springframework.data.jpa.domain.Specification;
 
 import lombok.Builder;
-import net.paramount.entity.stock.Product;
+import net.paramount.entity.stock.ProductProfile;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.model.SearchSpec;
 import net.paramount.framework.specification.CoreSpecifications;
@@ -16,13 +16,13 @@ import net.paramount.framework.specification.CoreSpecifications;
  *
  */
 @Builder
-public class ProductSpecification extends CoreSpecifications<Product, SearchSpec>{
+public class ProductSpecification extends CoreSpecifications<ProductProfile, SearchSpec>{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3133249383334598142L;
 
-	public static Specification<Product> buildSpecification(final SearchParameter searchParameter) {
+	public static Specification<ProductProfile> buildSpecification(final SearchParameter searchParameter) {
 		return ProductSpecification
 				.builder()
 				.build()

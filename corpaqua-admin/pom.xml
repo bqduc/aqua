@@ -40,12 +40,18 @@
                 <version>${version.admin-theme}</version>
             </dependency>
             -->
-            <!-- 
             <dependency>
                 <groupId>org.primefaces</groupId>
                 <artifactId>primefaces</artifactId>
-                <version>${version.primefaces}7.0</version>
-            </dependency> -->
+                <version>${version.primefaces}</version>
+            </dependency>
+
+		        <dependency>
+		            <groupId>org.primefaces.extensions</groupId>
+		            <artifactId>primefaces-extensions</artifactId>
+		            <version>${version.primefaces}</version>
+		            <!-- only for gravatar, adminfaces doesn't depend on extensions-->
+		        </dependency>            
             <dependency>
                 <groupId>com.github.adminfaces</groupId>
                 <artifactId>admin-template</artifactId>

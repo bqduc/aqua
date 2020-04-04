@@ -29,7 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import net.paramount.entity.general.MoneySet;
-import net.paramount.framework.entity.ObjectBase;
+import net.paramount.framework.entity.RepoEntity;
 
 
 /**
@@ -40,7 +40,7 @@ import net.paramount.framework.entity.ObjectBase;
  */
 @Entity
 @Table(name="DOCUMENT_MATCH")
-public class DocumentMatch extends ObjectBase {
+public class DocumentMatch extends RepoEntity {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="DOCUMENT_TYPE")
@@ -122,7 +122,7 @@ public class DocumentMatch extends ObjectBase {
 
 	@Override
     public String toString() {
-        return "com.ut.tekir.entities.DocumentMatch[id=" + getId() + "]";
+        return "DocumentMatch[id=" + getId() + "]";
     }
 
     public Long getMatchedDocumentId() {

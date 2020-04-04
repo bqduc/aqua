@@ -1,5 +1,7 @@
 package net.paramount.dbx.service.impl;
 
+import java.util.Optional;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -27,8 +29,8 @@ public class DashletServiceImpl extends GenericServiceImpl<Dashlet, Long> implem
 	}
 
 	@Override
-	public Dashlet getBySerial(String serial) throws ObjectNotFoundException {
-		return this.repository.findBySerial(serial);
+	public Optional<Dashlet> getBySerial(String serial) throws ObjectNotFoundException {
+		return Optional.of(this.repository.findBySerial(serial));
 	}
 
 	@Override

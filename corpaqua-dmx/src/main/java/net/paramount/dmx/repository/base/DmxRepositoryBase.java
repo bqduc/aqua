@@ -23,9 +23,10 @@ import net.paramount.css.service.org.BusinessUnitService;
 import net.paramount.dmx.helper.ResourcesStorageServiceHelper;
 import net.paramount.embeddable.Phone;
 import net.paramount.entity.general.BusinessUnit;
-import net.paramount.entity.general.GeneralItem;
+import net.paramount.entity.general.Currency;
+import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.entity.general.Money;
-import net.paramount.exceptions.DataLoadingException;
+import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
@@ -84,8 +85,8 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 
 	protected Map<String, BusinessUnit> businessUnitMap = ListUtility.createMap();
 
-	protected Map<String, GeneralItem> itemMap = ListUtility.createMap();
-	protected Map<String, GeneralItem> itemNameMap = ListUtility.createMap();
+	protected Map<String, GeneralCatalogue> itemMap = ListUtility.createMap();
+	protected Map<String, GeneralCatalogue> itemNameMap = ListUtility.createMap();
 
 	protected BusinessUnit getBusinessUnit(List<?> contactDataRow) {
 		if (this.businessUnitMap.containsKey(contactDataRow.get(IDX_BUSINESS_UNIT_CODE))) {
@@ -155,18 +156,18 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 		return businessDivision;
 	}
 
-	protected GeneralItem parseJobInfo(List<?> contactDataRow) {
+	protected GeneralCatalogue parseJobInfo(List<?> contactDataRow) {
 		return unmarshallItem((String)contactDataRow.get(IDX_JOB_CODE), (String)contactDataRow.get(IDX_JOB_NAME), null, null);
 	}
 
-	protected GeneralItem unmarshallItem(String code, String name, String nameExtend, String subtype) {
+	protected GeneralCatalogue unmarshallItem(String code, String name, String nameExtend, String subtype) {
 		if (CommonUtility.isEmpty(code) || CommonUtility.isEmpty(name))
 			return null;
 
 		if (CommonUtility.isNotEmpty(code) && itemMap.containsKey(code))
 			return itemMap.get(code);
 
-		GeneralItem fetchedObject = this.itemService.getOne(code);
+		GeneralCatalogue fetchedObject = this.itemService.getOne(code);
 		if (null != fetchedObject) {
 			this.itemMap.put(fetchedObject.getCode(), fetchedObject);
 			this.itemNameMap.put(fetchedObject.getName(), fetchedObject);
@@ -183,10 +184,10 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 			return fetchedObject;
 		}
 
-		fetchedObject = GeneralItem.builder()
+		fetchedObject = GeneralCatalogue.builder()
 				.code(code)
 				.name(name)
-				.nameLocal(nameExtend)
+				//.nameLocal(nameExtend)
 				.subtype(subtype)
 				.build();
 		this.itemService.save(fetchedObject);
@@ -204,34 +205,34 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 		return phone;
 	}
 
-	protected Money parseMoney(Long currency, BigDecimal value) {
+	protected Money parseMoney(Currency currency, BigDecimal value) {
 		Money parsedObject = new Money();
 		parsedObject.setCurrency(currency);
 		parsedObject.setValue(value);
 		return parsedObject;
 	}
 
-	public ExecutionContext unmarshallBusinessObjects(ExecutionContext executionContext) throws DataLoadingException {
+	public ExecutionContext unmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
 		return doUnmarshallBusinessObjects(executionContext);
 	}
 
-	public List<Entity> unmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws DataLoadingException {
+	public List<Entity> unmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
 		return doUnmarshallBusinessObjects(dataWorkbook, datasheetIds);
 	}
 
-	public Entity unmarshallBusinessObject(List<?> marshallingDataRow) throws DataLoadingException {
+	public Entity unmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
 		return doUnmarshallBusinessObject(marshallingDataRow);
 	}
 
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws DataLoadingException {
-		throw new DataLoadingException("Not implemented yet");
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
+		throw new EcosphereException("Not implemented yet");
 	}
 
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws DataLoadingException {
-		throw new DataLoadingException("Not implemented yet");
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
+		throw new EcosphereException("Not implemented yet");
 	}
 
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws DataLoadingException {
-		throw new DataLoadingException("Not implemented yet");
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
+		throw new EcosphereException("Not implemented yet");
 	}
 }

@@ -12,7 +12,6 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -23,9 +22,6 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -33,6 +29,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import net.paramount.entity.general.MoneySet;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Entity class TaxRate
@@ -41,15 +38,10 @@ import net.paramount.entity.general.MoneySet;
  */
 @Entity
 @Table(name="TAX_RATE")
-public class TaxRate implements Serializable {
+public class TaxRate extends RepoEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-    
     @ManyToOne
     @JoinColumn(name="TAX_ID")
     private Tax tax;
@@ -99,14 +91,6 @@ public class TaxRate implements Serializable {
     @Column(name="WITHHOLDING_RATE", precision=10, scale=2)
     private BigDecimal withholdingRate = BigDecimal.ZERO;
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     public BigDecimal getWithholdingRate() {
 		return withholdingRate;
 	}
@@ -146,28 +130,10 @@ public class TaxRate implements Serializable {
     public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.getId() != null ? this.getId().hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TaxRate)) {
-            return false;
-        }
-        TaxRate other = (TaxRate)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.TaxRate[id=" + getId() + "]";
+        return "TaxRate[id=" + getId() + "]";
     }
 
     public MoneySet getAmount() {

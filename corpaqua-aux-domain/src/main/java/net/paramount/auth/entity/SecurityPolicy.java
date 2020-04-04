@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.BizObjectBase;
+import net.paramount.framework.entity.RepoAuditable;
 
 /**
  * Module.
@@ -38,7 +38,7 @@ import net.paramount.framework.entity.BizObjectBase;
 @Builder
 @Entity
 @Table(name = "aux_security_policy")
-public class SecurityPolicy extends BizObjectBase {
+public class SecurityPolicy extends RepoAuditable {
 	/**
 	 * 
 	 */
