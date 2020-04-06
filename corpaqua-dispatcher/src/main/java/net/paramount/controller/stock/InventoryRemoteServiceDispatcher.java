@@ -26,12 +26,9 @@ import net.paramount.framework.service.IService;
  *
  */
 @RestController
-@RequestMapping("/api/product")
-public class ProductRestController extends BaseRestController<ProductCore, Long> {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -753628349833341962L;
+@RequestMapping("/api/inventory")
+public class InventoryRemoteServiceDispatcher extends BaseRestController<ProductCore, Long> {
+	private static final long serialVersionUID = -2715466758043807257L;
 
 	@Inject
 	private ProductCoreService businessService;

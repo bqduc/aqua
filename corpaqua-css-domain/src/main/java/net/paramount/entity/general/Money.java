@@ -25,7 +25,6 @@ import javax.persistence.MappedSuperclass;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.paramount.common.CommonConstants;
 
 /**
  * Uygulama içerisinde temel para tipi
@@ -41,10 +40,10 @@ public class Money implements Serializable {
 	 * 3Char ISO code
 	 */
 
-	@Setter
+	/*@Setter
 	@Getter
 	@Column(name = "CCY", length = 3, insertable = false, updatable = false)
-	private String currencyCode = CommonConstants.SYSTEM_CURRENCY_CODE;
+	private String currencyCode = CommonConstants.SYSTEM_CURRENCY_CODE;*/
 
 	@Setter
 	@Getter
@@ -63,7 +62,7 @@ public class Money implements Serializable {
 
 	public Money(Currency currency) {
 		this.currency = currency;
-		this.currencyCode = currency.getCode();
+		//this.currencyCode = currency.getCode();
 		value = BigDecimal.ZERO;
 		value.setScale(2, RoundingMode.HALF_UP);
 	}
@@ -76,7 +75,7 @@ public class Money implements Serializable {
 	public Money(BigDecimal value, Currency currency) {
 		this.value = value;
 		this.currency = currency;
-		this.currencyCode = currency.getCode();
+		//this.currencyCode = currency.getCode();
 	}
 
 	public Money(BigDecimal value) {

@@ -50,14 +50,14 @@ public class SecurityOfficer extends CompCore {
 		}
 	*/
 	public Boolean hasPermission(String target) {
-		SecurityPrincipalProfile userProfile = authorizationService.getSecuredProfile();
+		SecurityPrincipalProfile userProfile = authorizationService.getActiveSecuredProfile();
 		System.out.println(Calendar.getInstance().getTime() + "\t. Target: " + target + ". User: " + userProfile.getDisplayName());
 		return true;
 		// return permissionMap.containsKey(target);
 	}
 
 	public void initializeSessionData() {
-		SecurityPrincipalProfile userProfile = authorizationService.getSecuredProfile();
+		SecurityPrincipalProfile userProfile = authorizationService.getActiveSecuredProfile();
 		if (false==userProfile.isPresentUserAccount()) {
 			System.out.println("Current user is anonymous. ");
 			return;

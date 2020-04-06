@@ -66,7 +66,7 @@ public class OrderNoteController extends DetailHome<Authority> implements Serial
 		}
 	}
 
-	public void save() {
+	protected String performSave() {
 		try {
 			StringBuilder msg = new StringBuilder("Business object ").append(businessObject.getName());
 			if (businessObject.getId() == null) {
@@ -87,6 +87,7 @@ public class OrderNoteController extends DetailHome<Authority> implements Serial
 		} catch (IOException e) {
 			this.log.error(e);
 		}
+		return "success";
 	}
 
 	public String handleSubmit() {

@@ -35,6 +35,10 @@ public abstract class BrowserHome<E, F extends FilterBase> extends Home <E, F> {
 	@Getter
 	private List<E> selectedObjects = ListUtility.createList();
 
+	@Setter
+	@Getter
+  private List<E> filteredObjects = ListUtility.createList();
+
 	protected abstract List<E> doGetBusinessObjects();
 
 	@PostConstruct

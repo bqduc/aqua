@@ -66,7 +66,7 @@ public class BankBranchController extends DetailHome<Authority> implements Seria
 		}
 	}
 
-	public void save() {
+	protected String performSave() {
 		try {
 			StringBuilder msg = new StringBuilder("Business object ").append(businessObject.getName());
 			if (businessObject.getId() == null) {
@@ -87,6 +87,7 @@ public class BankBranchController extends DetailHome<Authority> implements Seria
 		} catch (IOException e) {
 			this.log.error(e);
 		}
+		return "success";
 	}
 
 	public String handleSubmit() {

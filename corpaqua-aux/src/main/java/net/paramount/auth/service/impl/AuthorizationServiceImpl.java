@@ -23,7 +23,6 @@ import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.AuthorizationService;
-import net.paramount.autx.SecurityServiceContextHelper;
 import net.paramount.comm.comp.Communicator;
 import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
@@ -44,9 +43,6 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	@Inject
 	private Communicator emailCommunicator;
 
-	@Inject 
-	private SecurityServiceContextHelper securityContextHolderServiceHelper;
-	
 	@Inject
 	private JwtTokenProvider tokenProvider;
 
@@ -67,7 +63,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public SecurityPrincipalProfile getSecuredProfile() throws EcosphereAuthException {
+	public SecurityPrincipalProfile getActiveSecuredProfile() throws EcosphereAuthException {
 		return this.getCurrentSecuredProfile();
 	}
 

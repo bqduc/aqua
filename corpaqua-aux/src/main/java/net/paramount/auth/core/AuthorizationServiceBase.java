@@ -60,9 +60,18 @@ public abstract class AuthorizationServiceBase {
 			.userAccount(userAccount)
 			.build();
 		} else if (systemPrincipal instanceof String){ //Anonymous user - Not logged in
-			fetchedResponse = SecurityPrincipalProfile.builder()
-			.displayName((String)systemPrincipal)
-			.build();
+			if (CommonConstants.ANONYMOUS.equalsIgnoreCase((String)systemPrincipal)) {
+				fetchedResponse = SecurityPrincipalProfile.builder()
+						.displayName((String)systemPrincipal)
+						.build();
+			} else {
+				userAccount = this.userAccountService.get((String)systemPrincipal);
+				fetchedResponse = SecurityPrincipalProfile
+				.builder()
+				.displayName(new StringBuilder(userAccount.getFirstName()).append(CommonConstants.STRING_SPACE).append(userAccount.getLastName()).toString())
+				.userAccount(userAccount)
+				.build();
+			}
 		}
 		return fetchedResponse;
 	}

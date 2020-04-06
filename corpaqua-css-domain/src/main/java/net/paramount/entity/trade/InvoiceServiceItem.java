@@ -26,7 +26,7 @@ import javax.validation.Valid;
 
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.ProductProfile;
 import net.paramount.framework.entity.RepoEntity;
 
@@ -57,7 +57,7 @@ public class InvoiceServiceItem extends RepoEntity implements InvoiceItem {
     
     @Embedded
     @Valid
-    private QuantityCore quantity = new QuantityCore();
+    private Quantity quantity = new Quantity();
     
     @Embedded
     @Valid
@@ -156,11 +156,11 @@ public class InvoiceServiceItem extends RepoEntity implements InvoiceItem {
         this.lineCode = lineCode;
     }
 
-    public QuantityCore getQuantity() {
+    public Quantity getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(QuantityCore quantity) {
+    public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
 

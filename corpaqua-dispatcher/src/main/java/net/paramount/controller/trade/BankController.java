@@ -52,7 +52,7 @@ public class BankController extends DetailHome<Bank> implements Serializable {
 		}
 	}
 
-	public void save() {
+	protected String performSave() {
 		try {
 			StringBuilder msg = new StringBuilder("Business object ").append(businessObject.getName());
 			if (businessObject.getId() == null) {
@@ -73,6 +73,7 @@ public class BankController extends DetailHome<Bank> implements Serializable {
 		} catch (IOException e) {
 			this.log.error(e);
 		}
+		return "success";
 	}
 
 	public void clear() {

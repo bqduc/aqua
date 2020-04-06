@@ -16,43 +16,43 @@
         <p:panel styleClass="card box-primary" header="#{messages['menu.generalSettings.browse.contactBrowse']}">
             <h:form prependId="false">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton action="contactDetail?faces-redirect=true" icon="fa fa-plus"
+                        <p:commandButton action="inventoryDetail?faces-redirect=true" icon="fa fa-plus"
                                          value="New" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
                         <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
-                                         action="#{productBrowse.delete}"
-                                         disabled="#{empty productBrowse.businessObjects or productBrowse.businessObjects.size() == 0}"
+                                         action="#{inventoryBrowser.delete}"
+                                         disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
                                          process="@this" update="@form"
                         >
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
                         <p:commandButton value="View selected" update="@(.ui-dialog)" styleClass="btn-info"
-                                         disabled="#{empty productBrowse.businessObjects or productBrowse.businessObjects.size() == 0}"
+                                         disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
                                          oncomplete="PF('selectedProduct').show()" icon="fa fa-search"/>
                     </div>
 
                     <p:splitButton value="New" action="car-form?faces-redirect=true"
                                    icon="fa fa-plus"
                                    styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="Delete Selected" action="#{productBrowse.delete}"
+                        <p:menuitem value="Delete Selected" action="#{inventoryBrowser.delete}"
                                     process="@this" update="@form"
-                                    disabled="#{empty productBrowse.businessObjects or productBrowse.businessObjects.size() == 0}"
+                                    disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
                                     icon="fa fa-trash">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:menuitem>
                         <p:menuitem value="View selected" update="@(.ui-dialog)"
                                     oncomplete="PF('selectedProduct').show()"
-                                    disabled="#{empty productBrowse.businessObjects or productBrowse.businessObjects.size() == 0}"
+                                    disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
                                     icon="fa fa-search"
                         />
                     </p:splitButton>
                 <div id="datatable">
-                    <p:dataTable var="bizObject" value="#{productBrowse.businessObjects}" widgetVar="bizObjectTable" paginator="true" styleClass="header-right #{customLayoutMB.borderless ? 'no-border':''}"
+                    <p:dataTable var="bizObject" value="#{inventoryBrowser.businessObjects}" widgetVar="bizObjectTable" paginator="true" styleClass="header-right #{customLayoutMB.borderless ? 'no-border':''}"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,15,20,50,100,250" rows="50" rowKey="#{bizObject.id}"
-                                 emptyMessage="No product objects found with given criteria" stickyHeader="true" selection="#{productBrowse.selectedObjects}"
-                                 filteredValue="#{productBrowse.filteredCars}">
+                                 emptyMessage="No product objects found with given criteria" stickyHeader="true" selection="#{inventoryBrowser.selectedObjects}"
+                                 filteredValue="#{inventoryBrowser.filteredObjects}">
 
                         <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
@@ -70,7 +70,7 @@
                         <p:column width="5%" selectionMode="multiple" styleClass="align-center" priority="1" headerText="Selection" />
 
                         <p:column filterBy="#{bizObject.id}" sortBy="#{bizObject.id}" headerText="Id" footerText="contains" filterMatchMode="contains" priority="1">
-                            <p:link value="#{bizObject.id}" outcome="/bszone/stock/productDetail.jsf">
+                            <p:link value="#{bizObject.id}" outcome="/bszone/stock/inventoryDetail.jsf">
                                 <f:param name="id" value="#{bizObject.id}"/>
                             </p:link>
                         </p:column>
@@ -90,7 +90,7 @@
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('bizObjectTable').filter()">
                                     <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
-                                    <f:selectItems value="#{productBrowse.brands}"/>
+                                    <!-- <f:selectItems value="#{inventoryBrowser.brands}"/> -->
                                 </p:selectOneMenu>
                             </f:facet>
                             <h:outputText value="#{bizObject.name}"/>
@@ -99,7 +99,6 @@
                         <p:column filterBy="#{bizObject.code}" headerText="Color" footerText="in" filterMatchMode="in" priority="3">
                             <f:facet name="filter">
                                 <p:selectCheckboxMenu label="Colors" onchange="PF('bizObjectTable').filter()" panelStyle="width:125px" scrollHeight="150">
-                                    <f:selectItems value="#{productBrowse.colors}"/>
                                 </p:selectCheckboxMenu>
                             </f:facet>
                             <h:outputText value="#{bizObject.code}"/>
@@ -108,6 +107,10 @@
                         <p:column filterBy="#{bizObject.barcode}" headerText="Status" footerText="equals" filterMatchMode="equals" priority="3">
                             <h:outputText value="#{bizObject.barcode}"/>
                         </p:column>
+
+                        <p:column filterBy="#{bizObject.barcode}" headerText="Status" footerText="equals" filterMatchMode="equals" priority="3">
+                            <h:outputText value="#{bizObject.info}"/>
+                        </p:column>
                     </p:dataTable>
                 </div>
                 <p:spacer/>
@@ -115,7 +118,7 @@
 
 	        <p:dialog header="Selected product" widgetVar="selectedProduct" height="250"
 	                  width="400" responsive="true" styleClass="box-success">
-	            <p:dataList id="selectedCarsList" value="#{productBrowse.businessObjects}" var="car" type="definition">
+	            <p:dataList id="selectedCarsList" value="#{inventoryBrowser.businessObjects}" var="car" type="definition">
 	                ID: #{bizObject.id} - Barcode: #{bizObject.barcode} - Name: #{bizObject.name} - Price: #{bizObject.id}
 	            </p:dataList>
 	        </p:dialog>

@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.framework.entity.RepoAuditable;
 
@@ -18,11 +20,13 @@ import net.paramount.framework.entity.RepoAuditable;
  * @author bqduc
  *
  */
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "unit")
+@Table(name = "measure_unit")
+@EqualsAndHashCode(callSuper=false)
 public class MeasureUnit extends RepoAuditable {
 	/**
 	 * 
@@ -44,45 +48,5 @@ public class MeasureUnit extends RepoAuditable {
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private MeasureUnit parent;
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getNameLocal() {
-		return nameLocal;
-	}
-
-	public void setNameLocal(String nameLocal) {
-		this.nameLocal = nameLocal;
-	}
-
-	public MeasureUnit getParent() {
-		return parent;
-	}
-
-	public void setParent(MeasureUnit parent) {
-		this.parent = parent;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
-		this.info = info;
-	}
 
 }

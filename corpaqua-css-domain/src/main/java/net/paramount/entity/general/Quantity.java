@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -30,43 +31,33 @@ public class Quantity implements java.io.Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "unit_id", insertable = false, updatable = false)
-	private MeasureUnit unit;
+	private MeasureUnit measureUnit = new MeasureUnit();
 
 	@Column(name = "quantity", precision = 5, scale = 2)
 	private Double value = 0d;
 
 	public Quantity() {
-		this.unit = null;
-		this.value = 0d;
 	}
 
-	public Quantity(Quantity quantity) {
-		this.value = new Double(quantity.getValue());
-		this.unit = quantity.getUnit();
-	}
-
-	public Quantity(double value, MeasureUnit measureUnit) {
+	public Quantity(MeasureUnit measureUnit, Double value) {
+		this.measureUnit = measureUnit;
 		this.value = value;
-		this.unit = measureUnit;
+	}
+
+	public Quantity(final Quantity quantity) {
+		this.measureUnit = quantity.getMeasureUnit();
+		this.value = quantity.getValue();
 	}
 
 	public void moveFieldsOf(Quantity anotherQuantity) {
 		if (anotherQuantity != null) {
-			this.unit = anotherQuantity.getUnit();
+			this.measureUnit = anotherQuantity.getMeasureUnit();
 			this.value = anotherQuantity.getValue();
 		}
 	}
 
-	public Double getValue() {
-		return value;
-	}
-
 	public BigDecimal asBigDecimal() {
 		return BigDecimal.valueOf(value);
-	}
-
-	public void setValue(Double value) {
-		this.value = value;
 	}
 
 	@Override
@@ -76,7 +67,7 @@ public class Quantity implements java.io.Serializable {
 		f.setMaximumFractionDigits(2);
 		f.setMinimumFractionDigits(2);
 
-		return f.format(getValue()) + "#" + getUnit().getCode();
+		return f.format(getValue()) + "#" + getMeasureUnit().getCode();
 	}
 
 	public String toStringInNarrowFormat() {
@@ -84,7 +75,7 @@ public class Quantity implements java.io.Serializable {
 		f.setMaximumFractionDigits(2);
 		f.setMinimumFractionDigits(2);
 
-		String result = f.format(getValue()) + "#" + getUnit().getCode();
+		String result = f.format(getValue()) + "#" + getMeasureUnit().getCode();
 		if (result.length() > 7) {
 			result = result.substring(0, 7);
 		}
@@ -95,11 +86,19 @@ public class Quantity implements java.io.Serializable {
 		return this.value == 0d;
 	}
 
-	public MeasureUnit getUnit() {
-		return unit;
+	public MeasureUnit getMeasureUnit() {
+		return measureUnit;
 	}
 
-	public void setUnit(MeasureUnit unit) {
-		this.unit = unit;
+	public void setMeasureUnit(MeasureUnit measureUnit) {
+		this.measureUnit = measureUnit;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
 	}
 }

@@ -49,8 +49,10 @@ public abstract class ServiceImpl<EntityType extends RepoEntity, Key extends Ser
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public EntityType getObject(Key id) {
-		EntityType entity = getRepository().getOne(id);
-		return entity;
+		/*EntityType entity = getRepository().getOne(id);
+		return entity;*/
+		Optional<EntityType> repoEntity = getRepository().findById(id);
+		return repoEntity.isPresent()?repoEntity.get():null;
 	}
 
 	protected EntityType getOptionalObject(Optional<EntityType> optObject) {

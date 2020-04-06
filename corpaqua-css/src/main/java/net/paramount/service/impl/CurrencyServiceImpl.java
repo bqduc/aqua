@@ -38,7 +38,7 @@ public class CurrencyServiceImpl extends GenericServiceImpl<Currency, Long> impl
 	}
 
 	@Override
-	public Optional<Currency> getByAlphabeticCode(String alphabeticCode) throws ObjectNotFoundException {
+	public Optional<Currency> getByCode(String alphabeticCode) throws ObjectNotFoundException {
 		return repository.findByCode(alphabeticCode);
 	}
 
@@ -50,11 +50,6 @@ public class CurrencyServiceImpl extends GenericServiceImpl<Currency, Long> impl
 	@Override
 	public Page<Currency> getObjects(SearchParameter searchParameter) {
 		return this.repository.findAll(CurrencySpecification.buildSpecification(searchParameter), searchParameter.getPageable());
-	}
-
-	@Override
-	public Optional<Currency> getByNumericCode(String numericCode) throws ObjectNotFoundException {
-		return repository.findByNumericCode(numericCode);
 	}
 
 	@Override

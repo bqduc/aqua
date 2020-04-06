@@ -33,8 +33,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 
 import org.hibernate.annotations.Type;
@@ -87,11 +85,6 @@ public class ProductProfile extends RepoAuditable {
 	@Enumerated(EnumType.ORDINAL)
 	private ProductType productType = ProductType.Product;
 
-	@Builder.Default
-	@Column(name = "open_date")
-	@Temporal(TemporalType.DATE)
-	private Date openDate = new Date();
-
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
 	@Column(name = "image_default")
@@ -108,7 +101,7 @@ public class ProductProfile extends RepoAuditable {
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfileDiscount> productProfileDiscountList = ListUtility.createList();
+	private List<ProductProfileDetail> productProfileDiscountList = ListUtility.createList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -338,41 +331,14 @@ public class ProductProfile extends RepoAuditable {
 	private PrinterGroup printerGroup;
 
 	@ManyToOne
-	@JoinColumn(name = "master_generic_drug_id")
-	private Catalogue masterGenericDrug; //Generic drug/Chemical Name//Hoạt chất
+	@JoinColumn(name = "master_generic_chemical")
+	private Catalogue masterGenericChemical; //Generic drug/Chemical Name//Hoạt chất
 
-	@Builder.Default
-  @Embedded
-  @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="unit", column=@Column(name="balance_unit_id")),
-      @AttributeOverride(name="value",    column=@Column(name="balance_value"))
-  })
-  private Quantity balance = new Quantity(); //Just-In-Time stock amount
-
-  @Builder.Default
-  @Embedded
-  @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="unit", column=@Column(name="min_level_unit_id")),
-      @AttributeOverride(name="value",    column=@Column(name="min_level_value"))
-  })
-  private Quantity minLevel = new Quantity(); //Just-In-Time stock amount
-
-  @Builder.Default
-  @Embedded
-  @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="unit", column=@Column(name="max_level_unit_id")),
-      @AttributeOverride(name="value",    column=@Column(name="max_level_value"))
-  })
-  private Quantity maxLevel = new Quantity(); //Just-In-Time stock amount
-
-	public ProductProfileDiscount getJITProductProfileDiscount() {
+	public ProductProfileDetail getJITProductProfileDetail() {
 		if (!this.productProfileDiscountList.isEmpty())
 			return this.productProfileDiscountList.get(0);
 
-		return ProductProfileDiscount.builder().build();
+		return ProductProfileDetail.builder().build();
 	}
 
 	public ProductProfileTax getJITProductProfileTax() {

@@ -1,4 +1,4 @@
- package net.paramount.msp.i18n;
+ package net.paramount.i18n;
 
 import org.springframework.stereotype.Component;
 

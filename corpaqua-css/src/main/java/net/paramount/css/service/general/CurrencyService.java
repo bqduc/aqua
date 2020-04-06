@@ -20,18 +20,7 @@ public interface CurrencyService extends GenericService<Currency, Long> {
 	 * @throws ObjectNotFoundException
 	 *             If no such Currency exists.
 	 */
-	Optional<Currency> getByAlphabeticCode(String alphabeticCode) throws ObjectNotFoundException;
-
-	/**
-	 * Get one Currency with the provided numeric code.
-	 * 
-	 * @param numericCode
-	 *            The Currency numeric code
-	 * @return The Currency
-	 * @throws ObjectNotFoundException
-	 *             If no such Currency exists.
-	 */
-	Optional<Currency> getByNumericCode(String numericCode) throws ObjectNotFoundException;
+	Optional<Currency> getByCode(String alphabeticCode) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Measure units with the provided search parameters.

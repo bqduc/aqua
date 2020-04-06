@@ -1,7 +1,6 @@
 package net.paramount.comm.comp;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -15,17 +14,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
-import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
-import net.paramount.common.ListUtility;
-import net.paramount.entity.config.ConfigurationDetail;
 import net.paramount.exceptions.CommunicatorException;
-import net.paramount.exceptions.CryptographyException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.model.ExecutionContext;
-import net.paramount.global.GlobalConstants;
-import net.paramount.security.GlobalCryptogramRepository;
-import net.paramount.security.base.Cryptographer;
 
 @Component
 public class CommunicatorServiceHelper extends ComponentBase {

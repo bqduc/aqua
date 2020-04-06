@@ -24,7 +24,7 @@ public interface AuthorizationService {
 	SecurityPrincipalProfile authenticate(String ssoId, String password) throws EcosphereAuthException;
 	SecurityPrincipalProfile authenticate(String token) throws EcosphereAuthException;
 
-	SecurityPrincipalProfile getSecuredProfile() throws EcosphereAuthException;
+	SecurityPrincipalProfile getActiveSecuredProfile() throws EcosphereAuthException;
 	
 	boolean hasPermission(String target, String action) throws EcosphereAuthException;
 

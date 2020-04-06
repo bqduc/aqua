@@ -26,4 +26,12 @@ public abstract class DetailHome<E> extends Home <E, FilterBase> {
 	public void init() {
 		doInit();
   }
+
+	public String save() {
+		return performSave();
+	}
+
+	protected String performSave() {
+		return "success";
+	}
 }

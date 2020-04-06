@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.ProductProfile;
 
 /**
@@ -69,7 +69,7 @@ public class ShipmentItem implements Serializable, InvoiceItem {
     
     @Embedded
     @Valid
-    private QuantityCore quantity = new QuantityCore();
+    private Quantity quantity = new Quantity();
     
     @Embedded
     @Valid
@@ -180,11 +180,11 @@ public class ShipmentItem implements Serializable, InvoiceItem {
         this.lineCode = lineCode;
     }
 
-    public QuantityCore getQuantity() {
+    public Quantity getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(QuantityCore quantity) {
+    public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
 

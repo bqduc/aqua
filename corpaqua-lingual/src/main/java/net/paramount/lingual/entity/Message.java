@@ -6,6 +6,8 @@ package net.paramount.lingual.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,10 @@ import net.paramount.framework.entity.RepoEntity;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "res_ui_message")
+@Table(
+		name = "resx_ui_message", 
+		uniqueConstraints={@UniqueConstraint(columnNames = {"key", "locale"})
+})
 public class Message extends RepoEntity {
 	private static final long serialVersionUID = 5150863975442948556L;
 

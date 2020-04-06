@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.paramount.msp.i18n;
+package net.paramount.i18n;
 
 import java.util.Iterator;
 import java.util.List;

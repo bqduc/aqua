@@ -17,7 +17,7 @@ import net.paramount.common.ListUtility;
 import net.paramount.css.service.general.MeasureUnitService;
 import net.paramount.css.service.org.BusinessUnitService;
 import net.paramount.css.service.stock.InventoryItemService;
-import net.paramount.css.service.stock.ProductProfileService;
+import net.paramount.css.service.stock.ProductCoreService;
 import net.paramount.dmx.helper.DmxCollaborator;
 import net.paramount.dmx.helper.DmxConfigurationHelper;
 import net.paramount.dmx.repository.base.DmxRepositoryBase;
@@ -28,12 +28,14 @@ import net.paramount.entity.general.Currency;
 import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.entity.general.MeasureUnit;
 import net.paramount.entity.general.Money;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.InventoryItem;
+import net.paramount.entity.stock.ProductCore;
 import net.paramount.entity.stock.ProductProfile;
 import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
+import net.paramount.global.GlobalConstants;
 import net.paramount.osx.model.ConfigureMarshallObjects;
 import net.paramount.osx.model.DataWorkbook;
 import net.paramount.osx.model.DataWorksheet;
@@ -65,7 +67,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	private BusinessUnitService businessUnitService; 
 
 	@Inject
-	private ProductProfileService productService; 
+	private ProductCoreService productService; 
 
 	@Inject
 	private MeasureUnitService measureUnitService;
@@ -122,13 +124,13 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 		}
 
 		List<Entity> results = ListUtility.createDataList();
-		ProductProfile currentBizObject = null;
+		ProductCore currentBizObject = null;
 		DataWorksheet dataWorksheet = dataWorkbook.getDatasheet(ConfigureMarshallObjects.INVENTORY_ITEMS.getName());
 		if (CommonUtility.isNotEmpty(dataWorksheet)) {
 			System.out.println("Processing sheet: " + dataWorksheet.getId());
 			for (Integer key :dataWorksheet.getKeys()) {
 				try {
-					currentBizObject = (ProductProfile)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
+					currentBizObject = (ProductCore)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
 				} catch (EcosphereException e) {
 					e.printStackTrace();
 				}
@@ -154,12 +156,12 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	protected Entity unmarshallProduct(List<?> marshallingDataRow) throws EcosphereException {
 		GeneralCatalogue usageDirection = null, activeIngredient = null;
 		BusinessUnit servicingBusinessUnit = null;
-		ProductProfile marshalledObject = null;
+		ProductCore marshalledObject = null;
 		Catalogue bindingCategory = null;
 		String stringValueOfCode = null;
 		Object dataObject = null;
 		MeasureUnit measureUnit = null;
-		QuantityCore balanceQuantity = null;
+		Quantity balanceQuantity = null;
 		long count = 0;
 		try {
 			if (CommonUtility.isNotEmpty(marshallingDataRow.get(this.configDetailIndexMap.get("idxCode")))) {
@@ -193,65 +195,71 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 			if (null==balanceQuantity||balanceQuantity.isZero()) {
 				balanceQuantity = buildQuantity(marshallingDataRow.get(this.configDetailIndexMap.get("idxBalance")), measureUnit);
 			}
-			marshalledObject = ProductProfile.builder()
+
+			marshalledObject = ProductCore.builder()
 					//.category(bindingCategory)
-					//.barcode(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")), GlobalConstants.SIZE_BARCODE))
+					.barcode(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")), GlobalConstants.SIZE_BARCODE))
 					//.activeIngredient(activeIngredient)
 					//.usageDirection(usageDirection)
-					.composition(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxComposition")))) //Hàm lượng
-					//.name(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxName"))))
-					//.code(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxRegistrationNo")), GlobalConstants.SIZE_CODE))
-					.packaging(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxPackaging")), 150))
+					//.composition(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxComposition")))) //Hàm lượng
+					.name(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxName"))))
+					.code(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxRegistrationNo")), GlobalConstants.SIZE_CODE))
+					//.packaging(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxPackaging")), 150))
 					.measureUnit(measureUnit)
 					//.unitPrice(buildPrice(marshallingDataRow.get(this.configDetailIndexMap.get("idxUnitPrice"))))
 					//.balanceQuantity(balanceQuantity)
-					.servicingBusinessUnit(servicingBusinessUnit)
+					//.servicingBusinessUnit(servicingBusinessUnit)
 					//.manufacturer(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxManufacturerName"))))
 					//.manufacturerCountry(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxManufacturerCountry"))))
 					//.contractor(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxContractor"))))
 					//.contracorCategory(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxContractorCategory"))))
 					//.contractorGroup(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxContractorGroup"))))
-					.governmentDecisionNo(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxDecisionNo"))))
+					//.governmentDecisionNo(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxDecisionNo"))))
 					//.notificationNo(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxDecisionNo"))))
-					.externalCode(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxExternalCode"))))
-					.externalType(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxExternalType"))))
+					//.externalCode(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxExternalCode"))))
+					//.externalType(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxExternalType"))))
 					//.vendor(fetchServicingBusinessUnit(CommonUtility.toString(marshallingDataRow.get(this.configDetailIndexMap.get("idxVendorCode")))))
 					//.costPrice(buildPrice(marshallingDataRow.get(this.configDetailIndexMap.get("idxCostPrice"))))
 					//.sellingPrice(buildPrice(marshallingDataRow.get(this.configDetailIndexMap.get("idxSellingPrice"))))
 					//.progSellingPrice(buildPrice(marshallingDataRow.get(this.configDetailIndexMap.get("idxProgSellingPrice"))))
 					//.progSellingQuantity(buildQuantity(marshallingDataRow.get(this.configDetailIndexMap.get("idxProgSellingQuantity")), measureUnit))
-					.build();
+					.build()
+					.addProfile(this.buildProductProfile(marshallingDataRow));
 		} catch (Exception e) {
 			log.error(e);
 		}
-
 		return marshalledObject;
 	}
 
-	private Money buildPrice(Object priceInfo) {
+	private ProductProfile buildProductProfile(List<?> marshallingDataRow) {
+		ProductProfile productProfile = ProductProfile.builder().build();
+		return productProfile;
+	}
+
+	/*private Money buildPrice(Object priceInfo) {
 		if (null==priceInfo)
 			return null;
 
-		return super.parseMoney(getDefaultCurrency()/*SystemOptionKey.COUNTRY_CODE.getDefaultValue()*/, CommonUtility.toBigDecimal(priceInfo.toString()));
-	}
+		return super.parseMoney(getDefaultCurrency()SystemOptionKey.COUNTRY_CODE.getDefaultValue(), CommonUtility.toBigDecimal(priceInfo.toString()));
+	}*/
 
-	private QuantityCore buildQuantity(Object quantityInfo, MeasureUnit measureUnit) {
+	private Quantity buildQuantity(Object quantityInfo, MeasureUnit measureUnit) {
 		if (CommonUtility.isEmpty(quantityInfo))
 			return null;
 
-		QuantityCore quantity  = new QuantityCore(CommonUtility.toDouble(quantityInfo, 0), (null!=measureUnit)?measureUnit.getId():null);
+		Quantity quantity  = new Quantity(measureUnit, CommonUtility.toDouble(quantityInfo, 0));
 		return quantity ;
 	}
 
-	private Currency getDefaultCurrency() {
+	/*private Currency getDefaultCurrency() {
 		Currency defaultCurrency = Currency.builder()
 		.code(CommonConstants.SYSTEM_CURRENCY_CODE)
-		.country(CommonConstants.SYSTEM_COUNTRY_CODE)
+		//.country(CommonConstants.SYSTEM_COUNTRY_CODE)
 		.build()
 		;
 		defaultCurrency.setId(-1l);
 		return defaultCurrency;
-	}
+	}*/
 	/**
 	 * Example data 11.TUOI SONG>111.RAU CU, QUA>11111.RAU AN LA
 	 */

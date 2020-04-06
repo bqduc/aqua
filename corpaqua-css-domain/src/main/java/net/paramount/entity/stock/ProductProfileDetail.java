@@ -3,6 +3,8 @@ package net.paramount.entity.stock;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -42,9 +44,9 @@ import net.paramount.model.UnitPriceScale;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "product_profile_discount")
+@Table(name = "product_profile_detail")
 @EqualsAndHashCode(callSuper=false)
-public class ProductProfileDiscount extends RepoAuditable {
+public class ProductProfileDetail extends RepoAuditable {
 	private static final long serialVersionUID = 6970590315789214584L;
 
 	@DateTimeFormat(iso = ISO.DATE)
@@ -66,11 +68,11 @@ public class ProductProfileDiscount extends RepoAuditable {
 	@Embedded
 	@Valid
 	@AttributeOverrides({ 
-		@AttributeOverride(name = "percentage", column = @Column(name = "DISCOUNT_EXPENSE_PERCENTAGE")),
+		@AttributeOverride(name = "percentage", column = @Column(name = "discount_expense_percentage")),
 		@AttributeOverride(name = "rate", column = @Column(name = "DISCOUNT_EXPENSE_RATE")),
 		@AttributeOverride(name = "currency", column = @Column(name = "DISCOUNT_EXPENSE_CCY")),
 		@AttributeOverride(name = "value", column = @Column(name = "DISCOUNT_EXPENSE_VALUE")),
-		@AttributeOverride(name = "localAmount", column = @Column(name = "DISCOUNT_EXPENSE_LCYVAL")) })
+		@AttributeOverride(name = "localAmount", column = @Column(name = "discount_expense_lcyval")) })
 	private DiscountOrExpense discountOrExpense = new DiscountOrExpense();
 
 	/**
@@ -118,60 +120,69 @@ public class ProductProfileDiscount extends RepoAuditable {
 	@Builder.Default
 	@Embedded
   @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="currency", column=@Column(name="unit_price_ccy")),
-      @AttributeOverride(name="value", column=@Column(name="unit_price_value"))
-  })
+  @AttributeOverrides( {@AttributeOverride(name="value", column=@Column(name="unit_price_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "currency", joinColumns =  @JoinColumn(name = "unit_price_ccy")) })
   private Money unitPrice = new Money(); 
 
 	@Builder.Default
   @Embedded
   @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="currency", column=@Column(name="unit_price_market_ccy")),
-      @AttributeOverride(name="value", column=@Column(name="unit_price_market_value"))
-  })
+  @AttributeOverrides( {@AttributeOverride(name="value", column=@Column(name="unit_price_market_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "currency", joinColumns =  @JoinColumn(name = "unit_price_market_ccy")) })
   private Money unitPriceMarket = new Money(); 
 
 	@Builder.Default
   @Embedded
   @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="currency", column=@Column(name="cost_price_ccy")),
-      @AttributeOverride(name="value", column=@Column(name="cost_price_value"))
-  })
+  @AttributeOverrides( {@AttributeOverride(name="value", column=@Column(name="cost_price_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "currency", joinColumns =  @JoinColumn(name = "cost_price_ccy")) })
   private Money costPrice = new Money(); 
 
 	@Builder.Default
   @Embedded
   @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="currency", column=@Column(name="selling_price_ccy")),
-      @AttributeOverride(name="value", column=@Column(name="selling_price_value"))
-  })
+  @AttributeOverrides( {@AttributeOverride(name="value", column=@Column(name="selling_price_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "currency", joinColumns =  @JoinColumn(name = "selling_price_ccy")) })
   private Money sellingPrice = new Money(); 
 
 	@Builder.Default
   @Embedded
   @Valid
-  @AttributeOverrides( {
-      @AttributeOverride(name="currency", column=@Column(name="prog_selling_price_ccy")),
-      @AttributeOverride(name="value", column=@Column(name="prog_selling_price_value"))
-  })
+  @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="prog_selling_price_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "currency", joinColumns =  @JoinColumn(name = "prog_selling_price_ccy")) })
   private Money progSellingPrice = new Money(); 
 
 	@Builder.Default
   @Embedded
   @Valid
-  @AttributeOverrides( {
-    @AttributeOverride(name="unit", column=@Column(name="prog_selling_unit_id")),
-    @AttributeOverride(name="value", column=@Column(name="prog_selling_value"))
-  })
+  @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="prog_selling_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "measureUnit", joinColumns =  @JoinColumn(name = "prog_selling_unit_id")) })
   private Quantity progSellingQuantity = new Quantity();
 
 	@Column(name="discount_rate")
 	private Double discountRate;
 
+	@Builder.Default
+  @Embedded
+  @Valid
+  @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="balance_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "measureUnit", joinColumns =  @JoinColumn(name = "balance_unit_id")) })
+  private Quantity balance = new Quantity(); //Just-In-Time stock amount
+
+  @Builder.Default
+  @Embedded
+  @Valid
+  @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="min_level_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "measureUnit", joinColumns =  @JoinColumn(name = "min_level_unit_id")) })
+  private Quantity minLevel = new Quantity();
+
+  @Builder.Default
+  @Embedded
+  @Valid
+  @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="max_level_value"))})
+	@AssociationOverrides({@AssociationOverride(name = "measureUnit", joinColumns =  @JoinColumn(name = "max_level_unit_id")) })
+  private Quantity maxLevel = new Quantity();
+	
 	public boolean isHasLowerPriceThanCent() {
 		if (unitPriceScale.equals(UnitPriceScale.High))
 			return true;

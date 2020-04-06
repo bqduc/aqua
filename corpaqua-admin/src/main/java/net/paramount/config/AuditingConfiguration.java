@@ -41,7 +41,7 @@ public class AuditingConfiguration {
 		@Override
 		public Optional<String> getCurrentAuditor() {
 			Authentication auth = null;
-			SecurityPrincipalProfile securityPrincipalProfile = authorizationService.getSecuredProfile();
+			SecurityPrincipalProfile securityPrincipalProfile = authorizationService.getActiveSecuredProfile();
 			if (null != securityPrincipalProfile) {
 				auth = securityPrincipalProfile.getAuthentication();
 			}
@@ -68,7 +68,13 @@ public class AuditingConfiguration {
 	class AuditorAwareByKeyImpl implements AuditorAware<Long> {
 		@Override
 		public Optional<Long> getCurrentAuditor() {
-			SecurityPrincipalProfile securityPrincipalProfile = authorizationService.getSecuredProfile();
+			SecurityPrincipalProfile securityPrincipalProfile = null;
+			try {
+				securityPrincipalProfile = authorizationService.getActiveSecuredProfile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			if (null != securityPrincipalProfile && null != securityPrincipalProfile.getUserAccount()) {
 				return Optional.of(securityPrincipalProfile.getUserAccount().getId());
 			}

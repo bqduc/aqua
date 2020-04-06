@@ -49,28 +49,30 @@ public class Currency extends RepoAuditable {
 
 	@NotNull
 	@Size(min = 3, max=GlobalConstants.SIZE_CURRENCY_CODE)
-	@Column(name="alphabetic_code", unique = true)
+	@Column(name="code", unique = true)
 	private String code;
 
-	@Size(max = GlobalConstants.SIZE_CURRENCY_CODE)
-	@Column(name="numeric_code")
-	private String numericCode;
-
-	@Column(name="decimal_digits")
-	private Byte decimalDigits; //The number of digits after the decimal separator. 
+  @Column(name="NAME", length=50)
+  private String name;
 
 	@Lob
 	@Column(name = "info", columnDefinition = "TEXT")
 	@Type(type = "org.hibernate.type.TextType")
 	private String info;
-	
-  @Column(name="NAME", length=20)
-  private String name;
-  
+
+  /*
   @Column(name="COUNTRY", length=30)
   private String country;
   
   @Builder.Default
   @Column(name="PIP")
   private Integer pip = 0;
+	
+  @Size(max = GlobalConstants.SIZE_CURRENCY_CODE)
+	@Column(name="numeric_code")
+	private String numericCode;
+
+	@Column(name="decimal_places")
+	private Byte decimalPlaces; //The number of digits after the decimal separator. 
+	*/
 }

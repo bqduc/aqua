@@ -21,9 +21,11 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import net.paramount.common.ListUtility;
 import net.paramount.entity.general.MeasureUnit;
 import net.paramount.framework.entity.RepoAuditable;
@@ -35,6 +37,8 @@ import net.paramount.model.InventoryType;
  * 
  * @author ducbq
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 @Entity
@@ -78,12 +82,6 @@ public class ProductCore extends RepoAuditable {
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
 	private ProductCore parent;
-
-	@Column(name = "minimum_options")
-	private Integer minimumOptions;
-
-	@Column(name = "maximum_options")
-	private Integer maximumOptions;
 
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "issue_date")
@@ -146,5 +144,11 @@ public class ProductCore extends RepoAuditable {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	public ProductCore addProfile(ProductProfile productProfile) {
+		productProfile.setOwner(this);
+		productProfileList.add(productProfile);
+		return this;
 	}
 }

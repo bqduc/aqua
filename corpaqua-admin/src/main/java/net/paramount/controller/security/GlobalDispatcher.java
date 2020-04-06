@@ -35,10 +35,10 @@ public class GlobalDispatcher extends RootController {
 		try {
 			securityAccountProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		if (null == securityAccountProfile) {
-			securityAccountProfile = authorizationService.getSecuredProfile();
+			securityAccountProfile = authorizationService.getActiveSecuredProfile();
 		}
 		
 		return securityAccountProfile;

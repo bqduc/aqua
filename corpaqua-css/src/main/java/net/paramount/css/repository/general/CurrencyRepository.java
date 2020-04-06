@@ -14,13 +14,10 @@ import net.paramount.framework.repository.BaseRepository;
 @Repository
 public interface CurrencyRepository extends BaseRepository<Currency, Long>{
 	Optional<Currency> findByCode(String code);
-	Optional<Currency> findByNumericCode(String numericCode);
 	Long countByCode(String code);
-	Long countByNumericCode(String numericCode);
 
 	@Query("SELECT entity FROM #{#entityName} entity WHERE ("
 			+ " LOWER(entity.code) like LOWER(CONCAT('%',:keyword,'%')) or "
-			+ " LOWER(entity.numericCode) like LOWER(CONCAT('%',:keyword,'%')) or "
 			+ " LOWER(entity.info) like LOWER(CONCAT('%',:keyword,'%')) "
 			+ ")"
 	)

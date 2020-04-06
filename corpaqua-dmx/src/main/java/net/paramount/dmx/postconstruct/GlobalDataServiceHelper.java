@@ -117,7 +117,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		}*/
 
 		//One role can accesses to some access patterns
-		String[] adminPatterns = new String[] {"/bszone/auxadmin/**", "/admin/**", "/dbx/**", "/spaces/**"};
+		String[] adminPatterns = new String[] {"/bszone/auxadmin/**", "/bszone/stock/**", "/admin/**", "/dbx/**", "/spaces/**"};
 		for (String adminPattern :adminPatterns) {
 			if (!accessDecisionPolicyService.exists(propAccessPattern, adminPattern)) {
 				accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder()

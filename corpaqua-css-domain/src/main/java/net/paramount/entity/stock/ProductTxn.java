@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
 import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.entity.general.WorkBunch;
 import net.paramount.entity.trade.FinanceAction;
 import net.paramount.entity.trade.TradeAction;
@@ -68,7 +68,7 @@ public class ProductTxn extends RepoAuditable {
 	private Date date;
 
 	@Embedded
-	private QuantityCore quantity = new QuantityCore();
+	private Quantity quantity = new Quantity();
 
 	@Column(name = "TRADE_ACTION")
 	@Enumerated(EnumType.ORDINAL)
@@ -128,7 +128,7 @@ public class ProductTxn extends RepoAuditable {
 		ProductTransfer owner = transferItem.getOwner();
 
 		setProduct(transferItem.getProduct());
-		setQuantity(new QuantityCore(transferItem.getQuantity()));
+		setQuantity(new Quantity(transferItem.getQuantity()));
 		setUnitPrice(new MoneySet());
 		setProductType(transferItem.getProduct().getProductType());
 		setActive(owner.getActive());
@@ -164,11 +164,11 @@ public class ProductTxn extends RepoAuditable {
 		this.date = date;
 	}
 
-	public QuantityCore getQuantity() {
+	public Quantity getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(QuantityCore quantity) {
+	public void setQuantity(Quantity quantity) {
 		this.quantity = quantity;
 	}
 

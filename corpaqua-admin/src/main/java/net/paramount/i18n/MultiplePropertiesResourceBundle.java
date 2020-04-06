@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.paramount.msp.i18n;
+package net.paramount.i18n;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +33,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.context.DatabaseMessageServiceImpl;
@@ -206,20 +207,26 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	}
 
 	private String getMessageContent(String key) {
+		if (null==key) {
+			LOG.log(Level.ALL, "Empty key!!!.");
+			return CommonConstants.STRING_BLANK;
+		}
+
 		if (CommonUtility.isEmpty(this.localMessages)) {
 			//Load all messages from database
 			loadPersistenceMessages();
 		} else if (!this.localMessages.containsKey(key)) {
 			MessagePersistenceService persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
 			String message = persistenceMessageService.getMessage(key, null, locale);
-			if (CommonUtility.isNotEmpty(message)) {
+			if (CommonUtility.isNotEmpty(message) && !message.equals(key)) {
 				this.localMessages.put(key, message);
 			}
+
 			return message;
 		} 
 
 		if (!this.localMessages.containsKey(key)) {
-			System.out.println("Invalid key: " + key);
+			LOG.log(Level.ALL, "Invalid key: " + key);
 			// Actually did not contain the message with the key in database
 			return key;
 		}

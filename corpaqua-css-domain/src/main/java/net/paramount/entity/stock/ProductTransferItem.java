@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.framework.entity.RepoEntity;
 
 /**
@@ -52,7 +52,7 @@ public class ProductTransferItem extends RepoEntity {
     
     @Embedded
     @Valid
-    private QuantityCore quantity = new QuantityCore();
+    private Quantity quantity = new Quantity();
 
     public ProductTransfer getOwner() {
         return owner;
@@ -86,11 +86,11 @@ public class ProductTransferItem extends RepoEntity {
         this.lineCode = lineCode;
     }
 
-    public QuantityCore getQuantity() {
+    public Quantity getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(QuantityCore quantity) {
+    public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
 

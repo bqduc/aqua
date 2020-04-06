@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ui/extensions">
 	<ul class="nav navbar-nav">
-  	<li> <p:link value="#{messages.Dashboard}" href="/index.jsf" /></li>
+  	<li> <p:link value="#{messages['lbl.Dashboard']}" href="/index.jsf" /></li>
   	<li class="dropdown mega-dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{messages['lbl.menu.poe']}<span class="caret"></span></a>				
 			<ul class="dropdown-menu mega-dropdown-menu">
@@ -313,7 +313,7 @@
 							</ul>
                         </li>
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Sales}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Sales']}</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <p:link value="#{messages.Customers}"/>
@@ -324,7 +324,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Purchases}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Purchases']}</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <p:link value="#{messages.Vendors}" />
@@ -350,7 +350,7 @@
 								</ul>
                         </li>
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Inventory}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Inventory']}</a>
                             <ul class="dropdown-menu">
                                 <li> <p:link value="#{messages.IncomingShipments}" /></li>
                                 <li> <p:link value="#{messages.DeliveryOrders}" /></li>
@@ -359,7 +359,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Accounting}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Accounting']}</a>
                             <ul class="dropdown-menu">
                                 <li> <p:link value="#{messages.CustomerInvoices}" /></li>
                                 <li> <p:link value="#{messages.CustomerPayments}" /></li>
@@ -370,7 +370,7 @@
                             </ul>
                         </li> 
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Configuration}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Configuration']}</a>
                             <ul class="dropdown-menu">
                                 <li> <p:link value="#{messages.Accounts}" /></li>
                                 <li> <p:link value="#{messages.Journals}"  /></li>
@@ -382,7 +382,7 @@
                             </ul>
                         </li> 
                         <li class="dropdown">
-                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages.Language}</a>
+                            <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Language']}</a>
                             <ul class="dropdown-menu">
                                 <li> 
 								    <p:commandLink actionListener="#{localeController.changeLanguage('en')}" ajax="true">
@@ -399,7 +399,7 @@
                     </ul>   
 					<ul class="nav navbar-nav">
 			<li class="dropdown mega-dropdown">
-    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{messages['menu.addOns']}<span class="caret"></span></a>				
+    			<a href="#" class="dropdown-toggle" data-toggle="dropdown">#{messages['lbl.menu.addOns']}<span class="caret"></span></a>				
 				<ul class="dropdown-menu mega-dropdown-menu">
 					<li class="col-sm-3">
     					<ul>

@@ -14,7 +14,7 @@ package net.paramount.entity.trade;
 
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 
 /**
  * Generic nterface for invoice item.
@@ -26,7 +26,7 @@ public interface InvoiceItem {
     String getName();
     String getInfo();
     String getLineCode();
-    QuantityCore getQuantity();
+    Quantity getQuantity();
     Money getUnitPrice();
     MoneySet getAmount();
 }

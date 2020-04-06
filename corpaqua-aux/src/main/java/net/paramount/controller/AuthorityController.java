@@ -74,7 +74,7 @@ public class AuthorityController extends DetailHome<Authority> implements Serial
 		}
 	}
 
-	public void save() {
+	protected String performSave() {
 		try {
 			bizEntity.setCategory(this.category);
 			bizEntity.setParent(parent);
@@ -97,6 +97,7 @@ public class AuthorityController extends DetailHome<Authority> implements Serial
 		} catch (IOException e) {
 			this.log.error(e);
 		}
+		return "success";
 	}
 
 	public String handleSubmit() {

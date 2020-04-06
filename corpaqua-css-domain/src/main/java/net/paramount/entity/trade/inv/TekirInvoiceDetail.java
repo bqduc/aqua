@@ -211,7 +211,7 @@ public class TekirInvoiceDetail extends TenderDetailBase implements ITenderDetai
 	public MoneySet getLineExpenseTotal() {
 		return new MoneySet().add( getExpense().getAsMoney() )
 							 .add( getInvoiceExpense() )
-							 .divide( getQuantity().asBigDecimal(), getProduct().getJITProductProfileDiscount().getUnitPriceScale().getScale());
+							 .divide( getQuantity().asBigDecimal(), getProduct().getJITProductProfileDetail().getUnitPriceScale().getScale());
 	}
 	
 	/**
@@ -219,7 +219,7 @@ public class TekirInvoiceDetail extends TenderDetailBase implements ITenderDetai
 	 */
 	public MoneySet getTaxIncludedUnitPrice() {
 		return new MoneySet( getGrandTotal() ).divide(getQuantity().asBigDecimal(), 
-												      getProduct().getJITProductProfileDiscount().getUnitPriceScale().getScale());
+												      getProduct().getJITProductProfileDetail().getUnitPriceScale().getScale());
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class TekirInvoiceDetail extends TenderDetailBase implements ITenderDetai
 	 */
 	public MoneySet getDiscountIncludedUnitPrice() {
 		return new MoneySet( getBeforeTax() ).divide(getQuantity().asBigDecimal(), 
-				getProduct().getJITProductProfileDiscount().getUnitPriceScale().getScale());
+				getProduct().getJITProductProfileDetail().getUnitPriceScale().getScale());
 	}
 	
     @Override

@@ -35,7 +35,7 @@ import javax.validation.Valid;
 
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
-import net.paramount.entity.general.QuantityCore;
+import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.ProductProfile;
 import net.paramount.entity.stock.ProductType;
 import net.paramount.framework.entity.RepoEntity;
@@ -77,7 +77,7 @@ public class TenderDetailBase extends RepoEntity {
     //Miktar
     @Embedded
     @Valid
-    private QuantityCore quantity = new QuantityCore();
+    private Quantity quantity = new Quantity();
 
     //Yabancı para ile birim fiyat
     @Embedded
@@ -347,7 +347,7 @@ public class TenderDetailBase extends RepoEntity {
 
     public String getCurrencyOfItem() {
     	if (getTaxExcludedAmount() != null) {
-    		return getTaxExcludedAmount().getCurrencyCode();
+    		return getTaxExcludedAmount().getCurrency().getCode();
     	}
     	return null;
     }
@@ -439,7 +439,7 @@ public class TenderDetailBase extends RepoEntity {
 	}
 	
 	public int getUnitPriceScale() {
-		return product != null ? product.getJITProductProfileDiscount().getUnitPriceScale().getScale() : UnitPriceScale.defaultScale();
+		return product != null ? product.getJITProductProfileDetail().getUnitPriceScale().getScale() : UnitPriceScale.defaultScale();
 	}
 
 	public boolean isTypeOf(ProductType... types) {
@@ -458,7 +458,7 @@ public class TenderDetailBase extends RepoEntity {
 		BigDecimal calculatedAmount = unitPrice.multiply(quantityValue);
 	
 		MoneySet amount = new MoneySet();
-		amount.setCurrencyCode( getCurrencyOfItem() );
+		//amount.setCurrencyCode( getCurrencyOfItem() );
 		amount.setValue( calculatedAmount );
 
 		setAmount(amount);
@@ -519,11 +519,11 @@ public class TenderDetailBase extends RepoEntity {
 		this.tax5 = tax5;
 	}
 
-	public QuantityCore getQuantity() {
+	public Quantity getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(QuantityCore quantity) {
+	public void setQuantity(Quantity quantity) {
 		this.quantity = quantity;
 	}
 	
