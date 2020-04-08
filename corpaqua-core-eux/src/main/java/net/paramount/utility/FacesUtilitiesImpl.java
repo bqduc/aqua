@@ -1,5 +1,6 @@
 package net.paramount.utility;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -76,5 +77,10 @@ public class FacesUtilitiesImpl implements FacesUtilities {
 		}
 
 		return false;
+	}
+
+	@Override
+	public String format(String message, Object... arguments) {
+		return MessageFormat.format(message, arguments);
 	}
 }

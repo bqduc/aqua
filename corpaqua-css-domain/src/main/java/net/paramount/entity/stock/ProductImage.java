@@ -1,5 +1,8 @@
 package net.paramount.entity.stock;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +14,18 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.entity.contact.ContactAddress;
+import net.paramount.entity.contact.ContactAssignment;
+import net.paramount.entity.contact.ContactCommunication;
+import net.paramount.entity.contact.ContactCore;
+import net.paramount.entity.contact.ContactHierarchy;
+import net.paramount.entity.contact.ContactProfile;
 import net.paramount.framework.entity.RepoAuditable;
 
 /**
@@ -26,6 +38,8 @@ import net.paramount.framework.entity.RepoAuditable;
 @Entity
 @Table(name = "product_image")
 @EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductImage extends RepoAuditable {
 	private static final long serialVersionUID = 9092368070849737080L;
 

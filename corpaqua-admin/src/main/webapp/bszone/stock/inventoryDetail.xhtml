@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:fnc="http://net.myproject/fnc"
                 template="#{customLayoutMB.template}">
 
     <ui:define name="title">
@@ -22,29 +23,21 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="Save" action="#{inventoryController.save}" update="@form"
-                                         icon="fa fa-check" styleClass="btn-primary"/>
+                        <p:commandButton value="Save" action="#{inventoryController.save}" update="@form" icon="fa fa-check" styleClass="btn-primary"/>
                         <p:spacer width="5" rendered="#{inventoryController.isNew()}"/>
-                        <p:commandButton value="Clear" action="#{inventoryController.clear}" process="@this"
-                                         icon="fa fa-refresh" styleClass="btn-success"
-                                         update="@form" rendered="#{inventoryController.isNew()}" resetValues="true"/>
+                        <p:commandButton value="Clear" action="#{inventoryController.clear}" process="@this" icon="fa fa-refresh" styleClass="btn-success" update="@form" rendered="#{inventoryController.isNew()}" resetValues="true"/>
                         <p:spacer width="5" rendered="#{not inventoryController.isNew()}"/>
 
-                        <p:commandButton value="Delete" action="#{inventoryController.remove}" process="@this"
-                                         rendered="#{not inventoryController.isNew()}" icon="fa fa-trash"
-                                         styleClass="btn-danger">
-                            <f:setPropertyActionListener value="true"
-                                                         target="#{facesContext.externalContext.flash.keepMessages}"/>
+                        <p:commandButton value="Delete" action="#{inventoryController.remove}" process="@this" rendered="#{not inventoryController.isNew()}" icon="fa fa-trash" styleClass="btn-danger">
+                            <f:setPropertyActionListener value="true" target="#{facesContext.externalContext.flash.keepMessages}"/>
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
-                        <p:commandButton value="Back" immediate="true"
-                                         action="inventoryBrowse?faces-redirect=true"
-                                         process="@this"
-                                         icon="fa fa-reply"/>
+                        <p:commandButton value="Back" immediate="true" action="inventoryBrowse?faces-redirect=true" process="@this" icon="fa fa-reply"/>
                     </div>
 
                     <p:separator/>
+                    
                     <p:tabView>
                     	<p:tab title="#{messages['lbl.generalInformation']}">
 	                      <div class="ui-g ui-fluid">
@@ -59,13 +52,13 @@
 		                        </div>
 		                        <div class="ui-sm-12 ui-g-6 ui-g-nopad">
 		                            <div class="ui-sm-12 ui-g-11">
-		                                <p:outputLabel for="firstname" value="#{messages['lbl.general.barcode']}"/>
+		                                <p:outputLabel for="barcode" value="#{messages['lbl.general.barcode']}"/>
 		                            </div>
 		                            <div class="ui-sm-12 ui-g-11">
-		                                <p:inputText id="firstname0" value="#{samplePageMB.entity.firstname}" maxlength="50"
-		                                             required="true" requiredMessage="Firstname is required."/>
+		                                <p:inputText id="barcode" value="#{samplePageMB.entity.firstname}" maxlength="50" required="true" requiredMessage="#{messages['lbl.mandatory.input'].concat(' ').concat(messages['lbl.general.barcode'].toLowerCase())}" >
+		                                </p:inputText>
 		                                <span class="help-block"> 
-		                                    <p:message for="firstname"/>
+		                                    <p:message for="barcode"/>
 		                                </span>
 		                            </div>
 		                        </div>

@@ -4,6 +4,8 @@
 package net.paramount.entity.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -15,9 +17,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.entity.contact.ContactAddress;
+import net.paramount.entity.contact.ContactAssignment;
+import net.paramount.entity.contact.ContactCommunication;
+import net.paramount.entity.contact.ContactCore;
+import net.paramount.entity.contact.ContactHierarchy;
+import net.paramount.entity.contact.ContactProfile;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
@@ -33,6 +44,8 @@ import net.paramount.framework.entity.RepoEntity;
 @Entity
 @Table(name="ORDER_ITEM")
 @EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderItem extends RepoEntity {
 	private static final long serialVersionUID = -4930122848308077532L;
 

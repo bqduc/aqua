@@ -12,9 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import net.paramount.entity.contact.ContactPerson;
 import net.paramount.entity.general.Organization;
 import net.paramount.framework.entity.RepoAuditable;
@@ -29,6 +31,8 @@ import net.paramount.model.AccountType;
 @Entity
 @Table(name="ACCOUNT")
 @EqualsAndHashCode(callSuper=false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account extends RepoAuditable {
 	private static final long serialVersionUID = 4969045202995145269L;
 

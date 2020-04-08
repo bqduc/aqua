@@ -17,4 +17,6 @@ public interface FacesUtilities extends Serializable {
 	void addDetailMessage(String message, FacesMessage.Severity severity);
 
 	boolean isUserInRole(String role);
+
+	String format(String message, Object ...arguments);
 }

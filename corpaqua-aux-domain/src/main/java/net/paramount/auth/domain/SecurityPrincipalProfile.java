@@ -14,14 +14,14 @@ import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
-import net.paramount.domain.model.dto.DtoCore;
+import net.paramount.domain.model.dto.ModelCore;
 
 /**
  * @author ducbq
  *
  */
 @Builder
-public class SecurityPrincipalProfile extends DtoCore {
+public class SecurityPrincipalProfile extends ModelCore {
 	private static final long serialVersionUID = -1051763928685608384L;
 
 	public static final String ANONYMOUS_USER = "anonymousUser";

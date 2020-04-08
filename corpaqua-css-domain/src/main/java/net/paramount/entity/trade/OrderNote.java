@@ -4,6 +4,7 @@
 package net.paramount.entity.trade;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,11 +18,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.entity.contact.CTAContact;
+import net.paramount.entity.contact.ContactAddress;
+import net.paramount.entity.contact.ContactAssignment;
+import net.paramount.entity.contact.ContactCommunication;
+import net.paramount.entity.contact.ContactCore;
+import net.paramount.entity.contact.ContactHierarchy;
+import net.paramount.entity.contact.ContactProfile;
 import net.paramount.entity.doc.DocumentBase;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.stock.Warehouse;
@@ -34,6 +43,8 @@ import net.paramount.entity.stock.Warehouse;
 @Builder
 @Entity
 @Table(name="ORDER_NOTE")
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderNote extends DocumentBase {
 	private static final long serialVersionUID = 5374753611465150282L;
 

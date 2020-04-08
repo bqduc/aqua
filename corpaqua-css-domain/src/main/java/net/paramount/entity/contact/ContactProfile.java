@@ -26,9 +26,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.common.ListUtility;
 import net.paramount.framework.entity.RepoAuditable;
@@ -43,6 +45,8 @@ import net.paramount.framework.entity.RepoAuditable;
 @Entity
 @Table(name = "contact_profile")
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContactProfile extends RepoAuditable {
 	private static final long serialVersionUID = -4848362258780874163L;
 
