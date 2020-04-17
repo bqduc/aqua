@@ -2,17 +2,14 @@ package net.paramount.service.impl;
 
 import javax.inject.Inject;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import net.paramount.css.repository.stock.InventoryItemRepository;
 import net.paramount.css.service.stock.InventoryItemService;
 import net.paramount.css.specification.InventoryItemSpecification;
 import net.paramount.entity.stock.InventoryItem;
-import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.exceptions.ObjectNotFoundException;
-import net.paramount.framework.model.ExecutionContext;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
@@ -34,29 +31,12 @@ public class InventoryItemServiceImpl extends GenericServiceImpl<InventoryItem, 
 	}
 
 	@Override
-	public InventoryItem getOne(String code) throws ObjectNotFoundException {
-		return (InventoryItem)super.getOptionalObject(repository.findByCode(code));
-	}
-
-	@Override
 	public InventoryItem getByBarcode(String barcode) throws ObjectNotFoundException {
 		return (InventoryItem)super.getOptionalObject(repository.findByBarcode(barcode));
 	}
 
 	@Override
-	protected Page<InventoryItem> performSearch(String keyword, Pageable pageable) {
-		return repository.search(keyword, pageable);
-	}
-
-	@Override
-	public Page<InventoryItem> getObjects(SearchParameter searchParameter) {
-		Page<InventoryItem> pagedProducts = this.repository.findAll(InventoryItemSpecification.buildSpecification(searchParameter), searchParameter.getPageable());
-		//Perform additional operations here
-		return pagedProducts;
-	}
-
-	@Override
-	public ExecutionContext load(ExecutionContext executionContext) throws ExecutionContextException {
-		return executionContext;
+	protected Specification<InventoryItem> getRepoSpecification(SearchParameter searchParameter) {
+		return InventoryItemSpecification.buildSpecification(searchParameter);
 	}
 }

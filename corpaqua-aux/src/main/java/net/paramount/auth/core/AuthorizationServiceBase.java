@@ -60,7 +60,7 @@ public abstract class AuthorizationServiceBase {
 			.userAccount(userAccount)
 			.build();
 		} else if (systemPrincipal instanceof String){ //Anonymous user - Not logged in
-			if (CommonConstants.ANONYMOUS.equalsIgnoreCase((String)systemPrincipal)) {
+			if (CommonConstants.ANONYMOUS_USER.equalsIgnoreCase((String)systemPrincipal)) {
 				fetchedResponse = SecurityPrincipalProfile.builder()
 						.displayName((String)systemPrincipal)
 						.build();

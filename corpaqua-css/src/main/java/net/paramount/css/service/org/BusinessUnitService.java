@@ -16,7 +16,7 @@ public interface BusinessUnitService extends GenericService<BusinessUnit, Long>{
    * @return The business unit
    * @throws ObjectNotFoundException If no such business unit exists.
    */
-	BusinessUnit getOne(String code) throws ObjectNotFoundException;
+	BusinessUnit getObjectByCode(String code) throws ObjectNotFoundException;
 
   /**
    * Get one business units with the provided search parameters.

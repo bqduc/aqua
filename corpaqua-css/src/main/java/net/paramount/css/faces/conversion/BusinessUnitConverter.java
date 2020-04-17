@@ -31,7 +31,7 @@ public class BusinessUnitConverter extends ConverterCore<BusinessUnit>  {
 	private BusinessUnitService service;
 
 	@Override
-	protected BusinessUnit parseBusinessObject(String value) {
+	protected BusinessUnit objectFromString(String value) {
 		BusinessUnit unmarshalledObject = null;
 		if (value != null && value.trim().length() > 0) {
 			try {
@@ -44,7 +44,7 @@ public class BusinessUnitConverter extends ConverterCore<BusinessUnit>  {
 	}
 
 	@Override
-	protected String businessObjectToString(BusinessUnit object) {
+	protected String objectToString(BusinessUnit object) {
 		if (object != null) {
 			return String.valueOf(object.getId());
 		} else {

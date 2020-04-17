@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.model.AccessDecision;
 import net.paramount.auth.service.AccessDecisionPolicyService;
+import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
 
 /**
@@ -32,7 +32,7 @@ public class AuthorizationChecker {
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	private boolean doCheck(HttpServletRequest request, Authentication authentication) {
-		if (authentication == null || SecurityPrincipalProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
+		if (authentication == null || CommonConstants.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return false;
 		}
 

@@ -23,17 +23,6 @@ public interface InventoryProfileService extends GenericService<InventoryProfile
 	Optional<InventoryProfile> getByCode(String code) throws ObjectNotFoundException;
 
 	/**
-	 * Get one InventoryProfile with the provided code.
-	 * 
-	 * @param isbn
-	 *            The InventoryProfile isbn
-	 * @return The InventoryProfile
-	 * @throws ObjectNotFoundException
-	 *             If no such InventoryProfile exists.
-	 */
-	InventoryProfile getOne(String isbn) throws ObjectNotFoundException;
-
-	/**
 	 * Get one Enterprises with the provided search parameters.
 	 * 
 	 * @param searchParameter

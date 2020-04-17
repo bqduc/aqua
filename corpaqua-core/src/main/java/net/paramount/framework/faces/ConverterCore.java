@@ -21,13 +21,13 @@ import javax.faces.convert.Converter;
 
 public abstract class ConverterCore<T> implements Converter<T> {
 	public T getAsObject(FacesContext facesContext, UIComponent uiComponent, String value) {
-		return parseBusinessObject(value);
+		return objectFromString(value);
 	}
 
 	public String getAsString(FacesContext facesContext, UIComponent uiComponent, T bizObject) {
-		return businessObjectToString(bizObject);
+		return objectToString(bizObject);
 	}
 
-	protected abstract T parseBusinessObject(String value);
-	protected abstract String businessObjectToString(T object);
+	protected abstract T objectFromString(String value);
+	protected abstract String objectToString(T object);
 }

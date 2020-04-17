@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,8 +50,7 @@ public abstract class BaseServiceImpl<T extends RepoEntity, PK extends Serializa
 	}
 
 	public T get(PK id) {
-		T entity = getRepository().getOne(id);
-		return entity;
+		return getRepository().findById(id).orElse(null);
 	}
 
 	public T getById(PK id) {
@@ -60,35 +58,19 @@ public abstract class BaseServiceImpl<T extends RepoEntity, PK extends Serializa
 	}
 
 	public void delete(PK id) {
-		try {
-			//getRepository().delete(id);
-		} catch (EmptyResultDataAccessException e) {
-			log.error("Delete object by key", e);
-		}
+		getRepository().deleteById(id);
 	}
 
 	public void delete(T entity) {
-		try {
-			getRepository().delete(entity);
-		} catch (EmptyResultDataAccessException e) {
-			log.error("Delete object. ", e);
-		}
+		getRepository().delete(entity);
 	}
 
 	public void deleteAll() {
-		try {
-			getRepository().deleteAll();
-		} catch (EmptyResultDataAccessException e) {
-			log.error("Delete all objects. ", e);
-		}
+		getRepository().deleteAll();
 	}
 
-	
 	public T update(T entity) {
-		T getEntity = getRepository().getOne((PK) entity.getId());
-		getRepository().save(entity);
-		log.info("Merged entity: " + getEntity.getId());
-		return entity;
+		return getRepository().saveAndFlush(entity);
 	}
 
 	public Long count() {

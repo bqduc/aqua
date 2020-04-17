@@ -70,7 +70,6 @@ public class SequenceManager extends ComponentBase {
 		return newSerial.substring(newSerial.length() - len);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected Sequence findSequence(String serial) {
 		log.debug("Find SystemSequence : #0", serial);
 		Sequence seq = null;
@@ -78,7 +77,7 @@ public class SequenceManager extends ComponentBase {
 		// Önce eldeki Map kontrol ediliyor...
 		if (!sequenceMap.containsKey(serial)) {
 			// Veri tabanından isteniyor
-			seq = this.systemSequenceService.getOne(serial);
+			seq = this.systemSequenceService.getObjectBySerial(serial);
 			if (null==seq) {
 				// Veri tabanında da yoksa yeni açılıyor...
 				seq = new Sequence();
@@ -114,12 +113,17 @@ public class SequenceManager extends ComponentBase {
 	public String getNewSerialNumber(String key) {
 		// TODO: Burda ilgili optiondan değeri okuyacak.
 		String serial = "AA";
-		Option o = this.optionService.getOne(key);
+		Option o = this.optionService.getByKey(key);
 		if (o != null) {
 			serial = o.getAsString();
 		}
 
 		return serial + "-" + getNewNumber(key + "." + serial, 6);
+	}
+
+	public String generateNewSerialNumber(String key) {
+		String generatedSerialNumber = getNewNumber(key, (int)GlobalConstants.SIZE_CODE_MEDIUM-key.length());
+		return new StringBuilder(key).append(generatedSerialNumber).toString();
 	}
 
 	/**
@@ -130,7 +134,7 @@ public class SequenceManager extends ComponentBase {
 	 */
 	public String getTempSerialNumber(String key) {
 		String serial = "AA";
-		Option o = this.optionService.getOne(key);
+		Option o = this.optionService.getByKey(key);
 		if (o != null) {
 			serial = o.getAsString();
 		}
@@ -144,7 +148,7 @@ public class SequenceManager extends ComponentBase {
 		String serial = "B1";
 		// Integer len = 12; //paritesiz basamak sayisi
 
-		Option o = this.optionService.getOne(key);
+		Option o = this.optionService.getByKey(key);
 		if (o != null) {
 			serial = o.getAsString();
 		}

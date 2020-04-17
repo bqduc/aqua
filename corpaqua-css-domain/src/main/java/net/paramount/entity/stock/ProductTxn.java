@@ -55,7 +55,7 @@ public class ProductTxn extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID")
-	private ProductProfile product;
+	private InventoryDetail product;
 
 	@Column(name = "ADVERSE_CODE", length = 20)
 	private String adverseCode;
@@ -148,11 +148,11 @@ public class ProductTxn extends RepoAuditable {
 		this.warehouse = warehouse;
 	}
 
-	public ProductProfile getProduct() {
+	public InventoryDetail getProduct() {
 		return product;
 	}
 
-	public void setProduct(ProductProfile product) {
+	public void setProduct(InventoryDetail product) {
 		this.product = product;
 	}
 

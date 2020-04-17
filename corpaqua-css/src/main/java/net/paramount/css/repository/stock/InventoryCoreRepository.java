@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import net.paramount.entity.stock.ProductCore;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryCore;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.framework.repository.CodeNameRepository;
 
 @Repository
-public interface ProductCoreRepository extends CodeNameRepository<ProductCore, Long> {
+public interface InventoryCoreRepository extends CodeNameRepository<InventoryCore, Long> {
 	Long countByBarcode(String barcode);
-	Optional<ProductProfile> findByBarcode(String barcode);
+	Optional<InventoryDetail> findByBarcode(String barcode);
 
 	@Query(value = "SELECT entity.code FROM #{#entityName} entity ", nativeQuery = true)
   List<String> findCode();
@@ -29,5 +29,5 @@ public interface ProductCoreRepository extends CodeNameRepository<ProductCore, L
 			+ " or LOWER(entity.translatedName) like LOWER(CONCAT('%',:keyword,'%'))"
 			+ ")"
 	)
-	Page<ProductCore> find(@Param("keyword") String keyword, Pageable pageable);
+	Page<InventoryCore> find(@Param("keyword") String keyword, Pageable pageable);
 }

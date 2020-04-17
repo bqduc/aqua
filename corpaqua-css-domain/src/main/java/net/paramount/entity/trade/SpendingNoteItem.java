@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.framework.entity.RepoEntity;
 
 /**
@@ -51,7 +51,7 @@ public class SpendingNoteItem extends RepoEntity {
     
     @ManyToOne
     @JoinColumn(name="SERVICE_ID")
-    private ProductProfile product;
+    private InventoryDetail product;
 
     @Embedded
     @Valid
@@ -97,11 +97,11 @@ public class SpendingNoteItem extends RepoEntity {
         this.info = info;
     }
 
-    public ProductProfile getProduct() {
+    public InventoryDetail getProduct() {
 		return product;
 	}
 
-	public void setProduct(ProductProfile product) {
+	public void setProduct(InventoryDetail product) {
 		this.product = product;
 	}
 

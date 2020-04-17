@@ -15,7 +15,7 @@ import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.css.service.contact.ContactService;
 import net.paramount.css.service.org.BusinessUnitService;
-import net.paramount.css.service.stock.ProductCoreService;
+import net.paramount.css.service.stock.InventoryService;
 import net.paramount.framework.component.CompCore;
 import net.paramount.service.general.CatalogueService;
 import net.paramount.service.general.CatalogueSubtypeService;
@@ -50,7 +50,7 @@ public class DashboardServiceManager extends CompCore {
 	private AuthorityService authorityService;
 	
 	@Inject 
-	private ProductCoreService productService;
+	private InventoryService productService;
 
 	@Inject 
 	private BusinessUnitService businessUnitService;

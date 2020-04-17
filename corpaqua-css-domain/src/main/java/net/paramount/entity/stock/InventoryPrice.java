@@ -25,6 +25,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import net.paramount.domain.entity.general.Catalogue;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
@@ -44,9 +45,9 @@ import net.paramount.model.UnitPriceScale;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "product_profile_detail")
+@Table(name = "inventory_price")
 @EqualsAndHashCode(callSuper=false)
-public class ProductProfileDetail extends RepoAuditable {
+public class InventoryPrice extends RepoAuditable {
 	private static final long serialVersionUID = 6970590315789214584L;
 
 	@DateTimeFormat(iso = ISO.DATE)
@@ -59,7 +60,7 @@ public class ProductProfileDetail extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private ProductProfile owner;
+	private InventoryDetail owner;
 
 	/**
 	 * If the product is marked as a cost or a discount, it holds the discount / cost information.
@@ -182,7 +183,11 @@ public class ProductProfileDetail extends RepoAuditable {
   @AttributeOverrides({@AttributeOverride(name="value", column=@Column(name="max_level_value"))})
 	@AssociationOverrides({@AssociationOverride(name = "measureUnit", joinColumns =  @JoinColumn(name = "max_level_unit_id")) })
   private Quantity maxLevel = new Quantity();
-	
+
+	@ManyToOne
+	@JoinColumn(name = "shipping_strategy_catalogue_id")
+	private Catalogue shippingStrategy;
+
 	public boolean isHasLowerPriceThanCent() {
 		if (unitPriceScale.equals(UnitPriceScale.High))
 			return true;

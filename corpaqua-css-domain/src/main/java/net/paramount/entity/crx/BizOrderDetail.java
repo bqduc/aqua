@@ -34,7 +34,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.general.PosTax;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.framework.entity.RepoAuditable;
 
 /**
@@ -57,7 +57,7 @@ public class BizOrderDetail extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private ProductProfile entry;
+	private InventoryDetail entry;
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
@@ -133,11 +133,11 @@ public class BizOrderDetail extends RepoAuditable {
 	@Column(name = "info", columnDefinition="TEXT")
 	private String info;
 
-	public ProductProfile getEntry() {
+	public InventoryDetail getEntry() {
 		return entry;
 	}
 
-	public void setEntry(ProductProfile entry) {
+	public void setEntry(InventoryDetail entry) {
 		this.entry = entry;
 	}
 

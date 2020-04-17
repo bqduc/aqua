@@ -17,7 +17,7 @@ import net.paramount.common.ListUtility;
 import net.paramount.css.service.general.MeasureUnitService;
 import net.paramount.css.service.org.BusinessUnitService;
 import net.paramount.css.service.stock.InventoryItemService;
-import net.paramount.css.service.stock.ProductCoreService;
+import net.paramount.css.service.stock.InventoryService;
 import net.paramount.dmx.helper.DmxCollaborator;
 import net.paramount.dmx.helper.DmxConfigurationHelper;
 import net.paramount.dmx.repository.base.DmxRepositoryBase;
@@ -30,8 +30,8 @@ import net.paramount.entity.general.MeasureUnit;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.InventoryItem;
-import net.paramount.entity.stock.ProductCore;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryCore;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.exceptions.EcosphereException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
@@ -67,7 +67,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	private BusinessUnitService businessUnitService; 
 
 	@Inject
-	private ProductCoreService productService; 
+	private InventoryService productService; 
 
 	@Inject
 	private MeasureUnitService measureUnitService;
@@ -124,13 +124,13 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 		}
 
 		List<Entity> results = ListUtility.createDataList();
-		ProductCore currentBizObject = null;
+		InventoryCore currentBizObject = null;
 		DataWorksheet dataWorksheet = dataWorkbook.getDatasheet(ConfigureMarshallObjects.INVENTORY_ITEMS.getName());
 		if (CommonUtility.isNotEmpty(dataWorksheet)) {
 			System.out.println("Processing sheet: " + dataWorksheet.getId());
 			for (Integer key :dataWorksheet.getKeys()) {
 				try {
-					currentBizObject = (ProductCore)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
+					currentBizObject = (InventoryCore)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
 				} catch (EcosphereException e) {
 					e.printStackTrace();
 				}
@@ -156,7 +156,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	protected Entity unmarshallProduct(List<?> marshallingDataRow) throws EcosphereException {
 		GeneralCatalogue usageDirection = null, activeIngredient = null;
 		BusinessUnit servicingBusinessUnit = null;
-		ProductCore marshalledObject = null;
+		InventoryCore marshalledObject = null;
 		Catalogue bindingCategory = null;
 		String stringValueOfCode = null;
 		Object dataObject = null;
@@ -196,7 +196,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 				balanceQuantity = buildQuantity(marshallingDataRow.get(this.configDetailIndexMap.get("idxBalance")), measureUnit);
 			}
 
-			marshalledObject = ProductCore.builder()
+			marshalledObject = InventoryCore.builder()
 					//.category(bindingCategory)
 					.barcode(CommonUtility.getString(marshallingDataRow.get(this.configDetailIndexMap.get("idxBarcode")), GlobalConstants.SIZE_BARCODE))
 					//.activeIngredient(activeIngredient)
@@ -224,15 +224,16 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 					//.progSellingPrice(buildPrice(marshallingDataRow.get(this.configDetailIndexMap.get("idxProgSellingPrice"))))
 					//.progSellingQuantity(buildQuantity(marshallingDataRow.get(this.configDetailIndexMap.get("idxProgSellingQuantity")), measureUnit))
 					.build()
-					.addProfile(this.buildProductProfile(marshallingDataRow));
+					//.addProfile(this.buildProductProfile(marshallingDataRow))
+					;
 		} catch (Exception e) {
 			log.error(e);
 		}
 		return marshalledObject;
 	}
 
-	private ProductProfile buildProductProfile(List<?> marshallingDataRow) {
-		ProductProfile productProfile = ProductProfile.builder().build();
+	private InventoryDetail buildProductProfile(List<?> marshallingDataRow) {
+		InventoryDetail productProfile = InventoryDetail.builder().build();
 		return productProfile;
 	}
 
@@ -310,7 +311,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 			return this.businessUnitMap.get(businessObjectCode.toString());
 		}
 
-		BusinessUnit unmarshalledObject = businessUnitService.getOne(businessObjectCode.toString());
+		BusinessUnit unmarshalledObject = businessUnitService.getObjectByCode(businessObjectCode.toString());
 		if (null != unmarshalledObject) {
 			this.businessUnitMap.put(unmarshalledObject.getCode(), unmarshalledObject);
 		}
@@ -321,7 +322,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 		if (this.measureUnitMap.containsKey(name))
 			return this.measureUnitMap.get(name);
 
-		Optional<MeasureUnit> optMeasureUnit = this.measureUnitService.getOne(name);
+		Optional<MeasureUnit> optMeasureUnit = this.measureUnitService.getByName(name);
 		if (optMeasureUnit.isPresent()) {
 			this.measureUnitMap.put(optMeasureUnit.get().getName(), optMeasureUnit.get());
 			return optMeasureUnit.get();

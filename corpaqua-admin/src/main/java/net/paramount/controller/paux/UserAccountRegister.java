@@ -19,11 +19,16 @@ import javax.inject.Named;
 
 import org.apache.commons.io.FileUtils;
 import org.omnifaces.util.Faces;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.file.UploadedFiles;
 import org.springframework.util.ResourceUtils;
 
 import com.github.adminfaces.template.exception.AccessDeniedException;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.auth.service.UserAccountService;
@@ -68,6 +73,14 @@ public class UserAccountRegister extends RootController {
 
 	private BusinessUnit businessUnit;
 	private SecurityAccountProfile entity;
+
+	@Setter
+	@Getter
+	private UploadedFiles imageFiles;
+
+	@Setter
+	@Getter
+	private UploadedFile uploadedFile;
 
 	public void init() {
 		if (Faces.isAjaxRequest()) {
@@ -264,5 +277,14 @@ public class UserAccountRegister extends RootController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void handleUpload(FileUploadEvent event) {
+		this.entity.setFirstName(event.getFile().getFileName());
+		this.entity.setPhoto(event.getFile().getContent());
+	}
+
+	public String getImageContentsAsBase64() {
+    return Base64.getEncoder().encodeToString(this.entity.getPhoto());
 	}
 }

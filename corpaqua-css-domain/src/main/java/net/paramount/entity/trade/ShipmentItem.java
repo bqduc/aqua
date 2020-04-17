@@ -31,7 +31,7 @@ import javax.validation.Valid;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryDetail;
 
 /**
  * Entity class ShipmentItem
@@ -59,7 +59,7 @@ public class ShipmentItem implements Serializable, InvoiceItem {
     
     @ManyToOne
     @JoinColumn(name="PRODUCT_ID")
-    private ProductProfile product;
+    private InventoryDetail product;
     
     @Column(name="INFO")
     private String info;
@@ -156,11 +156,11 @@ public class ShipmentItem implements Serializable, InvoiceItem {
         this.owner = owner;
     }
 
-    public ProductProfile getProduct() {
+    public InventoryDetail getProduct() {
         return product;
     }
 
-    public void setProduct(ProductProfile product) {
+    public void setProduct(InventoryDetail product) {
         this.product = product;
     }
 

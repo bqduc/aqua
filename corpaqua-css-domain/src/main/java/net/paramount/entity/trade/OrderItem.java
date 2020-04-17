@@ -32,7 +32,7 @@ import net.paramount.entity.contact.ContactProfile;
 import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.framework.entity.RepoEntity;
 
 /**
@@ -55,7 +55,7 @@ public class OrderItem extends RepoEntity {
   
   @ManyToOne
   @JoinColumn(name="PRODUCT_ID")
-  private ProductProfile product;
+  private InventoryDetail product;
   
   @Column(name="LINE_CODE", length=10)
   private String lineCode;

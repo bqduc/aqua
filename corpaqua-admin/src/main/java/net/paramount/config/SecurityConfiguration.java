@@ -32,6 +32,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import net.paramount.auth.comp.DigesterEncryptorReporistory;
 import net.paramount.auth.intercept.CustomAuthenticationFailureHandler;
 import net.paramount.auth.intercept.CustomAuthenticationSuccessHandler;
+import net.paramount.servlets.ServletConstants;
 
 /**
  * Spring Security Configuration.
@@ -84,6 +85,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private String[] buildUnauthorizedMatchers() {
 		String[] unauthorizedPatterns = new String[] { 
+				ServletConstants.servletUrlMapping+"/**", 
 				"/protected/**", 
 				"/*", 
 				"/public/**", 

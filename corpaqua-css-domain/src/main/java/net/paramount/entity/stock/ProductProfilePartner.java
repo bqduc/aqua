@@ -39,7 +39,7 @@ public class ProductProfilePartner extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private ProductProfile owner;
+	private InventoryDetail owner;
 
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "issued_date")

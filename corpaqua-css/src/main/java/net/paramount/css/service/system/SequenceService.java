@@ -16,7 +16,7 @@ public interface SequenceService extends GenericService<Sequence, Long>{
    * @return The system sequence
    * @throws ObjectNotFoundException If no such system sequence exists.
    */
-	Sequence getOne(String serial) throws ObjectNotFoundException;
+	Sequence getObjectBySerial(String serial) throws ObjectNotFoundException;
 
   /**
    * Get one system sequences with the provided search parameters.

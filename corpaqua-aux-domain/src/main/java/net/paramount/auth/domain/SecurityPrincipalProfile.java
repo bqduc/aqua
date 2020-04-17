@@ -14,17 +14,15 @@ import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
-import net.paramount.domain.model.dto.ModelCore;
+import net.paramount.domain.model.dto.FacadeCore;
 
 /**
  * @author ducbq
  *
  */
 @Builder
-public class SecurityPrincipalProfile extends ModelCore {
+public class SecurityPrincipalProfile extends FacadeCore {
 	private static final long serialVersionUID = -1051763928685608384L;
-
-	public static final String ANONYMOUS_USER = "anonymousUser";
 
 	private SecurityAccountProfile userAccount;
 	private Authentication authentication;
@@ -33,7 +31,7 @@ public class SecurityPrincipalProfile extends ModelCore {
 	private List<Authority> grantedAuthorities = ListUtility.createList();
 
 	@Builder.Default
-	private String displayName = ANONYMOUS_USER;
+	private String displayName = CommonConstants.ANONYMOUS_USER;
 
 	public SecurityAccountProfile getUserAccount() {
 		return userAccount;

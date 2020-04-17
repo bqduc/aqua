@@ -34,7 +34,7 @@ public class ProductUnit extends RepoEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID")
-	private ProductProfile product;
+	private InventoryDetail product;
 
 	@Column(name = "CHANGE_UNIT")
 	private String changeUnit;
@@ -65,11 +65,11 @@ public class ProductUnit extends RepoEntity {
 		return getChangeUnit();
 	}
 
-	public void setProduct(ProductProfile product) {
+	public void setProduct(InventoryDetail product) {
 		this.product = product;
 	}
 
-	public ProductProfile getProduct() {
+	public InventoryDetail getProduct() {
 		return product;
 	}
 

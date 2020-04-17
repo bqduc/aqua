@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 import net.paramount.config.BaseConfiguration;
 import net.paramount.domain.dummy.Car;
@@ -34,7 +33,6 @@ import net.paramount.mvp.util.UtilityService;
  */
 @Import(value = { BaseConfiguration.class })
 @SpringBootApplication
-@EnableAsync
 public class WebAminApplication {
 	@Inject
 	private UtilityService utilityService;

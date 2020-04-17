@@ -35,11 +35,6 @@ public class InventoryProfileServiceImpl extends GenericServiceImpl<InventoryPro
 	}
 
 	@Override
-	public InventoryProfile getOne(String code) throws ObjectNotFoundException {
-		return (InventoryProfile)super.getOptionalObject(repository.findByCode(code));
-	}
-
-	@Override
 	protected Page<InventoryProfile> performSearch(String keyword, Pageable pageable) {
 		return repository.search(keyword, pageable);
 	}

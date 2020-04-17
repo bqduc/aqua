@@ -17,7 +17,7 @@ public interface OptionService extends GenericService<Option, Long>{
    * @return The option
    * @throws ObjectNotFoundException If no such option exists.
    */
-	Option getOne(OptionKey optionKey) throws ObjectNotFoundException;
+	Option getByOptionKey(OptionKey optionKey) throws ObjectNotFoundException;
 
 	/**
    * Get one option with the provided code.
@@ -27,7 +27,7 @@ public interface OptionService extends GenericService<Option, Long>{
    * @return The option
    * @throws ObjectNotFoundException If no such option exists.
    */
-	Option getOne(String key) throws ObjectNotFoundException;
+	Option getByKey(String key) throws ObjectNotFoundException;
 
   /**
    * Get one option with the provided code.
@@ -37,7 +37,7 @@ public interface OptionService extends GenericService<Option, Long>{
    * @return The option
    * @throws ObjectNotFoundException If no such option exists.
    */
-	Option getOne(String user, String key) throws ObjectNotFoundException;
+	Option getByUserKey(String user, String key) throws ObjectNotFoundException;
 
   /**
    * Get one option with the provided code.

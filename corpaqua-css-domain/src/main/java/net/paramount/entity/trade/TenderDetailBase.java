@@ -36,7 +36,7 @@ import javax.validation.Valid;
 import net.paramount.entity.doc.DocumentType;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
-import net.paramount.entity.stock.ProductProfile;
+import net.paramount.entity.stock.InventoryDetail;
 import net.paramount.entity.stock.ProductType;
 import net.paramount.framework.entity.RepoEntity;
 import net.paramount.model.DistributionStyle;
@@ -68,7 +68,7 @@ public class TenderDetailBase extends RepoEntity {
     //Hizmet veya ürün
     @ManyToOne
     @JoinColumn(name="PRODUCT_ID")
-    private ProductProfile product;
+    private InventoryDetail product;
 
     @Column(name="PRODUCT_TYPE")
     @Enumerated(EnumType.ORDINAL)
@@ -575,11 +575,11 @@ public class TenderDetailBase extends RepoEntity {
 		this.info = info;
 	}
 
-	public ProductProfile getProduct() {
+	public InventoryDetail getProduct() {
 		return product;
 	}
 
-	public void setProduct(ProductProfile product) {
+	public void setProduct(InventoryDetail product) {
 		this.product = product;
 	}
 	

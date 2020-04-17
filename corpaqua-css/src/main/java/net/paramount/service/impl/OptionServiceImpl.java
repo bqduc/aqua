@@ -33,7 +33,7 @@ public class OptionServiceImpl extends GenericServiceImpl<Option, Long> implemen
 	}
 
 	@Override
-	public Option getOne(String user, String key) throws ObjectNotFoundException {
+	public Option getByUserKey(String user, String key) throws ObjectNotFoundException {
 		return repository.findByUserAndKey(user, key);
 	}
 
@@ -48,12 +48,12 @@ public class OptionServiceImpl extends GenericServiceImpl<Option, Long> implemen
 	}
 
 	@Override
-	public Option getOne(OptionKey optionKey) throws ObjectNotFoundException {
+	public Option getByOptionKey(OptionKey optionKey) throws ObjectNotFoundException {
 		return getOption(optionKey.getValue());
 	}
 
 	@Override
-	public Option getOne(String key) throws ObjectNotFoundException {
+	public Option getByKey(String key) throws ObjectNotFoundException {
 		return getOption(key);
 	}
 
@@ -70,34 +70,34 @@ public class OptionServiceImpl extends GenericServiceImpl<Option, Long> implemen
         if (forUser) {
             user = super.getLoggedInUsername();
         }
-        o = crateOption( key, defaultValue, user );
+        o = createOption( key, defaultValue, user );
     }
     return o;
 	}
 
 	@Override
 	public Option getOption(OptionKey optionKey, boolean create) throws ObjectNotFoundException {
-		return create ? getOption(optionKey.getValue(), optionKey.getDefaultValue() ) : getOne(optionKey);
+		return create ? getOption(optionKey.getValue(), optionKey.getDefaultValue() ) : getByOptionKey(optionKey);
 	}
 
   private Option getOption(String key) {
-  	String loggedInUserSsoId = super.getLoggedInUsername();
+  	/*String loggedInUserSsoId = super.getLoggedInUsername();
   	String optionKey = null;
 
     if (loggedInUserSsoId != null) {
     	optionKey = String.join(loggedInUserSsoId, ".", key);
     } else {
     	optionKey = String.join(loggedInUserSsoId, "SYSTEM.", key);
-    } 
+    }*/ 
 
-    List<Option> options = this.repository.findByKey(optionKey);
-    if (options.isEmpty())
+    List<Option> options = this.repository.findByKey(key);
+    if (!options.isEmpty())
     	return options.get(0);
 
     return null;
   }	
 
-  private Option crateOption(String key, String val, String user) {
+  private Option createOption(String key, String val, String user) {
     Option o = new Option();
     o.setUser(user);
     o.setKey(key);

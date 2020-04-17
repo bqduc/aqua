@@ -107,7 +107,7 @@ public class BankBranchController extends DetailHome<Authority> implements Seria
 	}
 
 	@Override
-	protected void doInit() {
+	protected void onInit() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}

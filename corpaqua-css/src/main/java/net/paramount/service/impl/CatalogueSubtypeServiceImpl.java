@@ -33,7 +33,7 @@ public class CatalogueSubtypeServiceImpl extends GenericServiceImpl<CatalogueSub
 	}
 
 	@Override
-	public Optional<CatalogueSubtype> getOne(String name) throws ObjectNotFoundException {
+	public Optional<CatalogueSubtype> getByName(String name) throws ObjectNotFoundException {
 		return repository.findByName(name);
 	}
 

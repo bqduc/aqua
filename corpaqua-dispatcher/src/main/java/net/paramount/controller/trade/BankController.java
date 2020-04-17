@@ -86,7 +86,7 @@ public class BankController extends DetailHome<Bank> implements Serializable {
 	}
 
 	@Override
-	protected void doInit() {
+	protected void onInit() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}

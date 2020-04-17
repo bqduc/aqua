@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import net.paramount.framework.entity.RepoEntity;
-import net.paramount.global.GlobalConstants;
 
 /**
  * An attachment.

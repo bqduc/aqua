@@ -45,15 +45,15 @@ public class ProductCatalog extends RepoAuditable {
 	@JoinColumn(name = "catalog_id")
 	private Catalogue catalog;
 
-	@ManyToOne(targetEntity=ProductProfile.class, fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=InventoryDetail.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "product_id")
-	private ProductProfile product;
+	private InventoryDetail product;
 
-	public ProductProfile getProduct() {
+	public InventoryDetail getProduct() {
 		return product;
 	}
 
-	public void setProduct(ProductProfile product) {
+	public void setProduct(InventoryDetail product) {
 		this.product = product;
 	}
 
@@ -65,7 +65,7 @@ public class ProductCatalog extends RepoAuditable {
 		this.catalog = catalog;
 	}
 
-	public static ProductCatalog getInstance(ProductProfile product, Catalogue catalog){
+	public static ProductCatalog getInstance(InventoryDetail product, Catalogue catalog){
 		ProductCatalog instance = new ProductCatalog();
 		instance.setProduct(product);
 		instance.setCatalog(catalog);

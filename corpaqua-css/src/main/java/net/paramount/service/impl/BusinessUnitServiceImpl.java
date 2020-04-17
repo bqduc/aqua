@@ -34,7 +34,7 @@ public class BusinessUnitServiceImpl extends GenericServiceImpl<BusinessUnit, Lo
 	}
 
 	@Override
-	public BusinessUnit getOne(String code) throws ObjectNotFoundException {
+	public BusinessUnit getObjectByCode(String code) throws ObjectNotFoundException {
 		return super.getOptionalObject(repository.findByCode(code));
 	}
 

@@ -47,7 +47,7 @@ public class ItemServiceImpl extends GenericServiceImpl<GeneralCatalogue, Long> 
 	}
 
 	@Override
-	public GeneralCatalogue getOne(String code) throws ObjectNotFoundException {
+	public GeneralCatalogue getObjectByCode(String code) throws ObjectNotFoundException {
 		return this.repository.findByCode(code);
 	}
 

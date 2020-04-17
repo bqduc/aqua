@@ -44,7 +44,7 @@ public class MeasureUnitServiceImpl extends GenericServiceImpl<MeasureUnit, Long
 	}
 
 	@Override
-	public Optional<MeasureUnit> getOne(String name) throws ObjectNotFoundException {
+	public Optional<MeasureUnit> getByName(String name) throws ObjectNotFoundException {
 		return repository.findByName(name);
 	}
 

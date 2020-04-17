@@ -107,7 +107,7 @@ public class OrderNoteController extends DetailHome<Authority> implements Serial
 	}
 
 	@Override
-	protected void doInit() {
+	protected void onInit() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}

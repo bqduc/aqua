@@ -20,7 +20,7 @@ public interface ItemService extends GenericService<GeneralCatalogue, Long>{
    * @return The item
    * @throws ObjectNotFoundException If no such account exists.
    */
-	GeneralCatalogue getOne(String code) throws ObjectNotFoundException;
+	GeneralCatalogue getObjectByCode(String code) throws ObjectNotFoundException;
 
   /**
    * Get one item with the provided code.

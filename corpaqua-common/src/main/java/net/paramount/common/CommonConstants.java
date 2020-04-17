@@ -11,7 +11,8 @@ import java.nio.charset.Charset;
  *
  */
 public interface CommonConstants {
-	static final String ANONYMOUS = "Anonymous";
+	static final Long ANONYMOUS_USER_ID = Long.valueOf(-1l);
+	static final String ANONYMOUS_USER = "anonymousUser";
 	static final String AT_SIGN = "@";
 	static final String DOT_SEPARATOR = ".";
 	static final String FILE_EXTENSION_SEPARATOR = ".";

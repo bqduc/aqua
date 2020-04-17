@@ -10,7 +10,6 @@ import net.paramount.entity.stock.StockTransaction;
 import net.paramount.esmx.repository.StockTransactionRepository;
 import net.paramount.esmx.specification.StockTransactionSpecification;
 import net.paramount.exceptions.ExecutionContextException;
-import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.repository.BaseRepository;
@@ -30,11 +29,6 @@ public class StockTransactionServiceImpl extends GenericServiceImpl<StockTransac
 	
 	protected BaseRepository<StockTransaction, Long> getRepository() {
 		return this.repository;
-	}
-
-	@Override
-	public StockTransaction getOne(String serialNo) throws ObjectNotFoundException {
-		return (StockTransaction)super.getOptionalObject(repository.findBySerialNo(serialNo));
 	}
 
 	@Override

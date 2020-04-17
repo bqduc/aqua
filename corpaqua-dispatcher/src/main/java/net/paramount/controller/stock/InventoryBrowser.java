@@ -8,9 +8,9 @@ import javax.inject.Named;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.paramount.css.service.stock.ProductCoreService;
+import net.paramount.css.service.stock.InventoryService;
 import net.paramount.domain.model.ProductCoreFilter;
-import net.paramount.entity.stock.ProductCore;
+import net.paramount.entity.stock.InventoryCore;
 import net.paramount.framework.controller.BrowserHome;
 
 /**
@@ -18,18 +18,18 @@ import net.paramount.framework.controller.BrowserHome;
  */
 @Named
 @ViewScoped
-public class InventoryBrowser extends BrowserHome<ProductCore, ProductCoreFilter> {
+public class InventoryBrowser extends BrowserHome<InventoryCore, ProductCoreFilter> {
 	private static final long serialVersionUID = 2662262440970210081L;
 
 	@Inject
-	private ProductCoreService businessService;
+	private InventoryService businessService;
 
 	@Setter
 	@Getter
-	private ProductCore selectedObject;
+	private InventoryCore selectedObject;
 
 	@Override
-	protected List<ProductCore> doGetBusinessObjects() {
+	protected List<InventoryCore> doGetBusinessObjects() {
 		return businessService.getObjects();
 	}
 }

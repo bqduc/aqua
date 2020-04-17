@@ -10,22 +10,22 @@ import net.paramount.framework.service.GenericService;
 public interface ContactService extends GenericService<CTAContact, Long> {
 
 	/**
-	 * Get one Enterprise with the provided code.
+	 * Get one Contact with the provided code.
 	 * 
 	 * @param code
-	 *            The Enterprise code
-	 * @return The Enterprise
+	 *            The Contact code
+	 * @return The Contact
 	 * @throws ObjectNotFoundException
-	 *             If no such Enterprise exists.
+	 *             If no such Contact exists.
 	 */
-	CTAContact getOne(String code) throws ObjectNotFoundException;
+	CTAContact getObjectByCode(String code) throws ObjectNotFoundException;
 
 	/**
-	 * Get one Enterprises with the provided search parameters.
+	 * Get one Contacts with the provided search parameters.
 	 * 
 	 * @param searchParameter
 	 *            The search parameter
-	 * @return The pageable Enterprises
+	 * @return The pageable Contacts
 	 */
 	Page<CTAContact> getObjects(SearchParameter searchParameter);
 }

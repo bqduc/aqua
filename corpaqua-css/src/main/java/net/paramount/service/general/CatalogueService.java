@@ -20,7 +20,7 @@ public interface CatalogueService extends GenericService<Catalogue, Long> {
 	 * @throws ObjectNotFoundException
 	 *             If no such Catalogue exists.
 	 */
-	Optional<Catalogue> getOne(String name) throws ObjectNotFoundException;
+	Optional<Catalogue> getByName(String name) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Catalogue with the provided code.

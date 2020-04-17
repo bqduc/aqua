@@ -56,7 +56,7 @@ public class EmailConfiguration extends CompCore {
 		}
 		return mailSender;
 		/*
-		Optional<net.paramount.entity.config.Configuration> optConfig = configurationService.getOne("config.email");
+		Optional<net.paramount.entity.config.Configuration> optConfig = configurationService.getByName("config.email");
 		Map<Object, Object> configDetailsMap = ListUtility.createMap();
 		if (optConfig.isPresent()) {
 			configDetailsMap = optConfig.get().getConfigDetailsMap();

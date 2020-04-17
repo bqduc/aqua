@@ -34,7 +34,7 @@ public class ContactServiceImpl extends GenericServiceImpl<CTAContact, Long> imp
 	}
 
 	@Override
-	public CTAContact getOne(String code) throws ObjectNotFoundException {
+	public CTAContact getObjectByCode(String code) throws ObjectNotFoundException {
 		return (CTAContact)super.getOptionalObject(repository.findByCode(code));
 	}
 

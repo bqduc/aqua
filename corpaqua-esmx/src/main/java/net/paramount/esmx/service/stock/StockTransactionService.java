@@ -1,5 +1,7 @@
 package net.paramount.esmx.service.stock;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
 import net.paramount.entity.stock.StockTransaction;
@@ -18,7 +20,7 @@ public interface StockTransactionService extends GenericService<StockTransaction
 	 * @throws ObjectNotFoundException
 	 *             If no such StockTransaction exists.
 	 */
-	StockTransaction getOne(String serialNo) throws ObjectNotFoundException;
+	Optional<StockTransaction> getByCode(String serialNo) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Enterprises with the provided search parameters.

@@ -102,5 +102,13 @@
 			<artifactId>javax.faces-api</artifactId>
 			<version>${version.javax.faces-api}</version>
 		</dependency>		
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+				<version>${version.primefaces}</version>
+				<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 </project>

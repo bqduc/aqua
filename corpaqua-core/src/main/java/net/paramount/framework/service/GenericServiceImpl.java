@@ -78,6 +78,15 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
   	return null;
   }
 
+	@Override
+	public Page<ClassType> getObjects(SearchParameter searchParameter) {
+		Specification<ClassType> repoSpec = getRepoSpecification(searchParameter);
+		if (null==repoSpec) {
+			repoSpec = DefaultSpecification.<ClassType, SearchSpec>builder().build().buildRepoSpecification(searchParameter);
+		}
+		return getRepository().findAll(repoSpec, searchParameter.getPageable());
+	}
+
 	/**
 	 * @param 
 	 * contextParams context parameters
@@ -287,23 +296,22 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		return pagedObjects;
 	}
 
-	@Override
-	public Page<ClassType> getObjects(SearchParameter searchParameter) {
+	/*public Page<ClassType> getObjects(SearchParameter searchParameter) {
 		//Page<EntityType> pagedEntities = doGetObjects(searchParameter);
 		Page<ClassType> pagedEntities = performGetObjects(searchParameter);
 		//Perform additional operations here
 		return pagedEntities;
-	}
+	}*/
 
 	public ExecutionContext load(ExecutionContext executionContext) throws ExecutionContextException {
 		return executionContext;
 	}
 
-	protected Page<ClassType> performGetObjects(SearchParameter searchParameter) {
+	/*protected Page<ClassType> performGetObjects(SearchParameter searchParameter) {
 		return getRepository().findAll(
 				DefaultSpecification.<ClassType, SearchSpec>builder().build().buildRepoSpecification(searchParameter),
 				searchParameter.getPageable());
-	}
+	}*/
 
 	public Optional<ClassType> getBusinessObject(Object key) throws EcosphereException {
 		Optional<ClassType> fetchedBizObject = this.fetchBusinessObject(key);

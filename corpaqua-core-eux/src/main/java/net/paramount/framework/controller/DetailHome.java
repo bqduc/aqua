@@ -3,6 +3,8 @@
  */
 package net.paramount.framework.controller;
 
+import org.primefaces.event.SelectEvent;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.paramount.framework.model.FilterBase;
@@ -21,10 +23,10 @@ public abstract class DetailHome<E> extends Home <E, FilterBase> {
 	@Getter
 	private Boolean createOther;
 
-	protected abstract void doInit();
+	protected abstract void onInit();
 
 	public void init() {
-		doInit();
+		onInit();
   }
 
 	public String save() {
@@ -33,5 +35,13 @@ public abstract class DetailHome<E> extends Home <E, FilterBase> {
 
 	protected String performSave() {
 		return "success";
+	}
+
+	//Events handling
+	final public void onParentSelect(SelectEvent<?> event) { 
+		performParentSelection(event);
+	}
+
+	protected void performParentSelection(SelectEvent<?> event) {
 	}
 }

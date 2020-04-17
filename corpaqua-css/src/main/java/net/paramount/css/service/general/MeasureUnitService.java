@@ -20,7 +20,7 @@ public interface MeasureUnitService extends GenericService<MeasureUnit, Long> {
 	 * @throws ObjectNotFoundException
 	 *             If no such MeasureUnit exists.
 	 */
-	Optional<MeasureUnit> getOne(String name) throws ObjectNotFoundException;
+	Optional<MeasureUnit> getByName(String name) throws ObjectNotFoundException;
 
 	/**
 	 * Get one MeasureUnit with the provided name locale.

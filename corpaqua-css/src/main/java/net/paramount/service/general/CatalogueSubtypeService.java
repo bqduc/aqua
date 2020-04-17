@@ -20,7 +20,7 @@ public interface CatalogueSubtypeService extends GenericService<CatalogueSubtype
 	 * @throws ObjectNotFoundException
 	 *             If no such Catalogue exists.
 	 */
-	Optional<CatalogueSubtype> getOne(String name) throws ObjectNotFoundException;
+	Optional<CatalogueSubtype> getByName(String name) throws ObjectNotFoundException;
 
 	/**
 	 * Get one Catalogues with the provided search parameters.

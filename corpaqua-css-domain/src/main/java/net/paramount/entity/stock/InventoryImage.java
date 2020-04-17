@@ -1,8 +1,5 @@
 package net.paramount.entity.stock;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,14 +16,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.auth.entity.SecurityAccountProfile;
-import net.paramount.entity.contact.ContactAddress;
-import net.paramount.entity.contact.ContactAssignment;
-import net.paramount.entity.contact.ContactCommunication;
-import net.paramount.entity.contact.ContactCore;
-import net.paramount.entity.contact.ContactHierarchy;
-import net.paramount.entity.contact.ContactProfile;
-import net.paramount.framework.entity.RepoAuditable;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Entity class Product
@@ -36,21 +26,25 @@ import net.paramount.framework.entity.RepoAuditable;
 @Data
 @Builder
 @Entity
-@Table(name = "product_image")
-@EqualsAndHashCode(callSuper=false)
+@Table(name = "inventory_image")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImage extends RepoAuditable {
+@EqualsAndHashCode(callSuper=true)
+public class InventoryImage extends RepoEntity {
 	private static final long serialVersionUID = 9092368070849737080L;
-
 	@ManyToOne
-	@JoinColumn(name = "product_profile_id")
-	private ProductProfile owner;
+	@JoinColumn(name = "inventory_id")
+	private InventoryCore owner;
 
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	@Column(name = "image_default")
+	@Column(name = "image_buffer")
 	@Type(type = "org.hibernate.type.ImageType")
-	private byte[] imageDefault;
+	private byte[] imageBuffer;
 
+  @Column(name = "content_type", length=30)
+  private String contentType;
+
+  @Column(name = "image_name", length=100)
+  private String imageName;
 }

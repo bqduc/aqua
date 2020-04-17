@@ -17,12 +17,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,7 +30,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,7 +46,6 @@ import net.paramount.entity.contact.ContactCore;
 import net.paramount.entity.general.BusinessUnit;
 import net.paramount.entity.general.Department;
 import net.paramount.entity.general.MeasureUnit;
-import net.paramount.entity.general.Quantity;
 import net.paramount.entity.imx.PrinterGroup;
 import net.paramount.entity.trade.ExpenseType;
 import net.paramount.entity.trade.Foundation;
@@ -71,14 +66,14 @@ import net.paramount.model.InventoryType;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "product_profile")
+@Table(name = "inventory_detail")
 @EqualsAndHashCode(callSuper=false)
-public class ProductProfile extends RepoAuditable {
+public class InventoryDetail extends RepoAuditable {
 	private static final long serialVersionUID = -2929178651788000055L;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private ProductCore owner;
+	private InventoryCore owner;
 
 	@Builder.Default
 	@Column(name = "PRODUCT_TYPE")
@@ -101,7 +96,7 @@ public class ProductProfile extends RepoAuditable {
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfileDetail> productProfileDiscountList = ListUtility.createList();
+	private List<InventoryPrice> productProfileDiscountList = ListUtility.createList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -109,11 +104,11 @@ public class ProductProfile extends RepoAuditable {
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfileCategory> productProfileCategoryList = ListUtility.createList();
+	private List<InventoryCategory> productProfileCategoryList = ListUtility.createList();
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductImage> productImageList = ListUtility.createList();
+	private List<InventoryImage> productImageList = ListUtility.createList();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -135,7 +130,7 @@ public class ProductProfile extends RepoAuditable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "REF_PRODUCT_ID", foreignKey = @ForeignKey(name = "FK_PRODUCT_REFERENCEPRODUCTID"))
-	private ProductProfile referenceProduct;
+	private InventoryDetail referenceProduct;
 
 	@ManyToOne
 	@JoinColumn(name = "active_ingredient_catalogue_id", foreignKey = @ForeignKey(name = "FK_active_ingredient"))
@@ -169,7 +164,7 @@ public class ProductProfile extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
-	private ProductProfile parent;
+	private InventoryDetail parent;
 
 	@Column(name = "government_decision_no", length = GlobalConstants.SIZE_SERIAL)
 	private String governmentDecisionNo;
@@ -334,11 +329,11 @@ public class ProductProfile extends RepoAuditable {
 	@JoinColumn(name = "master_generic_chemical")
 	private Catalogue masterGenericChemical; //Generic drug/Chemical Name//Hoạt chất
 
-	public ProductProfileDetail getJITProductProfileDetail() {
+	public InventoryPrice getJITProductProfileDetail() {
 		if (!this.productProfileDiscountList.isEmpty())
 			return this.productProfileDiscountList.get(0);
 
-		return ProductProfileDetail.builder().build();
+		return InventoryPrice.builder().build();
 	}
 
 	public ProductProfileTax getJITProductProfileTax() {

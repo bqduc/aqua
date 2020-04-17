@@ -125,7 +125,7 @@ public class AuthorityController extends DetailHome<Authority> implements Serial
 	}
 
 	@Override
-	protected void doInit() {
+	protected void onInit() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}

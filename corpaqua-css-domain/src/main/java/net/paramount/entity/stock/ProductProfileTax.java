@@ -51,7 +51,7 @@ public class ProductProfileTax extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private ProductProfile owner;
+	private InventoryDetail owner;
 
 	@ManyToOne(targetEntity=TaxGroup.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "tax_group_id")

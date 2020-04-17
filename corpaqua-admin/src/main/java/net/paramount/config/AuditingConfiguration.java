@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.User;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
+import net.paramount.common.CommonConstants;
+import net.paramount.framework.component.CompCore;
 
 /**
  * @author ducbq
@@ -23,7 +25,12 @@ import net.paramount.auth.service.AuthorizationService;
  */
 @Configuration
 @EnableJpaAuditing
-public class AuditingConfiguration {
+public class AuditingConfiguration extends CompCore {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2746650235814978755L;
+
 	@Inject 
 	private AuthorizationService authorizationService;
 
@@ -72,14 +79,14 @@ public class AuditingConfiguration {
 			try {
 				securityPrincipalProfile = authorizationService.getActiveSecuredProfile();
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e);
 			}
 
 			if (null != securityPrincipalProfile && null != securityPrincipalProfile.getUserAccount()) {
 				return Optional.of(securityPrincipalProfile.getUserAccount().getId());
 			}
 
-			return Optional.of(-1l);//None-Anonymous;//Optional.empty();
+			return Optional.of(CommonConstants.ANONYMOUS_USER_ID);//None-Anonymous;//Optional.empty();
 		}
 	}
 }

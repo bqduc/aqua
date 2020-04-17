@@ -114,7 +114,7 @@ public class BusinessUnitDataManager extends DmxRepositoryBase {
 				if (CommonUtility.isNotEmpty(marshallingDataRow.get(this.configDetailIndexMap.get("idxParentCode")))) {
 					parentObject = this.businessObjectsMap.get((String)marshallingDataRow.get(this.configDetailIndexMap.get("idxParentCode")));
 					if (null==parentObject) {
-						parentObject = this.businessService.getOne((String)marshallingDataRow.get(this.configDetailIndexMap.get("idxParentCode")));
+						parentObject = this.businessService.getObjectByCode((String)marshallingDataRow.get(this.configDetailIndexMap.get("idxParentCode")));
 					}
 
 					if (null != parentObject && !this.businessObjectsMap.containsKey(parentObject.getCode())) {

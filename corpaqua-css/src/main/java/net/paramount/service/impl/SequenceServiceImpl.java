@@ -30,7 +30,7 @@ public class SequenceServiceImpl extends GenericServiceImpl<Sequence, Long> impl
 	}
 
 	@Override
-	public Sequence getOne(String serial) throws ObjectNotFoundException {
+	public Sequence getObjectBySerial(String serial) throws ObjectNotFoundException {
 		return super.getOptionalObject(repository.findBySerial(serial));
 	}
 

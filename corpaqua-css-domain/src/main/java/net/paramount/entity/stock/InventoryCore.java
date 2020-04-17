@@ -2,14 +2,17 @@ package net.paramount.entity.stock;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,6 +21,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -27,6 +31,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.paramount.common.ListUtility;
+import net.paramount.domain.entity.Attachment;
 import net.paramount.entity.general.MeasureUnit;
 import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
@@ -42,9 +47,8 @@ import net.paramount.model.InventoryType;
 @Data
 @Builder
 @Entity
-@Table(name = "product_core")
-@EqualsAndHashCode(callSuper=false)
-public class ProductCore extends RepoAuditable {
+@Table(name = "inventory_core")
+public class InventoryCore extends RepoAuditable {
 	private static final long serialVersionUID = -2929178651788000055L;
 
 	@Builder.Default
@@ -81,7 +85,7 @@ public class ProductCore extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
-	private ProductCore parent;
+	private InventoryCore parent;
 
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "issue_date")
@@ -132,9 +136,33 @@ public class ProductCore extends RepoAuditable {
 	@Column(name="default_sell_portion")
 	private Integer defaultSellPortion;
 
-	@Builder.Default
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ProductProfile> productProfileList = ListUtility.createList();
+	/*@Basic(fetch = FetchType.LAZY)
+	@Lob
+	@Column(name = "image_1")
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageBuffer1;
+
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	@Column(name = "image_2")
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageBuffer2;
+
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	@Column(name = "image_3")
+	@Type(type = "org.hibernate.type.ImageType")
+	private byte[] imageBuffer3;*/
+/*	@Builder.Default
+	@OneToMany(
+  		mappedBy="owner"
+      , cascade = CascadeType.ALL
+      , orphanRemoval = true
+      , fetch = FetchType.EAGER
+      , targetEntity = InventoryImage.class
+	)
+	private Set<InventoryImage> images = ListUtility.createHashSet();
+*/
 
 	@Transient
 	public String getCaption() {
@@ -146,9 +174,24 @@ public class ProductCore extends RepoAuditable {
 		return getName();
 	}
 
-	public ProductCore addProfile(ProductProfile productProfile) {
+	/*public ProductCore addProfile(ProductProfile productProfile) {
 		productProfile.setOwner(this);
 		productProfileList.add(productProfile);
 		return this;
+	}*/
+
+	/*public InventoryCore addImage(InventoryImage inventoryImage) {
+		this.images.add(inventoryImage);
+		return this;
 	}
+
+	public InventoryCore addImage(Attachment attachment) {
+		this.images.add(
+  		InventoryImage.builder()
+  		.owner(this)
+  		.imageBuffer(attachment.getData())
+  		.build()
+		);
+		return this;
+	}*/
 }

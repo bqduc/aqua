@@ -1,5 +1,7 @@
 package net.paramount.css.service.stock;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
 import net.paramount.entity.stock.InventoryItem;
@@ -18,7 +20,7 @@ public interface InventoryItemService extends GenericService<InventoryItem, Long
 	 * @throws ObjectNotFoundException
 	 *             If no such InventoryItem exists.
 	 */
-	InventoryItem getOne(String code) throws ObjectNotFoundException;
+	Optional<InventoryItem> getByCode(String code) throws ObjectNotFoundException;
 
 	/**
 	 * Get one InventoryItem with the provided barcode.

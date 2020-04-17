@@ -1,5 +1,7 @@
 package net.paramount.crs.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 
 import net.paramount.entity.contact.ContactProfile;
@@ -10,22 +12,22 @@ import net.paramount.framework.service.GenericService;
 public interface ContactProfileService extends GenericService<ContactProfile, Long> {
 
 	/**
-	 * Get one Enterprise with the provided code.
+	 * Get one Contact with the provided code.
 	 * 
 	 * @param code
-	 *            The Enterprise code
-	 * @return The Enterprise
+	 *            The Contact code
+	 * @return The Contact
 	 * @throws ObjectNotFoundException
-	 *             If no such Enterprise exists.
+	 *             If no such Contact exists.
 	 */
-	ContactProfile getOne(String code) throws ObjectNotFoundException;
+	Optional<ContactProfile> getByCode(String code) throws ObjectNotFoundException;
 
 	/**
-	 * Get one Enterprises with the provided search parameters.
+	 * Get one Contacts with the provided search parameters.
 	 * 
 	 * @param searchParameter
 	 *            The search parameter
-	 * @return The pageable Enterprises
+	 * @return The pageable Contacts
 	 */
 	Page<ContactProfile> getObjects(SearchParameter searchParameter);
 }

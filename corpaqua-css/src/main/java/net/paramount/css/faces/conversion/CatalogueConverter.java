@@ -19,7 +19,7 @@ public class CatalogueConverter extends ConverterCore<Catalogue> {
 	private CatalogueService service;
 
 	@Override
-	protected Catalogue parseBusinessObject(String value) {
+	protected Catalogue objectFromString(String value) {
 		Catalogue asObject = null;
 		if (value != null && value.trim().length() > 0) {
 			try {
@@ -35,7 +35,7 @@ public class CatalogueConverter extends ConverterCore<Catalogue> {
 	}
 
 	@Override
-	protected String businessObjectToString(Catalogue object) {
+	protected String objectToString(Catalogue object) {
 		String businessObjectSpec = null;
 		if (object != null) {
 			businessObjectSpec = new StringBuilder()

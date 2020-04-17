@@ -107,7 +107,7 @@ public class PosController extends DetailHome<Authority> implements Serializable
 	}
 
 	@Override
-	protected void doInit() {
+	protected void onInit() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}

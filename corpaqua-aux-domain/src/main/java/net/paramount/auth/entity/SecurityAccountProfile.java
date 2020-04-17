@@ -27,6 +27,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -40,7 +41,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import net.paramount.common.DateTimeUtility;
 import net.paramount.common.ListUtility;
@@ -97,6 +100,11 @@ public class SecurityAccountProfile extends SsoEntityBase implements Authenticat
 	@ManyToOne(targetEntity=Attachment.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "attachment_id")
 	private Attachment attachment;
+
+	@Setter
+	@Getter
+	@Lob
+  private byte[] photo;
 
 	@Transient
 	private UserDetails userDetails;

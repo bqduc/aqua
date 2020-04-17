@@ -93,7 +93,7 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 			return this.businessUnitMap.get(contactDataRow.get(IDX_BUSINESS_UNIT_CODE));
 		}
 
-		BusinessUnit businessUnit = this.businessUnitService.getOne((String)contactDataRow.get(IDX_BUSINESS_UNIT_CODE));
+		BusinessUnit businessUnit = this.businessUnitService.getObjectByCode((String)contactDataRow.get(IDX_BUSINESS_UNIT_CODE));
 		if (null != businessUnit) {
 			this.businessUnitMap.put(businessUnit.getCode(), businessUnit);
 			return businessUnit;
@@ -167,7 +167,7 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 		if (CommonUtility.isNotEmpty(code) && itemMap.containsKey(code))
 			return itemMap.get(code);
 
-		GeneralCatalogue fetchedObject = this.itemService.getOne(code);
+		GeneralCatalogue fetchedObject = this.itemService.getObjectByCode(code);
 		if (null != fetchedObject) {
 			this.itemMap.put(fetchedObject.getCode(), fetchedObject);
 			this.itemNameMap.put(fetchedObject.getName(), fetchedObject);

@@ -3,21 +3,15 @@ package net.paramount.auth.intercept;
 import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
-import org.springframework.util.StringUtils;
 
 import lombok.AllArgsConstructor;
-import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
+import net.paramount.common.CommonConstants;
 
 /**
  *
@@ -46,7 +40,7 @@ public class UrlMatchVoter implements AccessDecisionVoter<Object> {
 	@Override
 	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
 		FilterInvocation filterInvocation = null;
-		if (authentication == null || SecurityPrincipalProfile.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
+		if (authentication == null || CommonConstants.ANONYMOUS_USER.equals(authentication.getPrincipal())) {
 			return ACCESS_DENIED;
 		}
 
