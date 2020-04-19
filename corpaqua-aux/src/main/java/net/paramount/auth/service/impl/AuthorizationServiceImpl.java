@@ -26,9 +26,10 @@ import net.paramount.auth.service.AuthorizationService;
 import net.paramount.comm.comp.Communicator;
 import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
+import net.paramount.common.CommonUtility;
 import net.paramount.common.DateTimeUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 import net.paramount.framework.model.ExecutionContext;
@@ -53,28 +54,28 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws EcosphereAuthException {
+	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws NgepAuthException {
 		return this.generateSecurityPrincipalProfile(ssoId, password);
 	}
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String loginToken) throws EcosphereAuthException {
+	public SecurityPrincipalProfile authenticate(String loginToken) throws NgepAuthException {
 		return this.generateSecurityPrincipalProfile(loginToken, null);
 	}
 
 	@Override
-	public SecurityPrincipalProfile getActiveSecuredProfile() throws EcosphereAuthException {
+	public SecurityPrincipalProfile getActiveSecuredProfile() throws NgepAuthException {
 		return this.getCurrentSecuredProfile();
 	}
 
 	@Override
-	public boolean hasPermission(String target, String action) throws EcosphereAuthException {
+	public boolean hasPermission(String target, String action) throws NgepAuthException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public SecurityPrincipalProfile register(ExecutionContext context) throws EcosphereAuthException {
+	public SecurityPrincipalProfile register(ExecutionContext context) throws NgepAuthException {
 		String confirmLink = null;
 		SecurityPrincipalProfile registrationProfile = null;
 		CorpMimeMessage mimeMessage = null;
@@ -98,7 +99,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 
 			emailCommunicator.send(context);
 		} catch (Exception e) {
-			throw new EcosphereAuthException(e);
+			throw new NgepAuthException(e);
 		}
 		return registrationProfile;
 	}
@@ -174,5 +175,15 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 		}
 
 		return hasAccessedPermission;
+	}
+
+	@Override
+	public SecurityAccountProfile saveSecurityAccountProfile(SecurityAccountProfile securityAccountProfile) throws NgepAuthException {
+		if (CommonUtility.isEmpty(securityAccountProfile.getPassword())) {
+			SecurityAccountProfile verifySecurityAccountProfile = this.userAccountService.getObject(securityAccountProfile.getId());
+			securityAccountProfile.setPassword(verifySecurityAccountProfile.getPassword());
+		}
+		this.userAccountService.save(securityAccountProfile);
+		return securityAccountProfile;
 	}
 }

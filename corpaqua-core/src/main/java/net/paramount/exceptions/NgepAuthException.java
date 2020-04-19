@@ -18,7 +18,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @author bqduc
  */
-public class EcosphereAuthException extends AuthenticationException {
+public class NgepAuthException extends AuthenticationException {
 	private static final long serialVersionUID = 2027543779433269666L;
 
 	private EcosExceptionCode authCode;
@@ -27,7 +27,7 @@ public class EcosphereAuthException extends AuthenticationException {
    * The cause is not initialized, and may subsequently be initialized by a
    * call to {@link #initCause}.
    */
-  public EcosphereAuthException() {
+  public NgepAuthException() {
       super("Default exception!");
   }
 
@@ -36,7 +36,7 @@ public class EcosphereAuthException extends AuthenticationException {
    * The cause is not initialized, and may subsequently be initialized by a
    * call to {@link #initCause}.
    */
-  public EcosphereAuthException(EcosExceptionCode authCode) {
+  public NgepAuthException(EcosExceptionCode authCode) {
   	super(MessageFormat.format("Default exception with error code: {0}", authCode.name()));
   	this.authCode = authCode;
   }
@@ -49,7 +49,7 @@ public class EcosphereAuthException extends AuthenticationException {
    * @param   message   the detail message. The detail message is saved for
    *          later retrieval by the {@link #getMessage()} method.
    */
-  public EcosphereAuthException(String message) {
+  public NgepAuthException(String message) {
       super(message);
   }
 
@@ -61,7 +61,7 @@ public class EcosphereAuthException extends AuthenticationException {
    * @param   message   the detail message. The detail message is saved for
    *          later retrieval by the {@link #getMessage()} method.
    */
-  public EcosphereAuthException(EcosExceptionCode authenticationCode, String message) {
+  public NgepAuthException(EcosExceptionCode authenticationCode, String message) {
       super(message);
     	this.authCode = authenticationCode;
   }
@@ -80,7 +80,7 @@ public class EcosphereAuthException extends AuthenticationException {
    *         unknown.)
    * @since  1.4
    */
-  public EcosphereAuthException(String message, Throwable cause) {
+  public NgepAuthException(String message, Throwable cause) {
       super(message, cause);
   }
 
@@ -98,7 +98,7 @@ public class EcosphereAuthException extends AuthenticationException {
    *         unknown.)
    * @since  1.4
    */
-  public EcosphereAuthException(Throwable cause) {
+  public NgepAuthException(Throwable cause) {
       super("", cause);
   }
 
@@ -116,7 +116,7 @@ public class EcosphereAuthException extends AuthenticationException {
    *                           be writable
    * @since 1.7
    */
-  protected EcosphereAuthException(String message, Throwable cause,
+  protected NgepAuthException(String message, Throwable cause,
                       boolean enableSuppression,
                       boolean writableStackTrace) {
       //super(message, cause, enableSuppression, writableStackTrace);

@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
@@ -44,7 +42,7 @@ public class AuditingConfiguration extends CompCore {
 		return new AuditorAwareByKeyImpl();
 	}
 
-	class AuditorAwareImpl implements AuditorAware<String> {
+	/*class AuditorAwareImpl implements AuditorAware<String> {
 		@Override
 		public Optional<String> getCurrentAuditor() {
 			Authentication auth = null;
@@ -62,16 +60,9 @@ public class AuditingConfiguration extends CompCore {
 
 			User authUser = (User)auth.getPrincipal();
 			return Optional.of(authUser.getUsername());
-			/*
-			Optional<User> optLoggedInUser = this.getCurrentLoggedInUser();
-			if (optLoggedInUser.isPresent())
-				return Optional.of(optLoggedInUser.get().getUsername());
-
-			return Optional.of("ANNO");//Annonymous
-			*/
 		}
 	}
-
+*/
 	class AuditorAwareByKeyImpl implements AuditorAware<Long> {
 		@Override
 		public Optional<Long> getCurrentAuditor() {

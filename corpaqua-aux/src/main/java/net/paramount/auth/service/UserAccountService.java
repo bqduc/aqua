@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.SecurityAccountProfile;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
 
@@ -22,7 +22,7 @@ public interface UserAccountService extends GenericService<SecurityAccountProfil
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	SecurityPrincipalProfile register(SecurityAccountProfile user) throws EcosphereAuthException;
+	SecurityPrincipalProfile register(SecurityAccountProfile user) throws NgepAuthException;
 
 	/**
 	 * Update the specified user.
@@ -57,10 +57,10 @@ public interface UserAccountService extends GenericService<SecurityAccountProfil
 
 	UserDetails loadUserByEmail(final String email);
 	SecurityAccountProfile save(SecurityAccountProfile user);
-	SecurityAccountProfile getUserAccount(String loginId, String password) throws EcosphereAuthException;
-	SecurityAccountProfile getUserAccount(String userToken) throws EcosphereAuthException;
-	SecurityAccountProfile confirm(String confirmedEmail) throws EcosphereAuthException;
-	void initializeMasterData() throws EcosphereAuthException;
+	SecurityAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException;
+	SecurityAccountProfile getUserAccount(String userToken) throws NgepAuthException;
+	SecurityAccountProfile confirm(String confirmedEmail) throws NgepAuthException;
+	void initializeMasterData() throws NgepAuthException;
 
 	
 }

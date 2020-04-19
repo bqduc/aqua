@@ -22,19 +22,20 @@ import org.omnifaces.util.Faces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.file.UploadedFile;
-import org.primefaces.model.file.UploadedFiles;
 import org.springframework.util.ResourceUtils;
 
 import com.github.adminfaces.template.exception.AccessDeniedException;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.comm.domain.CorpMimeMessage;
 import net.paramount.comm.global.CommunicatorConstants;
 import net.paramount.common.CommonConstants;
+import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.entity.config.Configuration;
@@ -49,7 +50,7 @@ import net.paramount.utility.FacesUtilities;
 /**
  * @author ducbq
  */
-@Named//(value = "userAccountRegister")
+@Named
 @FlowScoped("userAccountRegister")
 public class UserAccountRegister extends RootController {
 	/**
@@ -76,18 +77,39 @@ public class UserAccountRegister extends RootController {
 
 	@Setter
 	@Getter
-	private UploadedFiles imageFiles;
-
-	@Setter
-	@Getter
 	private UploadedFile uploadedFile;
+
+	private SecurityPrincipalProfile getAuthSecurityAccountProfile() {
+		SecurityPrincipalProfile securityAccountProfile = null;
+		try {
+			securityAccountProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
+		} catch (Exception e) {
+			log.error(e);
+		}
+
+		if (null == securityAccountProfile) {
+			securityAccountProfile = authorizationService.getActiveSecuredProfile();
+		}
+		
+		return securityAccountProfile;
+	}
 
 	public void init() {
 		if (Faces.isAjaxRequest()) {
 			return;
 		}
-		if (has(id)) {
-			this.entity = businessService.getObject(Long.valueOf(id));
+
+		Long userId = null;
+		if (CommonUtility.isNotEmpty(super.request.getParameter("id"))){
+			userId = Long.valueOf(super.request.getParameter("id"));
+			this.entity = businessService.getObject(userId);
+
+			SecurityPrincipalProfile securityPrincipalProfile = this.getAuthSecurityAccountProfile();
+			if (null == securityPrincipalProfile || null == securityPrincipalProfile.getUserAccount() || !userId.equals(securityPrincipalProfile.getUserAccount().getId())) {
+				//////////////////// Leak
+				log.info("Illegal access. ");
+				return;
+			}
 		} else {
 			this.entity = SecurityAccountProfile.builder().build();
 		}
@@ -105,7 +127,7 @@ public class UserAccountRegister extends RootController {
 		}
 	}
 
-	public void register() {
+	public void registerProfile() {
 		try {
 			preProcessUserAccount();
 			/*
@@ -141,25 +163,23 @@ public class UserAccountRegister extends RootController {
 			log.error(e);
 		}
 	}
-	
-	/*public void save() {
-		preProcessUserAccount();
-		if (!this.validate()) {
-			utils.addDetailMessage(dbMessageSource.getMessage("msg.userAccountRegisterFailure", new Object[] {this.entity.getEmail()}, super.getCurrentLocale()));
-			Faces.getFlash().setKeepMessages(true);
-			return;
-		}
 
-		this.entity.setBusinessUnitCode(this.businessUnit.getCode());
-		businessService.registerUserAccount(this.entity);
-		utils.addDetailMessage(dbMessageSource.getMessage("msg.userAccountRegisterSuccess", new Object[] {this.entity.getEmail()}, super.getCurrentLocale()));
-		Faces.getFlash().setKeepMessages(true);
+	public void updateProfile() {
 		try {
-			Faces.redirect("index.jsf");
-		} catch (IOException e) {
-			log.error(e);;
+			preProcessUserAccount();
+			this.authorizationService.saveSecurityAccountProfile(this.entity);
+
+			//Synchronize back to session
+			SecurityPrincipalProfile securityPrincipalProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
+			securityPrincipalProfile.setUserAccount(entity);
+			this.httpSession.setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, securityPrincipalProfile);
+
+			System.out.println("Update account");
+			Faces.redirect("/index.jsf");
+		} catch (Exception e) {
+			log.error(e);
 		}
-	}*/
+	}
 
 	private void preProcessUserAccount() {
 		if (null==this.entity.getId()){
@@ -178,14 +198,6 @@ public class UserAccountRegister extends RootController {
 
 	public boolean isNew() {
 		return this.entity == null || this.entity.getId() == null;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public SecurityAccountProfile getEntity() {
@@ -280,11 +292,10 @@ public class UserAccountRegister extends RootController {
 	}
 
 	public void handleUpload(FileUploadEvent event) {
-		this.entity.setFirstName(event.getFile().getFileName());
-		this.entity.setPhoto(event.getFile().getContent());
+		this.entity.setProfilePicture(event.getFile().getContent());
 	}
 
 	public String getImageContentsAsBase64() {
-    return Base64.getEncoder().encodeToString(this.entity.getPhoto());
+    return Base64.getEncoder().encodeToString(this.entity.getProfilePicture());
 	}
 }

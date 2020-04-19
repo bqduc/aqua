@@ -104,7 +104,9 @@ public class SecurityAccountProfile extends SsoEntityBase implements Authenticat
 	@Setter
 	@Getter
 	@Lob
-  private byte[] photo;
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name="profile_picture")
+  private byte[] profilePicture;
 
 	@Transient
 	private UserDetails userDetails;

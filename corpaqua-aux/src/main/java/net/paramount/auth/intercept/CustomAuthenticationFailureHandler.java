@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Service;
 
 import net.paramount.exceptions.EcosExceptionCode;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.framework.logging.LogService;
 
 /**
@@ -30,9 +30,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 		StringBuilder message = new StringBuilder("/login.xhtml?authfailed=true");
-		EcosphereAuthException cae = null;
-		if (exception.getCause() instanceof EcosphereAuthException) {
-			cae = (EcosphereAuthException) exception.getCause();
+		NgepAuthException cae = null;
+		if (exception.getCause() instanceof NgepAuthException) {
+			cae = (NgepAuthException) exception.getCause();
 			request.getSession().setAttribute("authenticateResultAtt", generateAuthMessage(cae.getAuthenticationCode()));
 		}
 

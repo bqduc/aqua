@@ -11,7 +11,7 @@ import org.springframework.security.web.FilterInvocation;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.SecurityAccountProfile;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 import net.paramount.framework.model.ExecutionContext;
@@ -21,14 +21,16 @@ import net.paramount.framework.model.ExecutionContext;
  *
  */
 public interface AuthorizationService {
-	SecurityPrincipalProfile authenticate(String ssoId, String password) throws EcosphereAuthException;
-	SecurityPrincipalProfile authenticate(String token) throws EcosphereAuthException;
+	SecurityPrincipalProfile authenticate(String ssoId, String password) throws NgepAuthException;
+	SecurityPrincipalProfile authenticate(String token) throws NgepAuthException;
 
-	SecurityPrincipalProfile getActiveSecuredProfile() throws EcosphereAuthException;
+	SecurityPrincipalProfile getActiveSecuredProfile() throws NgepAuthException;
 	
-	boolean hasPermission(String target, String action) throws EcosphereAuthException;
+	boolean hasPermission(String target, String action) throws NgepAuthException;
 
-	SecurityPrincipalProfile register(ExecutionContext context) throws EcosphereAuthException;
+	SecurityAccountProfile saveSecurityAccountProfile(SecurityAccountProfile securityAccountProfile) throws NgepAuthException;
+
+	SecurityPrincipalProfile register(ExecutionContext context) throws NgepAuthException;
 
 	SecurityAccountProfile getUserAccount(String ssoId)  throws ObjectNotFoundException;
 

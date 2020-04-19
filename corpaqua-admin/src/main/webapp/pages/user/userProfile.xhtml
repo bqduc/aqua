@@ -25,7 +25,8 @@
             <p:focus context="@form"/>
             <p:panel styleClass="box-primary card">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="#{messages['lbl.register']}" action="#{userAccountRegister.register}" update="@form" icon="fa fa-check" styleClass="btn-primary"/>
+                        <p:commandButton rendered="#{userAccountRegister.isNew()}" value="#{messages['lbl.register']}" action="#{userAccountRegister.registerProfile}" update="@form" icon="fa fa-check" styleClass="btn-primary"/>
+                        <p:commandButton rendered="#{not userAccountRegister.isNew()}" value="#{messages['lbl.general.update']}" action="#{userAccountRegister.updateProfile}" update="@form" icon="fa fa-check" styleClass="btn-primary"/>
                         <p:spacer width="5" rendered="#{userAccountRegister.isNew()}"/>
                         <p:commandButton value="#{messages['lbl.general.clear']}" action="#{userAccountRegister.clear}" process="@this"
                                          icon="fa fa-refresh" styleClass="btn-success" update="@form"
@@ -94,7 +95,7 @@
                         </div>
                         <div class="ui-sm-12 ui-g-6 ui-g-nopad">
                             <div class="ui-sm-12 ui-g-11">
-                                <p:outputLabel for="password" value="#{messages['lbl.general.password']}"/>
+                                <!-- <p:outputLabel for="password" value="#{messages['lbl.general.password']}"/> -->
                             </div>
                             <div class="ui-sm-12 ui-g-11">
                                 <p:password id="password" value="#{userAccountRegister.entity.password}" styleClass="form-control" size="30" />
@@ -147,11 +148,11 @@
                             <div class="ui-sm-12 ui-g-11">
 		                        	<p:fileUpload fileUploadListener="#{userAccountRegister.handleUpload}" mode="advanced" listener="#{userAccountRegister.handleUpload}" 
                                   dragDropSupport="true" auto="false" onstart="showBar()" oncomplete="hideBar()"
-                                  multiple="false" update="contentImage" sizeLimit="3000000" fileLimit="1" uploadLabel="#{messages['lbl.upload']}" label="#{messages['lbl.chooseFiles']}" cancelLabel="#{messages['lbl.general.cancel']}"
+                                  multiple="false" update="contentImage" sizeLimit="3500000" fileLimit="1" uploadLabel="#{messages['lbl.upload']}" label="#{messages['lbl.chooseFiles']}" cancelLabel="#{messages['lbl.general.cancel']}"
                                   allowTypes="/(\.|\/)(gif|jpe?g|png)$/" fileLimitMessage="#{messages['lbl.uploadFileLimitMessage']}" invalidSizeMessage="#{messages['lbl.uploadInvalidSizeMessage']}" />
 
 													        <p:panel id="contentImage" style="border:none;">
-													            <p:outputPanel rendered="#{not empty userAccountRegister.entity.photo}">
+													            <p:outputPanel rendered="#{not empty userAccountRegister.entity.profilePicture}">
 													                <img src="data:image/png;base64,#{userAccountRegister.imageContentsAsBase64}" width="50" height="30" />
 													            </p:outputPanel>
 													        </p:panel>		                            

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //TODO: consider to get inheritance from AuthenticateAccount
 @MappedSuperclass
-public abstract class SsoEntityBase extends RepoAuditable {
+public abstract class SsoEntityBase extends RepoEntity /*RepoAuditable*/ {
 	private static final long serialVersionUID = 8261894944163751162L;
 
 	//@Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")

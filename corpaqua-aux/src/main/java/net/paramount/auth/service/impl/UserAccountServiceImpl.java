@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.DateTimeUtility;
 import net.paramount.exceptions.EcosExceptionCode;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
@@ -65,16 +66,16 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String login) throws EcosphereAuthException {
+	public UserDetails loadUserByUsername(String login) throws NgepAuthException {
 		log.debug("Authenticating {}", login);
 		String lowercaseLogin = login;//.toLowerCase();
 		SecurityAccountProfile userFromDatabase = repository.findBySsoId(login);
 
 		if (null==userFromDatabase)
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
+			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
 
 		if (Boolean.FALSE.equals(userFromDatabase.isActivated()))
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, String.format("User %s is not activated", lowercaseLogin));
+			throw new NgepAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, String.format("User %s is not activated", lowercaseLogin));
 
 		List<GrantedAuthority> grantedAuthorities = userFromDatabase.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthority())).collect(Collectors.toList());
@@ -92,13 +93,13 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 		}
 
 		if (!Boolean.TRUE.equals(userFromDatabase.isActivated()))
-				throw new EcosphereAuthException(String.format("User with email %s is not activated", email));
+				throw new NgepAuthException(String.format("User with email %s is not activated", email));
 		
 		return this.buildUserDetails(userFromDatabase);
 	}
 
 	@Override
-	public SecurityPrincipalProfile register(SecurityAccountProfile userAccount) throws EcosphereAuthException {
+	public SecurityPrincipalProfile register(SecurityAccountProfile userAccount) throws NgepAuthException {
 		SecurityAccountProfile updatedUserAccount = null;
 		SecurityPrincipalProfile registrationProfile = null;
 		try {
@@ -116,7 +117,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 					.userAccount(updatedUserAccount)
 					.build();
 		} catch (Exception e) {
-			throw new EcosphereAuthException(e);
+			throw new NgepAuthException(e);
 		}
 		return registrationProfile;
 	}
@@ -175,7 +176,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}*/
 
 	@Override
-	public SecurityAccountProfile getUserAccount(String loginId, String password) throws EcosphereAuthException {
+	public SecurityAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException {
 		SecurityAccountProfile authenticatedUser = null;
 		UserDetails userDetails = null;
 		SecurityAccountProfile repositoryUser = null;
@@ -186,13 +187,13 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 		}
 
 		if (null == repositoryUser)
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
+			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + loginId + "]");
 
 		if (!this.passwordEncoder.matches(password, repositoryUser.getPassword()))
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
+			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_CREDENTIAL, "Invalid password of the user information base on [" + loginId + "]");
 
 		if (!Boolean.TRUE.equals(repositoryUser.isActivated()))
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, "Login information is fine but this account did not activated yet. ");
+			throw new NgepAuthException(EcosExceptionCode.ERROR_PROFILE_INACTIVATE, "Login information is fine but this account did not activated yet. ");
 
 		userDetails = buildUserDetails(repositoryUser);
 		authenticatedUser = repositoryUser;
@@ -201,7 +202,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	public SecurityAccountProfile getUserAccount(String userToken) throws EcosphereAuthException {
+	public SecurityAccountProfile getUserAccount(String userToken) throws NgepAuthException {
 		SecurityAccountProfile repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(userToken)){
 			repositoryUser = repository.findByEmail(userToken);
@@ -210,14 +211,14 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 		}
 
 		if (null==repositoryUser){
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
+			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PRINCIPAL, "Could not get the user information base on [" + userToken + "]");
 		}
 
 		return repositoryUser;
 	}
 
 	@Override
-	public void initializeMasterData() throws EcosphereAuthException {
+	public void initializeMasterData() throws NgepAuthException {
 		//UserAccount adminUser = null, clientUser = null, user = null;
 		Authority clientRoleEntity = null, userRoleEntity = null, adminRoleEntity = null;
 		//Setup authorities/roles
@@ -300,15 +301,15 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 				repository.save(user);
 			}*/
 		} catch (Exception e) {
-			throw new EcosphereAuthException(e);
+			throw new NgepAuthException(e);
 		}
 	}
 
 	@Override
-	public SecurityAccountProfile confirm(String confirmedEmail) throws EcosphereAuthException {
+	public SecurityAccountProfile confirm(String confirmedEmail) throws NgepAuthException {
 		SecurityAccountProfile confirmUser = repository.findByEmail(confirmedEmail);
 		if (null == confirmUser)
-			throw new EcosphereAuthException("The email not found in database: " + confirmedEmail);
+			throw new NgepAuthException("The email not found in database: " + confirmedEmail);
 
 		confirmUser.setActivated(true);
 		repository.save(confirmUser);

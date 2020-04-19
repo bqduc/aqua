@@ -16,7 +16,7 @@ import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.exceptions.EcosExceptionCode;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 
 /**
  * @author ducbq
@@ -26,7 +26,7 @@ public abstract class AuthorizationServiceBase {
 	@Inject
 	protected UserAccountService userAccountService;
 
-	protected SecurityPrincipalProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws EcosphereAuthException {
+	protected SecurityPrincipalProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws NgepAuthException {
 		SecurityAccountProfile userAccount = null;
 		SecurityPrincipalProfile securityAccountProfile = null;
 		if (CommonUtility.isEmpty(password)) {
@@ -36,7 +36,7 @@ public abstract class AuthorizationServiceBase {
 		}
 
 		if (null==userAccount)
-			throw new EcosphereAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, "There is empty authentication user account");
+			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, "There is empty authentication user account");
 
 		securityAccountProfile = SecurityPrincipalProfile.builder()
 		.userAccount(userAccount)
@@ -48,7 +48,7 @@ public abstract class AuthorizationServiceBase {
 		return securityAccountProfile;
 	}
 
-	protected SecurityPrincipalProfile getCurrentSecuredProfile() throws EcosphereAuthException {
+	protected SecurityPrincipalProfile getCurrentSecuredProfile() throws NgepAuthException {
 		SecurityPrincipalProfile fetchedResponse = null;
 		Object systemPrincipal = getSystemPrincipal();
 		SecurityAccountProfile userAccount = null;

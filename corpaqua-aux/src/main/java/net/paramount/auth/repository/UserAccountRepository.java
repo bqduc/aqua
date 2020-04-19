@@ -16,6 +16,7 @@
 package net.paramount.auth.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.framework.repository.BaseRepository;
@@ -28,6 +29,7 @@ import net.paramount.framework.repository.BaseRepository;
  *
  */
 @Repository
+@Transactional
 public interface UserAccountRepository extends BaseRepository<SecurityAccountProfile, Long> {
 	/**
 	 * Retrieves a {@link SecurityAccountProfile} entity from the underlying data store by its

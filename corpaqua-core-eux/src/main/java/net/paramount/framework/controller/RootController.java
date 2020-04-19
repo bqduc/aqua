@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -36,10 +37,13 @@ public abstract class RootController extends ComponentBase {
 	protected HttpSession httpSession;
 
 	@Inject
-	private HttpServletRequest request;
+	protected HttpServletRequest request;
 	
 	@Inject 
 	protected LocaleResolver localeResolver;
+
+  @Inject 
+  protected ServletContext servletContext;
 
 	protected void cachePut(String key, Object data) {
 		this.httpSession.setAttribute(key, data);

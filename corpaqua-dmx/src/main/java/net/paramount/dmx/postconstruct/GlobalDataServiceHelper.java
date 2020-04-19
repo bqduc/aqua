@@ -273,6 +273,10 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				BaseACL.OSX.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.OSX.getAuthority())}));
 		}
+
+		SecurityAccountProfile securityAccountProfile = this.userAccountService.get(BaseACL.ADMINISTRATOR.getUser());
+		securityAccountProfile.setFirstName("AdministratorZS");
+		this.userAccountService.saveOrUpdate(securityAccountProfile);
 	}
 
 	private void initiateApplicatonProfile() {

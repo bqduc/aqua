@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonUtility;
-import net.paramount.exceptions.EcosphereAuthException;
+import net.paramount.exceptions.NgepAuthException;
 import net.paramount.framework.component.CompCore;
 import net.paramount.global.GlobalConstants;
 
@@ -43,7 +43,8 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 			} else {
 				authenticateResp = authenticateByToken(authentication.getName());
 			}
-		} catch (EcosphereAuthException cae) {
+		} catch (NgepAuthException cae) {
+			log.error(cae);
 			throw cae;
 		}
 		return authenticateResp;
@@ -54,7 +55,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
 	}
 
-	private Authentication authenticateBySsoId(String ssoId, String password) throws EcosphereAuthException {
+	private Authentication authenticateBySsoId(String ssoId, String password) throws NgepAuthException {
 		Authentication authObject = null;
 		SecurityPrincipalProfile userAccountProfile = null;
 		try {
@@ -66,13 +67,13 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 				httpSessionFactory.getObject().setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, userAccountProfile);
 			}
 		} catch (Exception uae) {
-			throw new EcosphereAuthException(uae);
+			throw new NgepAuthException(uae);
 		}
 
 		return authObject;
 	}
 
-	private Authentication authenticateByToken(String token) throws EcosphereAuthException {
+	private Authentication authenticateByToken(String token) throws NgepAuthException {
 		Authentication authByToken = null;
 		SecurityPrincipalProfile userAccountProfile = null;
 		try {
@@ -81,7 +82,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 				authByToken = new UsernamePasswordAuthenticationToken(token, CommonUtility.STRING_BLANK, userAccountProfile.getUserAccount().getAuthorities());			
 			}
 		} catch (Exception e) {
-			throw new EcosphereAuthException(e);
+			throw new NgepAuthException(e);
 		}
 
 		return authByToken;
