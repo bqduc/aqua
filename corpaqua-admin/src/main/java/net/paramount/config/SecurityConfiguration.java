@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			// rest Login
-			http.antMatcher("/api/**").authorizeRequests().anyRequest().fullyAuthenticated()/*.hasRole("ADMIN")*/.and().httpBasic().and().csrf()
+			http.antMatcher(net.paramount.common.CommonConstants.REST_API + "**").authorizeRequests().anyRequest().fullyAuthenticated()/*.hasRole("ADMIN")*/.and().httpBasic().and().csrf()
 					.disable();
 		}
 	}
