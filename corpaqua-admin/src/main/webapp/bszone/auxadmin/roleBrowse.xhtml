@@ -17,9 +17,9 @@
             <h:form prependId="false">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
                         <p:commandButton action="roleDetail?faces-redirect=true" icon="fa fa-plus"
-                                         value="New" styleClass="btn-primary"/>
+                                         value="#{messages['lbl.general.new']}" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
-                        <p:commandButton value="Delete Selected" icon="fa fa-trash" styleClass="btn-danger"
+                        <p:commandButton value="#{messages['lbl.general.deleteSelected']}" icon="fa fa-trash" styleClass="btn-danger"
                                          action="#{roleBrowse.delete}"
                                          disabled="#{empty roleBrowse.selectedObjects or roleBrowse.selectedObjects.size() == 0}"
                                          process="@this" update="@form"
@@ -28,21 +28,21 @@
                             <p:confirm header="Confirmation" message="#{messages['lbl.general.areYouSure']}" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
-                        <p:commandButton value="View selected" update="@(.ui-dialog)" styleClass="btn-info"
+                        <p:commandButton value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)" styleClass="btn-info"
                                          disabled="#{empty roleBrowse.selectedObjects or roleBrowse.selectedObjects.size() == 0}"
                                          oncomplete="PF('wdgSelectedBizObjectDialog').show()" icon="fa fa-search"/>
                     </div>
 
-                    <p:splitButton value="New" action="car-form?faces-redirect=true"
+                    <p:splitButton value="#{messages['lbl.general.new']}" action="car-form?faces-redirect=true"
                                    icon="fa fa-plus"
                                    styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="Delete Selected" action="#{roleBrowse.delete}"
+                        <p:menuitem value="#{messages['lbl.general.deleteSelected']}" action="#{roleBrowse.delete}"
                                     process="@this" update="@form"
                                     disabled="#{empty roleBrowse.selectedObjects or roleBrowse.selectedObjects.size() == 0}"
                                     icon="fa fa-trash">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:menuitem>
-                        <p:menuitem value="View selected" update="@(.ui-dialog)"
+                        <p:menuitem value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)"
                                     oncomplete="PF('wdgSelectedBizObjectDialog').show()"
                                     disabled="#{empty roleBrowse.selectedObjects or roleBrowse.selectedObjects.size() == 0}"
                                     icon="fa fa-search"
@@ -62,10 +62,10 @@
 
                         <f:facet name="header">
                             <p:outputPanel>
-                                <h:outputText value="Search all fields:"/>
+                                <h:outputText value="#{messages['lbl.general.instantSearch']} "/>
                                 <p:spacer height="10"/>
                                 <p:inputText id="globalFilter" onkeyup="PF('bizObjectTable').filter()" style="width:150px"
-                                             placeholder="Enter keyword"/>
+                                             placeholder="#{messages['lbl.general.enterKeyword']}"/>
                             </p:outputPanel>
                         </f:facet>
 

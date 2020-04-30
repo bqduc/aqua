@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppRuntimeException;
 import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.entity.RepoEntity;
@@ -92,7 +92,7 @@ public abstract class ServiceImpl<EntityType extends RepoEntity, Key extends Ser
 	}
 
 	protected Page<EntityType> performSearch(String keyword, Pageable pageable){
-		throw new EcosphereException("Not implemented yet!!!");//DUMMY_PAGEABLE;
+		throw new AppRuntimeException("Not implemented yet!!!");//DUMMY_PAGEABLE;
 	}
 
 	protected List<EntityType> performSearch(Object parameter){

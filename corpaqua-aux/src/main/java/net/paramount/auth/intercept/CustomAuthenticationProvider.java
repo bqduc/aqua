@@ -57,14 +57,14 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 
 	private Authentication authenticateBySsoId(String ssoId, String password) throws NgepAuthException {
 		Authentication authObject = null;
-		SecurityPrincipalProfile userAccountProfile = null;
+		SecurityPrincipalProfile securityPrincipalProfile = null;
 		try {
-			userAccountProfile = authorizationService.authenticate(ssoId, password);
-			if (null != userAccountProfile) {
-				authObject = new UsernamePasswordAuthenticationToken(ssoId, password, userAccountProfile.getUserAccount().getAuthorities());
-				userAccountProfile.setAuthentication(authObject);
+			securityPrincipalProfile = authorizationService.authenticate(ssoId, password);
+			if (null != securityPrincipalProfile) {
+				authObject = new UsernamePasswordAuthenticationToken(ssoId, password, securityPrincipalProfile.getUserAccount().getAuthorities());
+				securityPrincipalProfile.setAuthentication(authObject);
 
-				httpSessionFactory.getObject().setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, userAccountProfile);
+				httpSessionFactory.getObject().setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, securityPrincipalProfile);
 			}
 		} catch (Exception uae) {
 			throw new NgepAuthException(uae);

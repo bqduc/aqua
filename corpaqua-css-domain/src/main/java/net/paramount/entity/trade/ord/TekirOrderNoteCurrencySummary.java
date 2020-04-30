@@ -28,7 +28,7 @@ import net.paramount.entity.trade.inv.TekirInvoiceCurrencySummary;
  */
 @Entity
 @Table(name="TEKIR_ORDER_NOTE_CURRENCY_SUMMARY")
-public class TekirOrderNoteCurrencySummary extends TenderCurrencySummaryBase implements Serializable {
+public class TekirOrderNoteCurrencySummary extends TenderCurrencySummaryBase {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,19 +44,8 @@ public class TekirOrderNoteCurrencySummary extends TenderCurrencySummaryBase imp
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TekirInvoiceCurrencySummary)) {
-            return false;
-        }
-        TekirOrderNoteCurrencySummary other = (TekirOrderNoteCurrencySummary)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.getId().equals(other.getId()))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.TekirOrderNoteCurrencySummary[id=" + getId() + "]";
+        return "TekirOrderNoteCurrencySummary[id=" + getId() + "]";
     }
 
 	public TekirOrderNote getOwner() {

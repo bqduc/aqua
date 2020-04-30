@@ -6,7 +6,7 @@ package net.paramount.autx;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.comp.JsonWebTokenServiceProvider;
 import net.paramount.auth.entity.SecurityAccountProfile;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
 
@@ -27,7 +27,7 @@ public class TestEntry {
 	}
 	
 	protected static void testJToken() {
-		JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+		JsonWebTokenServiceProvider jwtTokenProvider = new JsonWebTokenServiceProvider();
 
 		AuthenticationDetails userDetails = new SecurityAccountProfile();
 		userDetails.setId(Long.valueOf(10292019));
@@ -35,7 +35,7 @@ public class TestEntry {
 		//String token = jwtTokenProvider.generateToken(userDetails);
 		//System.out.println(token);
 
-		AuthenticationDetails unmarshalledUserDetails = jwtTokenProvider.getUserDetailsFromJWT("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDI5MjAxOSNiZHExaGMiLCJpYXQiOjE1ODMxNTYzMTYsImV4cCI6MTU4Mzc2MTExNn0.dRsYSBfXIKIxqzml462gA8me3FCzZNz77ZPMdAeuy4hznxZODJOjI1ssd0YW4bRsjA3_D5nCBJkR2Bgp1GAM-Q");
+		AuthenticationDetails unmarshalledUserDetails = jwtTokenProvider.generateAuthenticationDetails("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMDI5MjAxOSNiZHExaGMiLCJpYXQiOjE1ODMxNTYzMTYsImV4cCI6MTU4Mzc2MTExNn0.dRsYSBfXIKIxqzml462gA8me3FCzZNz77ZPMdAeuy4hznxZODJOjI1ssd0YW4bRsjA3_D5nCBJkR2Bgp1GAM-Q");
 		System.out.println(unmarshalledUserDetails);
 	}
 

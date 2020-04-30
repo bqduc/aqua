@@ -22,15 +22,15 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
-                        <p:commandButton value="Save" action="#{contactDetail.save}" update="@form"
+                        <p:commandButton value="#{messages['lbl.general.save']}" action="#{contactDetail.save}" update="@form"
                                          icon="fa fa-check" styleClass="btn-primary"/>
                         <p:spacer width="5" rendered="#{contactDetail.isNew()}"/>
-                        <p:commandButton value="Clear" action="#{contactDetail.clear}" process="@this"
+                        <p:commandButton value="#{messages['lbl.general.clear']}" action="#{contactDetail.clear}" process="@this"
                                          icon="fa fa-refresh" styleClass="btn-success"
                                          update="@form" rendered="#{contactDetail.isNew()}" resetValues="true"/>
                         <p:spacer width="5" rendered="#{not contactDetail.isNew()}"/>
 
-                        <p:commandButton value="Delete" action="#{contactDetail.remove}" process="@this"
+                        <p:commandButton value="#{messages['lbl.general.delete']}" action="#{contactDetail.remove}" process="@this"
                                          rendered="#{not contactDetail.isNew()}" icon="fa fa-trash"
                                          styleClass="btn-danger">
                             <f:setPropertyActionListener value="true"
@@ -38,24 +38,24 @@
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
-                        <p:commandButton value="Back" immediate="true"
+                        <p:commandButton value="#{messages['lbl.general.goBack']}" immediate="true"
                                          action="contactBrowse?faces-redirect=true"
                                          process="@this"
                                          icon="fa fa-reply"/>
                     </div>
-                    <p:splitButton value="Save" action="#{contactDetail.save}" update="@form"
+                    <p:splitButton value="#{messages['lbl.general.save']}" action="#{contactDetail.save}" update="@form"
                                    icon="fa fa-check"
                                    styleClass="hidden-md hidden-lg btn-primary">
                         <p:menuitem value="Reset" action="#{contactDetail.clear}"
                                     process="@this" update="@form" rendered="#{contactDetail.isNew()}"
                                     resetValues="true" icon="fa fa-refresh"/>
-                        <p:menuitem value="Delete" action="#{contactDetail.remove}" process="@this"
+                        <p:menuitem value="#{messages['lbl.general.delete']}" action="#{contactDetail.remove}" process="@this"
                                     rendered="#{not contactDetail.isNew()}" icon="fa fa-trash"
                                  >
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:menuitem>
                         <p:separator/>
-                        <p:menuitem value="Back" action="car-list?faces-redirect=true"
+                        <p:menuitem value="#{messages['lbl.general.goBack']}" action="car-list?faces-redirect=true"
                                     process="@this" immediate="true"
                                     icon="fa fa-reply"/>
                     </p:splitButton>

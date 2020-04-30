@@ -26,13 +26,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import net.paramount.auth.comp.DigesterEncryptorReporistory;
+import net.paramount.auth.comp.JsonWebTokenService;
 import net.paramount.auth.intercept.CustomAuthenticationFailureHandler;
 import net.paramount.auth.intercept.CustomAuthenticationSuccessHandler;
+import net.paramount.config.jwt.JwtSecurityConfigurer;
 import net.paramount.servlets.ServletConstants;
 
 /**
@@ -58,19 +59,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Inject
   private CustomAuthenticationFailureHandler authenticationFailureHandler;
 
+  @Inject
+  private JsonWebTokenService jwtTokenProvider;
+  
   @Bean
   public PasswordEncoder passwordEncoder() {
-  	//return encryptoReporistory.getSCryptPasswordEncoder();
-  	return new BCryptPasswordEncoder();/*virtualPasswordEncoder*/
+  	return encryptoReporistory.getSCryptPasswordEncoder();
+  	//return new BCryptPasswordEncoder();/*virtualPasswordEncoder*/
   }
 
 	@Configuration
 	@Order(1)
-	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	public class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		protected void configure(HttpSecurity http) throws Exception {
 			// rest Login
-			http.antMatcher(net.paramount.common.CommonConstants.REST_API + "**").authorizeRequests().anyRequest().fullyAuthenticated()/*.hasRole("ADMIN")*/.and().httpBasic().and().csrf()
-					.disable();
+			http.antMatcher(net.paramount.common.CommonConstants.REST_API + "**").authorizeRequests().anyRequest().fullyAuthenticated()/*.hasRole("ADMIN")*/
+			.and()
+			//.apply(new JwtConfigurer(jwtTokenProvider))
+			.httpBasic().and().csrf()
+					.disable()
+			
+					.apply(new JwtSecurityConfigurer(jwtTokenProvider))
+			;
 		}
 	}
 
@@ -92,7 +102,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/public/**", 
 				"/resources/**", 
 				"/includes/**", 
-				"/pages/**", 
+				"/pages/public/**", 
 				"/auth/register/**",
 				"/login.xhtml", 
 				"/javax.faces.resource/**"

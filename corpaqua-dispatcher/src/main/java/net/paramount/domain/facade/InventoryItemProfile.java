@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import net.nep.facade.ProductProfile;
 import net.paramount.common.ListUtility;
 import net.paramount.entity.stock.InventoryImage;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppRuntimeException;
 
 /**
  * A Book.
@@ -79,7 +79,7 @@ public class InventoryItemProfile implements Serializable {
 				this.images.add(inventoryImage.getImageBuffer());
 			}
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new AppRuntimeException(e);
 		}
 	}
 }

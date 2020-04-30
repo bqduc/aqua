@@ -13,7 +13,7 @@ import net.paramount.css.repository.config.ConfigurationRepository;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.css.specification.ConfigurationRepoSpecification;
 import net.paramount.entity.config.Configuration;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.repository.BaseRepository;
@@ -51,7 +51,7 @@ public class ConfigurationServiceImpl extends GenericServiceImpl<Configuration, 
 	}
 
 	@Override
-	protected Optional<Configuration> fetchBusinessObject(Object key) throws EcosphereException {
+	protected Optional<Configuration> fetchBusinessObject(Object key) throws AppException {
 		return super.getBizObject("findByName", key);
 	}
 

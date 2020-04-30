@@ -28,6 +28,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.framework.entity.RepoEntity;
 
@@ -36,62 +39,70 @@ import net.paramount.framework.entity.RepoEntity;
  * 
  * @author haky
  */
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="TAX_RATE")
 public class TaxRate extends RepoEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2485909799659895985L;
 
-    private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(name = "TAX_ID")
+	private Tax tax;
 
-    @ManyToOne
-    @JoinColumn(name="TAX_ID")
-    private Tax tax;
-    
-    @Column(name="BEGIN_DATE")
-    @Temporal(value=TemporalType.DATE)
-    private Date beginDate;
-    
-    @Column(name="END_DATE")
-    @Temporal(value=TemporalType.DATE)
-    private Date endDate;
+	@Column(name = "BEGIN_DATE")
+	@Temporal(value = TemporalType.DATE)
+	private Date beginDate;
 
-    /**
-     * Vergi ile ilgili alanlar...
-     */
-    //Verginin yüzde mi değer mi kesir mi olduğu...
-    @Column(name="KIND")
+	@Column(name = "END_DATE")
+	@Temporal(value = TemporalType.DATE)
+	private Date endDate;
+
+	/**
+	 * Tax related fields ...
+	 */
+	// Whether the tax is percent or fraction ...
+	@Builder.Default
+	@Column(name = "KIND")
 	@Enumerated(EnumType.ORDINAL)
-    private TaxKind kind = TaxKind.Rate;
+	private TaxKind kind = TaxKind.Rate;
 
-    //Eğer vergi tipi yüzde seçildi ise yüzdeyi
-    //kesir seçildi ise paydayı tutar.
-    @Column(name="RATE", precision=10, scale=2)
-    private BigDecimal rate = BigDecimal.ZERO;
+	// If the tax type is selected as a percentage, if the fraction is selected, it keeps the denominator.
+	@Builder.Default
+	@Column(name = "RATE", precision = 10, scale = 2)
+	private BigDecimal rate = BigDecimal.ZERO;
 
-    // vergi tutar olarak tutulacaksa kullanılacak alan..
-    @Embedded
-    @AttributeOverrides( {
-        @AttributeOverride(name="currency", column=@Column(name="CCY")),
-        @AttributeOverride(name="value",    column=@Column(name="CCYVAL")),
-        @AttributeOverride(name="localAmount", column=@Column(name="LCYVAL"))
-    })
-    private MoneySet amount = new MoneySet();
+  // area to be used if tax is to be kept as amount ..
+	@Builder.Default
+  @Embedded
+  @AttributeOverrides( {
+      @AttributeOverride(name="currency", column=@Column(name="CCY")),
+      @AttributeOverride(name="value",    column=@Column(name="CCYVAL")),
+      @AttributeOverride(name="localAmount", column=@Column(name="LCYVAL"))
+  })
+  private MoneySet amount = new MoneySet();
 
-    /**
-     * Tevkifat vergisi ile ilgili alanlar...
-     */
-    @Column(name="WITHHOLDING_KIND")
-    @Enumerated(EnumType.ORDINAL)
-    private TaxKind withholdingKind;
-    	
-    //Eğer tevkifat türü tutarsa kullanılacak alandır. 
-    //Satır tutarı ile aynı döviz cinsinde olacak.
-    @Column(name="WITHHOLDING_AMOUNT", precision=10, scale=2)
-    private BigDecimal withholdingAmount = BigDecimal.ZERO;
+	/**
+	 * Withholding tax related fields ...
+	 */
+	@Column(name = "WITHHOLDING_KIND")
+	@Enumerated(EnumType.ORDINAL)
+	private TaxKind withholdingKind;
 
-    @Column(name="WITHHOLDING_RATE", precision=10, scale=2)
-    private BigDecimal withholdingRate = BigDecimal.ZERO;
-    
-    public BigDecimal getWithholdingRate() {
+	// It is the area to be used if the withholding type holds. It will be in the same currency as the line amount.
+	@Builder.Default
+	@Column(name = "WITHHOLDING_AMOUNT", precision = 10, scale = 2)
+	private BigDecimal withholdingAmount = BigDecimal.ZERO;
+
+	@Builder.Default
+	@Column(name = "WITHHOLDING_RATE", precision = 10, scale = 2)
+	private BigDecimal withholdingRate = BigDecimal.ZERO;
+
+	public BigDecimal getWithholdingRate() {
 		return withholdingRate;
 	}
 
@@ -100,52 +111,52 @@ public class TaxRate extends RepoEntity {
 	}
 
 	public Tax getTax() {
-        return tax;
-    }
+		return tax;
+	}
 
-    public void setTax(Tax tax) {
-        this.tax = tax;
-    }
+	public void setTax(Tax tax) {
+		this.tax = tax;
+	}
 
-    public Date getBeginDate() {
-        return beginDate;
-    }
+	public Date getBeginDate() {
+		return beginDate;
+	}
 
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
-    }
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
+	}
 
-    public Date getEndDate() {
-        return endDate;
-    }
+	public Date getEndDate() {
+		return endDate;
+	}
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
-    public BigDecimal getRate() {
-        return rate;
-    }
+	public BigDecimal getRate() {
+		return rate;
+	}
 
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
-    }
+	public void setRate(BigDecimal rate) {
+		this.rate = rate;
+	}
 
-    @Override
-    public String toString() {
-        return "TaxRate[id=" + getId() + "]";
-    }
+	@Override
+	public String toString() {
+		return "TaxRate[id=" + getId() + "]";
+	}
 
-    public MoneySet getAmount() {
-    	if (amount == null) {
-    		amount = new MoneySet();
-    	}
-    	return amount;
-    }
+	public MoneySet getAmount() {
+		if (amount == null) {
+			amount = new MoneySet();
+		}
+		return amount;
+	}
 
-    public void setAmount(MoneySet amount) {
-        this.amount = amount;
-    }
+	public void setAmount(MoneySet amount) {
+		this.amount = amount;
+	}
 
 	public BigDecimal getWithholdingAmount() {
 		return withholdingAmount;

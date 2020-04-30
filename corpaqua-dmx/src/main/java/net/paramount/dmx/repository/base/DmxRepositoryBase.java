@@ -26,7 +26,7 @@ import net.paramount.entity.general.BusinessUnit;
 import net.paramount.entity.general.Currency;
 import net.paramount.entity.general.GeneralCatalogue;
 import net.paramount.entity.general.Money;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.framework.component.ComponentBase;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
@@ -212,27 +212,27 @@ public abstract class DmxRepositoryBase extends ComponentBase {
 		return parsedObject;
 	}
 
-	public ExecutionContext unmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
+	public ExecutionContext unmarshallBusinessObjects(ExecutionContext executionContext) throws AppException {
 		return doUnmarshallBusinessObjects(executionContext);
 	}
 
-	public List<Entity> unmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
+	public List<Entity> unmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws AppException {
 		return doUnmarshallBusinessObjects(dataWorkbook, datasheetIds);
 	}
 
-	public Entity unmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
+	public Entity unmarshallBusinessObject(List<?> marshallingDataRow) throws AppException {
 		return doUnmarshallBusinessObject(marshallingDataRow);
 	}
 
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
-		throw new EcosphereException("Not implemented yet");
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws AppException {
+		throw new AppException("Not implemented yet");
 	}
 
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
-		throw new EcosphereException("Not implemented yet");
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws AppException {
+		throw new AppException("Not implemented yet");
 	}
 
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
-		throw new EcosphereException("Not implemented yet");
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws AppException {
+		throw new AppException("Not implemented yet");
 	}
 }

@@ -12,8 +12,6 @@
 
 package net.paramount.entity.trade.shp;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +25,7 @@ import net.paramount.entity.trade.TenderCurrencySummaryBase;
  */
 @Entity
 @Table(name="TEKIR_SHIPMENT_NOTE_CURRENCY_SUMMARY")
-public class TekirShipmentNoteCurrencySummary extends TenderCurrencySummaryBase implements Serializable {
+public class TekirShipmentNoteCurrencySummary extends TenderCurrencySummaryBase {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,19 +41,8 @@ public class TekirShipmentNoteCurrencySummary extends TenderCurrencySummaryBase 
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TekirShipmentNoteCurrencySummary)) {
-            return false;
-        }
-        TekirShipmentNoteCurrencySummary other = (TekirShipmentNoteCurrencySummary)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.getId().equals(other.getId()))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.TekirShipmentNoteCurrencySummary[id=" + getId() + "]";
+        return "TekirShipmentNoteCurrencySummary[id=" + getId() + "]";
     }
 
 	public TekirShipmentNote getOwner() {

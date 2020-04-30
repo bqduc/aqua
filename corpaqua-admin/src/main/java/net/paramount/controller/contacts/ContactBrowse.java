@@ -55,8 +55,8 @@ public class ContactBrowse extends BaseController {
     public void doPostConstruct() {
     	this.businessObjects = contactService.getObjects();
     	if (this.businessObjects.isEmpty()) {
-    		this.businessObjects = globalDmxRepository.generateFakeContactProfiles();
-    		contactService.saveObjects(businessObjects);
+    		//this.businessObjects = globalDmxRepository.generateFakeContactProfiles();
+    		//contactService.saveObjects(businessObjects);
     	}
     	//System.out.println("Business objects: " + this.businessObjects);
         teams = new ArrayList<FacesTeamFacade>();

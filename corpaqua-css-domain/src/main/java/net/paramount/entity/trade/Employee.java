@@ -12,14 +12,9 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,18 +24,14 @@ import javax.validation.Valid;
 import net.paramount.embeddable.Address;
 import net.paramount.embeddable.Phone;
 import net.paramount.entity.general.Department;
+import net.paramount.framework.entity.RepoEntity;
 
 @Entity
 @Table(name="EMPLOYEE")
-public class Employee implements Serializable{
+public class Employee extends RepoEntity {
 	
 	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-	
 	@Column(name="PERSONNEL_NO", nullable=false, unique=true, length=20)
 	private String personnelNo; //kurum sicilno
 	
@@ -77,14 +68,6 @@ public class Employee implements Serializable{
 	@JoinColumn(name="DEPARTMENT_ID")
 	private Department department;
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getSsn() {
 		return ssn;
 	}
@@ -174,26 +157,8 @@ public class Employee implements Serializable{
 	}
 
 	@Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.id != null ? this.id.hashCode() : 0);
-        return hash;
-    }
-	
-	@Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Employee)) {
-            return false;
-        }
-        Employee other = (Employee)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-	
-	@Override
     public String toString() {
-        return "com.ut.tekir.entities.Employee[id=" + id + "]";
+        return "Employee[id=" + getId() + "]";
     }
 	
 	/**

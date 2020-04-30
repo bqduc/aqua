@@ -23,6 +23,10 @@ public abstract class DetailHome<E> extends Home <E, FilterBase> {
 	@Getter
 	private Boolean createOther;
 
+	@Setter
+	@Getter
+	private Long id;
+
 	protected abstract void onInit();
 
 	public void init() {

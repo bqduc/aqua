@@ -3,9 +3,6 @@
  */
 package net.paramount.framework.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author ducbq
  *

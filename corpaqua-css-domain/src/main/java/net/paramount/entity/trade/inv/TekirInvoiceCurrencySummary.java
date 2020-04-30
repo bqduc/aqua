@@ -29,7 +29,7 @@ import net.paramount.entity.trade.TenderCurrencySummaryBase;
  */
 @Entity
 @Table(name="TEKIR_INVOICE_CURRENCY_SUMMARY")
-public class TekirInvoiceCurrencySummary extends TenderCurrencySummaryBase implements Serializable {
+public class TekirInvoiceCurrencySummary extends TenderCurrencySummaryBase {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne
@@ -56,7 +56,7 @@ public class TekirInvoiceCurrencySummary extends TenderCurrencySummaryBase imple
 
     @Override
     public String toString() {
-        return "com.ut.tekir.entities.TekirInvoiceCurrencySummary[id=" + getId() + "]";
+        return "TekirInvoiceCurrencySummary[id=" + getId() + "]";
     }
 
     public TekirInvoiceCurrencySummary clone() {

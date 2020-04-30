@@ -12,21 +12,17 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import net.paramount.entity.general.MoneySet;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Fatura Üzerinde yer alan tüm döviz toplamlarını gruplu olarak tutar...
@@ -34,15 +30,10 @@ import net.paramount.entity.general.MoneySet;
  */
 @Entity
 @Table(name="INVOICE_CURRENCY_SUMMARY")
-public class InvoiceCurrencySummary implements Serializable{
+public class InvoiceCurrencySummary extends RepoEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-    
     @ManyToOne
     @JoinColumn(name="INVOICE_ID")
     private Invoice invoice;
@@ -57,14 +48,6 @@ public class InvoiceCurrencySummary implements Serializable{
         @AttributeOverride(name="localAmount", column=@Column(name="LCYVAL"))
     })
     private MoneySet amount = new MoneySet();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Invoice getInvoice() {
         return invoice;
@@ -98,19 +81,8 @@ public class InvoiceCurrencySummary implements Serializable{
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InvoiceCurrencySummary)) {
-            return false;
-        }
-        InvoiceCurrencySummary other = (InvoiceCurrencySummary)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.InvoiceCurrencySummary[id=" + getId() + "]";
+        return "InvoiceCurrencySummary[id=" + getId() + "]";
     }
 
 }

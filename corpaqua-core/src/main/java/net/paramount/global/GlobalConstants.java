@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public interface GlobalConstants {
 	final String QNS_PACKAGE = "net.paramount";
+	final String QNS_PACKAGE_EX = "com.github.adminfaces";
 
 	static final long NONE_OBJECT_ID = -1;
 	static final String NONE_OBJECT_CODE = "NONE";

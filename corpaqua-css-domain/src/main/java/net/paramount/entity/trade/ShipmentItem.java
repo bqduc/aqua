@@ -12,7 +12,6 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.AttributeOverride;
@@ -32,6 +31,7 @@ import net.paramount.entity.general.Money;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.InventoryDetail;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Entity class ShipmentItem
@@ -44,15 +44,10 @@ import net.paramount.entity.stock.InventoryDetail;
  */
 @Entity
 @Table(name="SHIPMENT_ITEM")
-public class ShipmentItem implements Serializable, InvoiceItem {
+public class ShipmentItem extends RepoEntity implements InvoiceItem {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-    
     @ManyToOne
     @JoinColumn(name="OWNER_ID")
     private ShipmentNote owner;
@@ -139,14 +134,6 @@ public class ShipmentItem implements Serializable, InvoiceItem {
     
     @Column(name="ORDER_ITEMID")
     private Long orderItemId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public ShipmentNote getOwner() {
         return owner;
@@ -280,19 +267,8 @@ public class ShipmentItem implements Serializable, InvoiceItem {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShipmentItem)) {
-            return false;
-        }
-        ShipmentItem other = (ShipmentItem)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.ShipmentItem[id=" + getId() + "]";
+        return "ShipmentItem[id=" + getId() + "]";
     }
 
 	/**

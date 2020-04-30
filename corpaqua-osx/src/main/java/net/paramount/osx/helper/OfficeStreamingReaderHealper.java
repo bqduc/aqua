@@ -20,7 +20,6 @@ import lombok.Builder;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosphereException;
 import net.paramount.osx.exceptions.OsxException;
 import net.paramount.osx.model.DataWorkbook;
 import net.paramount.osx.model.DataWorksheet;
@@ -64,7 +63,7 @@ public class OfficeStreamingReaderHealper {
 				dataWorkbook.put(worksheet.getId(), worksheet);
 			}
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new OsxException(e);
 		}
 		return dataWorkbook;
 	}

@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import net.paramount.auth.comp.JsonWebTokenService;
 import net.paramount.auth.domain.BaseACL;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
@@ -61,6 +62,9 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 	@Inject
 	private UserAccountService userAccountService;
+
+	@Inject
+	private JsonWebTokenService jwtServiceProvider;
 
 	public void initialize() {
 		initLanguages();
@@ -117,7 +121,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		}*/
 
 		//One role can accesses to some access patterns
-		String[] adminPatterns = new String[] {"/bszone/auxadmin/**", "/bszone/stock/**", "/admin/**", "/dbx/**", "/spaces/**"};
+		String[] adminPatterns = new String[] {"/bszone/auxadmin/**", "/bszone/stock/**", "/admin/**", "/dbx/**", "/spaces/**", "/pages/**"};
 		for (String adminPattern :adminPatterns) {
 			if (!accessDecisionPolicyService.exists(propAccessPattern, adminPattern)) {
 				accessDecisionPolicyService.saveOrUpdate(AccessDecisionPolicy.builder()
@@ -186,8 +190,9 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 	private void setupMasterUsers() {
 		String propSsoId = "ssoId";
+		SecurityAccountProfile securityAccountProfile = null;
 		if (!this.userAccountService.exists(propSsoId, BaseACL.ADMINISTRATOR.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.ADMINISTRATOR.getFirstName(), 
 		  				BaseACL.ADMINISTRATOR.getLastName(), 
@@ -195,10 +200,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.ADMINISTRATOR.getUser()), 
 		  				BaseACL.ADMINISTRATOR.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.ADMINISTRATOR.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.MANAGER.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.MANAGER.getFirstName(), 
 		  				BaseACL.MANAGER.getLastName(), 
@@ -206,10 +212,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.MANAGER.getUser()), 
 		  				BaseACL.MANAGER.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.MANAGER.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.COORDINATOR.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.COORDINATOR.getFirstName(), 
 		  				BaseACL.COORDINATOR.getLastName(), 
@@ -217,10 +224,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.COORDINATOR.getUser()), 
 		  				BaseACL.COORDINATOR.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.COORDINATOR.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER.getFirstName(), 
 		  				BaseACL.SUBSCRIBER.getLastName(), 
@@ -228,10 +236,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.SUBSCRIBER.getUser()), 
 		  				BaseACL.SUBSCRIBER.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.SUBSCRIBER.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_EXTERNAL.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getLastName(), 
@@ -239,10 +248,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.SUBSCRIBER_EXTERNAL.getUser()), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.SUBSCRIBER_EXTERNAL.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_INTERNAL.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_INTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getLastName(), 
@@ -250,10 +260,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.SUBSCRIBER_INTERNAL.getUser()), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.SUBSCRIBER_INTERNAL.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.CRSX.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.CRSX.getFirstName(), 
 		  				BaseACL.CRSX.getLastName(), 
@@ -261,10 +272,11 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.CRSX.getUser()), 
 		  				BaseACL.CRSX.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.CRSX.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.OSX.getUser())) {
-			this.userAccountService.saveOrUpdate(
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		SecurityAccountProfile.getInsance(
 		  				BaseACL.OSX.getFirstName(), 
 		  				BaseACL.OSX.getLastName(), 
@@ -272,11 +284,13 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		  				passwordEncoder.encode(BaseACL.OSX.getUser()), 
 		  				BaseACL.OSX.getEmail(), 
 		  				new Authority[] {authorityService.getByName(BaseACL.OSX.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
 		}
+	}
 
-		SecurityAccountProfile securityAccountProfile = this.userAccountService.get(BaseACL.ADMINISTRATOR.getUser());
-		securityAccountProfile.setFirstName("AdministratorZS");
-		this.userAccountService.saveOrUpdate(securityAccountProfile);
+	private SecurityAccountProfile updateJWebToken(SecurityAccountProfile securityAccountProfile) {
+		securityAccountProfile.setActivationKey(this.jwtServiceProvider.generateIndefiniteToken(securityAccountProfile));
+		return this.userAccountService.saveOrUpdate(securityAccountProfile);
 	}
 
 	private void initiateApplicatonProfile() {

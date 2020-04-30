@@ -23,7 +23,7 @@ import net.paramount.dmx.repository.base.DmxRepositoryBase;
 import net.paramount.embeddable.Address;
 import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.general.Office;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.DataWorkbook;
@@ -50,11 +50,11 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	private ContactService contactService;
 
 	@Override
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws AppException {
 		DataWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
-			throw new EcosphereException("There is no data in OSX container!");
+			throw new AppException("There is no data in OSX container!");
 
 		if (osxBucketContainer.containsKey(dmxCollaborator.getConfiguredContactWorkbookId())){
 			dataWorkbook = (DataWorkbook)osxBucketContainer.get(dmxCollaborator.getConfiguredContactWorkbookId());
@@ -70,7 +70,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws AppException {
 		List<Entity> results = ListUtility.createDataList();
 		CTAContact currentContact = null;
 		if (null != datasheetIds) {
@@ -82,7 +82,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 				for (Integer key :dataWorksheet.getKeys()) {
 					try {
 						currentContact = (CTAContact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-					} catch (EcosphereException e) {
+					} catch (AppException e) {
 						e.printStackTrace();
 					}
 					if (null != currentContact) {
@@ -96,7 +96,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 				for (Integer key :dataWorksheet.getKeys()) {
 					try {
 						currentContact = (CTAContact)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-					} catch (EcosphereException e) {
+					} catch (AppException e) {
 						e.printStackTrace();
 					}
 					results.add(currentContact);
@@ -107,7 +107,7 @@ public class ContactRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws AppException {
 		String firstName = "";
 		String lastName = "";
 		String fullName = (String)marshallingDataRow.get(1);

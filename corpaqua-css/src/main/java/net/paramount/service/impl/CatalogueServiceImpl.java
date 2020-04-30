@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import net.paramount.css.repository.general.CatalogueRepository;
 import net.paramount.css.specification.CatalogueSpecification;
 import net.paramount.domain.entity.general.Catalogue;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.repository.BaseRepository;
@@ -53,7 +53,7 @@ public class CatalogueServiceImpl extends GenericServiceImpl<Catalogue, Long> im
 	}
 
 	@Override
-	protected Optional<Catalogue> fetchBusinessObject(Object key) throws EcosphereException {
+	protected Optional<Catalogue> fetchBusinessObject(Object key) throws AppException {
 		return super.getBizObject("findByName", key);
 	}
 }

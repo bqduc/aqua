@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import net.paramount.entity.trade.Portfolio;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.repository.BaseRepository;
 import net.paramount.framework.service.GenericServiceImpl;
@@ -43,7 +43,7 @@ public class PortfolioServiceImpl extends GenericServiceImpl<Portfolio, Long> im
 	}
 
 	@Override
-	protected Optional<Portfolio> fetchBusinessObject(Object key) throws EcosphereException {
+	protected Optional<Portfolio> fetchBusinessObject(Object key) throws AppException {
 		return super.getBizObject("findByName", key);
 	}
 }

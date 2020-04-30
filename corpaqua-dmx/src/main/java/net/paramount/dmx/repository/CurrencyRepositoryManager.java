@@ -18,7 +18,7 @@ import net.paramount.dmx.helper.DmxConfigurationHelper;
 import net.paramount.dmx.repository.base.DmxRepositoryBase;
 import net.paramount.entity.config.ConfigurationDetail;
 import net.paramount.entity.general.MeasureUnit;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.ConfigureMarshallObjects;
@@ -51,11 +51,11 @@ public class CurrencyRepositoryManager extends DmxRepositoryBase {
 	private Map<String, Byte> configDetailIndexMap = ListUtility.createMap();
 
 	@Override
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws AppException {
 		DataWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 		if (CommonUtility.isEmpty(osxBucketContainer))
-			throw new EcosphereException("There is no measure unit data in OSX container!");
+			throw new AppException("There is no measure unit data in OSX container!");
 
 		String workingDatabookId = dmxCollaborator.getConfiguredDataCatalogueWorkbookId();
 		if (osxBucketContainer.containsKey(workingDatabookId)){
@@ -72,7 +72,7 @@ public class CurrencyRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws AppException {
 		Map<String, ConfigurationDetail> configDetailMap = null;
 		if (CommonUtility.isEmpty(configDetailIndexMap)) {
 			configDetailMap = dmxConfigurationHelper.fetchInventoryItemConfig(ConfigureMarshallObjects.MEASURE_UNITS.getConfigName());
@@ -88,7 +88,7 @@ public class CurrencyRepositoryManager extends DmxRepositoryBase {
 			for (Integer key :dataWorksheet.getKeys()) {
 				try {
 					marshallingObject = (MeasureUnit)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-				} catch (EcosphereException e) {
+				} catch (AppException e) {
 					log.error(e);
 				}
 				if (null != marshallingObject) {
@@ -100,7 +100,7 @@ public class CurrencyRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws AppException {
 		MeasureUnit marshalledObject = null;
 		try {
 			if (1 > measureUnitService.count("code", marshallingDataRow.get(this.configDetailIndexMap.get("idxCode")))) {

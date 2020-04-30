@@ -32,7 +32,7 @@ import net.paramount.entity.general.Quantity;
 import net.paramount.entity.stock.InventoryItem;
 import net.paramount.entity.stock.InventoryCore;
 import net.paramount.entity.stock.InventoryDetail;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.framework.entity.Entity;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.global.GlobalConstants;
@@ -82,7 +82,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	private Map<String, MeasureUnit> measureUnitMap = ListUtility.createMap();
 
 	@Override
-	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws EcosphereException {
+	protected ExecutionContext doUnmarshallBusinessObjects(ExecutionContext executionContext) throws AppException {
 		List<String> marshallingObjects = null;
 		DataWorkbook dataWorkbook = null;
 		OsxBucketContainer osxBucketContainer = null;
@@ -94,7 +94,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 			String workingDatabookId = dmxCollaborator.getConfiguredDataCatalogueWorkbookId();
 			osxBucketContainer = (OsxBucketContainer)executionContext.get(OSXConstants.MARSHALLED_CONTAINER);
 			if (CommonUtility.isEmpty(osxBucketContainer))
-				throw new EcosphereException("There is no data in OSX container!");
+				throw new AppException("There is no data in OSX container!");
 
 			if (osxBucketContainer.containsKey(workingDatabookId)){
 				dataWorkbook = (DataWorkbook)osxBucketContainer.get(workingDatabookId);
@@ -107,14 +107,14 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 				}
 			}
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 
 		return executionContext;
 	}
 
 	@Override
-	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws EcosphereException {
+	protected List<Entity> doUnmarshallBusinessObjects(DataWorkbook dataWorkbook, List<String> datasheetIds) throws AppException {
 		Map<String, ConfigurationDetail> configDetailMap = null;
 		if (CommonUtility.isEmpty(configDetailIndexMap)) {
 			configDetailMap = dmxConfigurationHelper.fetchInventoryItemConfig(ConfigureMarshallObjects.INVENTORY_ITEMS.getConfigName());
@@ -131,7 +131,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 			for (Integer key :dataWorksheet.getKeys()) {
 				try {
 					currentBizObject = (InventoryCore)unmarshallBusinessObject(dataWorksheet.getDataRow(key));
-				} catch (EcosphereException e) {
+				} catch (AppException e) {
 					e.printStackTrace();
 				}
 
@@ -149,11 +149,11 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 	}
 
 	@Override
-	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws EcosphereException {
+	protected Entity doUnmarshallBusinessObject(List<?> marshallingDataRow) throws AppException {
 		return unmarshallProduct(marshallingDataRow);
 	}
 
-	protected Entity unmarshallProduct(List<?> marshallingDataRow) throws EcosphereException {
+	protected Entity unmarshallProduct(List<?> marshallingDataRow) throws AppException {
 		GeneralCatalogue usageDirection = null, activeIngredient = null;
 		BusinessUnit servicingBusinessUnit = null;
 		InventoryCore marshalledObject = null;
@@ -318,7 +318,7 @@ public class InventoryItemRepositoryManager extends DmxRepositoryBase {
 		return unmarshalledObject;
 	}
 
-	private MeasureUnit fetchMeasureUnit(String name) throws EcosphereException {
+	private MeasureUnit fetchMeasureUnit(String name) throws AppException {
 		if (this.measureUnitMap.containsKey(name))
 			return this.measureUnitMap.get(name);
 

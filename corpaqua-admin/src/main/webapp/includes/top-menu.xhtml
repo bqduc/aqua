@@ -342,7 +342,7 @@
 										</li>
 										<li class="dropdown-submenu"><a tabindex="-1" href="#">#{messages.Purchases} 1-2-2</a>
 											<ul class="dropdown-menu">
-												<li><a tabindex="-1" href="#"><p:link rendered="#{ceberusIdentity.hasPermission('purchase122', 'select')}" value="#{messages.Purchases} 1-2-2-1" outcome="/pages/purchaseOrder/index"/></a></li>
+												<li><a tabindex="-1" href="#"><p:link rendered="#{ceberusIdentity.hasPermission('purchase122', 'select')}" value="#{messages.Purchases} 1-2-2-1" outcome="/pages/public/purchaseOrder/index"/></a></li>
 											</ul>
 										</li>
 									</ul>
@@ -504,7 +504,7 @@
                     <h:form prependId="false">
                         <div class="pull-left">
                              <h:outputLink rendered="#{empty request.remoteUser}" value="${pageContext.request.contextPath}/login.xhtml"><i class="fa fa-sign-in fa-2x"></i></h:outputLink>
-                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile.userAccount}" value="/pages/user/userProfile.jsf?id=#{globalDispatcher.securityAccountProfile.userAccount.id}">
+                             <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile.userAccount}" value="/pages/public/user/userProfile.jsf?id=#{globalDispatcher.securityAccountProfile.userAccount.id}">
                              	<i class="fa fa-user fa-2x"></i>
                              </h:outputLink>
                              <h:outputLink rendered="#{not empty globalDispatcher.securityAccountProfile.userAccount}" value="${pageContext.request.contextPath}/changePassword.jsf"><i class="fa fa-key fa-2x"></i></h:outputLink>

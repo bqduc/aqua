@@ -28,10 +28,6 @@ import net.paramount.entity.stock.InventoryPrice;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class ProductProfile extends FacadeCore {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1131146194417567413L;
 
 	private InventoryCore core;

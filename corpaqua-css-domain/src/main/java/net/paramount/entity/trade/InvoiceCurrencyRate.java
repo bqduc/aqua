@@ -12,17 +12,15 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  *
@@ -30,14 +28,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="INVOICE_CURRENCY_RATE")
-public class InvoiceCurrencyRate implements Serializable {
+public class InvoiceCurrencyRate extends RepoEntity {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
     
     @ManyToOne
     @JoinColumn(name="INVOICE_ID")
@@ -52,14 +45,6 @@ public class InvoiceCurrencyRate implements Serializable {
     
     @Column(name="ASK", precision=10, scale=2)
     private BigDecimal ask = BigDecimal.ZERO;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Invoice getInvoice() {
         return invoice;
@@ -96,24 +81,13 @@ public class InvoiceCurrencyRate implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (this.id != null ? this.id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InvoiceCurrencyRate)) {
-            return false;
-        }
-        InvoiceCurrencyRate other = (InvoiceCurrencyRate)object;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.InvoiceCurrencyRate[id=" + id + "]";
+        return "InvoiceCurrencyRate[id=" + getId() + "]";
     }
 
 }

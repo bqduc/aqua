@@ -40,7 +40,7 @@ import net.paramount.common.ListUtility;
 import net.paramount.css.service.config.ConfigurationService;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.general.BusinessUnit;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.framework.controller.RootController;
 import net.paramount.framework.model.Context;
 import net.paramount.framework.model.ExecutionContext;
@@ -259,14 +259,14 @@ public class UserAccountRegister extends RootController {
 
 			Optional<Configuration> opt = configurationService.getByName(GlobalConstants.CONFIG_APP_ACCESS_URL);
 			if (!opt.isPresent())
-				throw new EcosphereException("No configuration of application access link!");
+				throw new AppException("No configuration of application access link!");
 
 			definitions.put(GlobalConstants.CONFIG_APP_ACCESS_URL, new StringBuilder(opt.get().getValue())
 					.append("/protected/accountProfile/confirm/")
 					.toString()
 					);
-			/*
 			
+			/*
 			File img = ResourceUtils.getFile("classpath:template/subscription/images/marker-icon.png");
 			fileContent = FileUtils.readFileToByteArray(img);
 			encodedString = Base64.getEncoder().encodeToString(fileContent);

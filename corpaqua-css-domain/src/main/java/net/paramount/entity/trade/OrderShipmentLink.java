@@ -12,74 +12,45 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import net.paramount.entity.trade.ord.TekirOrderNote;
 import net.paramount.entity.trade.shp.TekirShipmentNote;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
- * İrsaliyenin bağlı olduğu siparişleri ve siparişlerin bağlı
- * olduğu irsaliyeleri tutan model sınıfımızdır.
+ * İrsaliyenin bağlı olduğu siparişleri ve siparişlerin bağlı olduğu irsaliyeleri tutan model sınıfımızdır.
+ * 
  * @author sinan.yumak
  *
  */
 @Entity
-@Table(name="ORDER_SHIPMENT_LINK")
-public class OrderShipmentLink implements Serializable {
+@Table(name = "ORDER_SHIPMENT_LINK")
+public class OrderShipmentLink extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-    private Long id;
-
 	@ManyToOne
-	@JoinColumn(name="ORDER_NOTE_ID")
+	@JoinColumn(name = "ORDER_NOTE_ID")
 	private TekirOrderNote orderNote;
 
 	@ManyToOne
-	@JoinColumn(name="SHIPMENT_NOTE_ID")
+	@JoinColumn(name = "SHIPMENT_NOTE_ID")
 	private TekirShipmentNote shipmentNote;
-	
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (this.getId() != null ? this.getId().hashCode() : 0);
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderShipmentLink)) {
-            return false;
-        }
-        OrderShipmentLink other = (OrderShipmentLink)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.getId().equals(other.getId()))) return false;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.ut.tekir.entities.OrderShipmentLink[id=" + getId() + "]";
-    }
-
-	public Long getId() {
-		return id;
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (this.getId() != null ? this.getId().hashCode() : 0);
+		return hash;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public String toString() {
+		return "OrderShipmentLink[id=" + getId() + "]";
 	}
 
 	public TekirOrderNote getOrderNote() {

@@ -27,7 +27,7 @@ import net.paramount.css.service.general.AttachmentService;
 import net.paramount.domain.entity.Attachment;
 import net.paramount.entity.config.Configuration;
 import net.paramount.entity.config.ConfigurationDetail;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.EcosphereResourceException;
 import net.paramount.framework.model.ExecutionContext;
 import net.paramount.osx.model.OSXConstants;
@@ -88,7 +88,7 @@ public class ResourcesStorageServiceHelper {
 		return executionContext;
 	}
 
-	public void archiveResourceData(final ExecutionContext executionContextParams) throws EcosphereException {
+	public void archiveResourceData(final ExecutionContext executionContextParams) throws AppException {
 		Attachment attachment = null;
 		Optional<Attachment> attachmentChecker = null;
 		Configuration archivedConfig = null;
@@ -98,7 +98,7 @@ public class ResourcesStorageServiceHelper {
 		Optional<Configuration> archivedConfigChecker = null;
 		try {
 			if (!(executionContextParams.containsKey(OSXConstants.MASTER_BUFFER_DATA_BYTES) || executionContextParams.containsKey(OSXConstants.MASTER_ARCHIVED_FILE_NAME)))
-				throw new EcosphereException("There is no archiving file!");
+				throw new AppException("There is no archiving file!");
 
 			masterDataFileName = (String)executionContextParams.get(OSXConstants.MASTER_ARCHIVED_FILE_NAME);
 			attachmentChecker = this.attachmentService.getByName(masterDataFileName);
@@ -130,11 +130,11 @@ public class ResourcesStorageServiceHelper {
 			}
 			this.configurationService.save(archivedConfig);
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 	}
 
-	public static Attachment buidAttachment(final File file) throws EcosphereException {
+	public static Attachment buidAttachment(final File file) throws AppException {
 		Attachment attachment = null;
 		int lastDot = file.getName().lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = file.getName().substring(lastDot+1);
@@ -145,12 +145,12 @@ public class ResourcesStorageServiceHelper {
 					.mimetype(MimeTypes.getMimeType(fileExtension))
 					.build();
 		} catch (IOException e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws EcosphereException {
+	public Attachment buidAttachment(final String fileName, final InputStream inputStream, String encryptionKey) throws AppException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -166,12 +166,12 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (IOException e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 		return attachment;
 	}
 
-	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws EcosphereException {
+	public Attachment buidAttachment(final String fileName, final byte[] bytes, String encryptionKey) throws AppException {
 		Attachment attachment = null;
 		int lastDot = fileName.lastIndexOf(CommonConstants.FILE_EXTENSION_SEPARATOR);
 		String fileExtension = fileName.substring(lastDot+1);
@@ -187,17 +187,17 @@ public class ResourcesStorageServiceHelper {
 					.encryptionKey(procEncyptionKey)
 					.build();
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 		return attachment;
 	}
 
-	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws EcosphereException {
+	public static InputStream buidInputStreamFromAttachment(final Attachment attachment) throws AppException {
 		InputStream inputStream = null;
 		try {
 			inputStream = CommonUtility.createInputStream(attachment.getName(), attachment.getData());
 		} catch (Exception e) {
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 		return inputStream;
 	}	

@@ -49,7 +49,7 @@
                         <p:menuitem value="#{messages['lbl.general.reset']}" action="#{authorityDetail.clear}"
                                     process="@this" update="@form" rendered="#{authorityDetail.isNew()}"
                                     resetValues="true" icon="fa fa-refresh"/>
-                        <p:menuitem value="Delete" action="#{authorityDetail.remove}" process="@this"
+                        <p:menuitem value="#{messages['lbl.general.delete']}" action="#{authorityDetail.remove}" process="@this"
                                     rendered="#{not authorityDetail.isNew()}" icon="fa fa-trash"
                                  >
                             <p:confirm header="#{messages['lbl.general.confirmation']}" message="#{messages['lbl.general.areYouSure']}" icon="ui-icon-danger"/>

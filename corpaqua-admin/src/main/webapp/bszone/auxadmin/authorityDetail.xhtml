@@ -35,7 +35,7 @@
           </div>
           <p:splitButton value="#{messages['lbl.general.save']}" action="#{authorityController.save}" update="@form" icon="fa fa-check" styleClass="hidden-md hidden-lg btn-primary">
 	          <p:menuitem value="#{messages['lbl.general.reset']}" action="#{authorityController.clear}" process="@this" update="@form" rendered="#{authorityController.isNew()}" resetValues="true" icon="fa fa-refresh"/>
-	          <p:menuitem value="Delete" action="#{authorityController.remove}" process="@this" rendered="#{not authorityController.isNew()}" icon="fa fa-trash">
+	          <p:menuitem value="#{messages['lbl.general.delete']}" action="#{authorityController.remove}" process="@this" rendered="#{not authorityController.isNew()}" icon="fa fa-trash">
 	          	<p:confirm header="#{messages['lbl.general.confirmation']}" message="#{messages['lbl.general.areYouSure']}" icon="ui-icon-danger"/>
 	          </p:menuitem>
 	          <p:separator/>

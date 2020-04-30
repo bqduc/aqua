@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.comp.JsonWebTokenServiceProvider;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.domain.model.ServerResponse;
@@ -35,7 +35,7 @@ public class AccountProfileController extends BaseController {
 	private static final long serialVersionUID = -8922161788640253600L;
 
 	@Inject
-	private JwtTokenProvider tokenProvider;
+	private JsonWebTokenServiceProvider tokenProvider;
 
 	@Inject 
 	private AuthorizationService authorizationService;
@@ -62,7 +62,7 @@ public class AccountProfileController extends BaseController {
 	public void unschedule(HttpServletRequest request, HttpServletResponse response, @RequestParam("jobName") String jobName) {
 		System.out.println("JobController.unschedule()");
 		try {
-			AuthenticationDetails userDetails = tokenProvider.getUserDetailsFromJWT(jobName);
+			AuthenticationDetails userDetails = tokenProvider.generateAuthenticationDetails(jobName);
 			System.out.println(userDetails);
 			doAutoLogin(request, "administrator", "admin@administrator");
 		} catch (Exception e) {

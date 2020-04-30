@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.comp.JsonWebTokenServiceProvider;
 import net.paramount.auth.core.AuthorizationServiceBase;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
@@ -45,7 +45,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	private Communicator emailCommunicator;
 
 	@Inject
-	private JwtTokenProvider tokenProvider;
+	private JsonWebTokenServiceProvider tokenProvider;
 
 	@Inject
 	private AuthorityService authorityService;
@@ -113,7 +113,7 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	public SecurityPrincipalProfile confirmByToken(String token) throws ObjectNotFoundException {
 		SecurityPrincipalProfile confirmedSecurityAccountProfile = SecurityPrincipalProfile.builder().build();
 		SecurityAccountProfile confirnUserAccount = null;
-		AuthenticationDetails userDetails = tokenProvider.getUserDetailsFromJWT(token);
+		AuthenticationDetails userDetails = tokenProvider.generateAuthenticationDetails(token);
 		if (userDetails != null) {
 			confirnUserAccount = this.getUserAccount(userDetails.getSsoId());
 		}

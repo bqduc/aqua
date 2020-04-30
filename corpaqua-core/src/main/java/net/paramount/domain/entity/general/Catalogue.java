@@ -40,7 +40,7 @@ import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
- * A user.
+ * A group or a catalog.
  * 
  * @author bqduc
  */

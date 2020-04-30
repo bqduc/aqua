@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import net.paramount.auth.comp.JwtTokenProvider;
+import net.paramount.auth.comp.JsonWebTokenService;
 import net.paramount.auth.domain.SecurityPrincipalProfile;
 import net.paramount.auth.entity.Authority;
 import net.paramount.auth.entity.SecurityAccountProfile;
@@ -53,7 +52,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	private PasswordEncoder passwordEncoder;
 
 	@Inject
-	private JwtTokenProvider tokenProvider;
+	private JsonWebTokenService jwtServiceProvider;
 
 	@Override
   protected BaseRepository<SecurityAccountProfile, Long> getRepository() {
@@ -109,7 +108,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 			updatedUserAccount.setPassword(passwordEncoder.encode(updatedUserAccount.getPassword()));
 			updatedUserAccount = this.save(updatedUserAccount);
 
-			updatedUserAccount.setActivationKey(tokenProvider.generateToken(updatedUserAccount));
+			updatedUserAccount.setActivationKey(jwtServiceProvider.generateToken(updatedUserAccount));
 			updatedUserAccount = this.saveOrUpdate(updatedUserAccount);
 
 			registrationProfile = SecurityPrincipalProfile.builder()

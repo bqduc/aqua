@@ -27,7 +27,8 @@ import net.paramount.common.CommonBeanUtils;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
+import net.paramount.exceptions.AppRuntimeException;
 import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.entity.RepoAuditable;
@@ -123,8 +124,8 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		return getBizObject(contextParams);
 	}
 
-	protected Optional<ClassType> fetchBusinessObject(Object key) throws EcosphereException {
-    throw new EcosphereException("Not implemented yet. ");
+	protected Optional<ClassType> fetchBusinessObject(Object key) throws AppException {
+    throw new AppException("Not implemented yet. ");
 	}
 
 	protected Page<ClassType> getPaginatedObjects(Integer page, Integer size){
@@ -175,7 +176,13 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 	public boolean exists(String countByProperty, Object value) {
 		String invokeMethod = "existsBy" + StringUtils.capitalize(countByProperty);
 		Map<?, ?> parameters = ListUtility.createMap(countByProperty, value);
-		return existsEntity(invokeMethod, parameters);
+		boolean isExists = false;
+		try {
+			isExists = existsEntity(invokeMethod, parameters);
+		} catch (AppException e) {
+			throw new AppRuntimeException(e);
+		}
+		return isExists;
 	}
 
 	@Override
@@ -212,7 +219,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		return count;
 	}
 
-	private boolean existsEntity(String methodName, Map<?, ?> parameters) throws EcosphereException {
+	private boolean existsEntity(String methodName, Map<?, ?> parameters) throws AppException {
 		Object retData = null;
 		boolean exists = false;
 		try {
@@ -221,7 +228,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException e) {
 			//log.error(e);
-			throw new EcosphereException(e);
+			throw new AppException(e);
 		}
 		return exists;
 	}
@@ -313,7 +320,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 				searchParameter.getPageable());
 	}*/
 
-	public Optional<ClassType> getBusinessObject(Object key) throws EcosphereException {
+	public Optional<ClassType> getBusinessObject(Object key) throws AppException {
 		Optional<ClassType> fetchedBizObject = this.fetchBusinessObject(key);
 		if (!fetchedBizObject.isPresent())
 			return Optional.empty();
@@ -327,8 +334,8 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		return fetchedBizObject;
 	}
 
-	public String nextSerial(String prefix) throws EcosphereException {
-		throw new EcosphereException("Not implemented yet!");
+	public String nextSerial(String prefix) throws AppException {
+		throw new AppException("Not implemented yet!");
 	}
 
 	public Optional<ClassType> getByCode(String code) throws ObjectNotFoundException {

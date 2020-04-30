@@ -12,7 +12,6 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.AttributeOverride;
@@ -25,6 +24,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.Valid;
 
 import net.paramount.entity.general.MoneySet;
+import net.paramount.framework.entity.RepoEntity;
 
 /**
  * Ortak olarak kullanılan vergi alanlarını tutan model sınıfıdır.
@@ -32,7 +32,7 @@ import net.paramount.entity.general.MoneySet;
  *
  */
 @MappedSuperclass
-public class TaxBase implements Serializable {
+public class TaxBase extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 

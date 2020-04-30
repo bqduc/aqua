@@ -16,7 +16,7 @@ import net.paramount.css.service.system.SequenceManager;
 import net.paramount.css.service.system.SequenceService;
 import net.paramount.css.specification.MeasureUnitSpecification;
 import net.paramount.entity.general.MeasureUnit;
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.model.SearchParameter;
 import net.paramount.framework.repository.BaseRepository;
@@ -81,7 +81,7 @@ public class MeasureUnitServiceImpl extends GenericServiceImpl<MeasureUnit, Long
 	}
 
 	@Override
-	public String nextSerial(String prefix) throws EcosphereException {
+	public String nextSerial(String prefix) throws AppException {
 		String newSerialNo = this.sequenceManager.getNewNumber(prefix, Integer.valueOf(GlobalConstants.SIZE_CODE));
 		newSerialNo = prefix + newSerialNo.substring(prefix.length());
 		return newSerialNo;

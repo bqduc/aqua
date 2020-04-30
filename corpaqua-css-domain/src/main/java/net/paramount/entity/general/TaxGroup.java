@@ -3,10 +3,13 @@ package net.paramount.entity.general;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import net.paramount.entity.base.BaseTaxGroup;
 
 @Entity
@@ -15,6 +18,11 @@ import net.paramount.entity.base.BaseTaxGroup;
 public class TaxGroup extends BaseTaxGroup {
 	private static final long serialVersionUID = 1L;
 
+	@Setter
+	@Getter
+	@Column(name = "INFO")
+	private String info;
+	
 	public TaxGroup() {
 		super();
 	}

@@ -20,7 +20,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.model.FilterBase;
+import net.paramount.framework.model.CodeNameFilterBase;
 
 /**
  * Module.
@@ -32,10 +32,8 @@ import net.paramount.framework.model.FilterBase;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper=false)
-public class ProductCoreFilter extends FilterBase {
-	private String code;
+public class ProductCoreFilter extends CodeNameFilterBase {
 	private String barcode;
-	private String name;
 	private String translatedName;
 	private String labelName;
 

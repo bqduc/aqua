@@ -28,7 +28,7 @@ import net.paramount.entity.trade.TenderTaxSummaryBase;
  */
 @Entity
 @Table(name="TEKIR_INVOICE_TAX_SUMMARY")
-public class TekirInvoiceTaxSummary extends TenderTaxSummaryBase implements Serializable { 
+public class TekirInvoiceTaxSummary extends TenderTaxSummaryBase { 
 
     private static final long serialVersionUID = 1L;
 
@@ -44,19 +44,8 @@ public class TekirInvoiceTaxSummary extends TenderTaxSummaryBase implements Seri
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TekirInvoiceTaxSummary)) {
-            return false;
-        }
-        TekirInvoiceTaxSummary other = (TekirInvoiceTaxSummary)object;
-        if (this.getId() != other.getId() && (this.getId() == null || !this.getId().equals(other.getId()))) return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "com.ut.tekir.entities.InvoiceTaxSummary[id=" + getId() + "]";
+        return "InvoiceTaxSummary[id=" + getId() + "]";
     }
 
     public TekirInvoiceTaxSummary clone() {

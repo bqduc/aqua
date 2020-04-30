@@ -35,7 +35,7 @@ import net.paramount.framework.entity.RepoAuditable;
 import net.paramount.global.GlobalConstants;
 
 /**
- * A catalog sub type.
+ * A catalog sub type equivalent to a category. One category consists one or more groups
  * 
  * @author bqduc
  */

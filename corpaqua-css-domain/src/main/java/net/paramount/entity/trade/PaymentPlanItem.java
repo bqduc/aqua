@@ -12,73 +12,57 @@
 
 package net.paramount.entity.trade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.model.PaymentPlanCalcType;
 import net.paramount.model.PaymentPlanDestType;
 
 @Entity
-@Table(name="PAYMENT_PLAN_ITEM")
-public class PaymentPlanItem implements Serializable {
+@Table(name = "PAYMENT_PLAN_ITEM")
+public class PaymentPlanItem extends RepoEntity {
 
 	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE,generator="genericSeq")
-    @Column(name="ID")
-	private Long id;
-	
-    @ManyToOne
-    @JoinColumn(name="PAYMENT_PLAN_ID")
+	@ManyToOne
+	@JoinColumn(name = "PAYMENT_PLAN_ID")
 	private PaymentPlan paymentPlan;
 
-    @Column(name="PAYMENT_DAY")
-    private Integer day;
-    
-    /**
-     * Hesaplama tipi
-     */
-    @Column(name="CALC_TYPE")
-    @Enumerated(EnumType.ORDINAL)
+	@Column(name = "PAYMENT_DAY")
+	private Integer day;
+
+	/**
+	 * Hesaplama tipi
+	 */
+	@Column(name = "CALC_TYPE")
+	@Enumerated(EnumType.ORDINAL)
 	private PaymentPlanCalcType calcType = PaymentPlanCalcType.Rate;
-    
-    /**
-     * Hedef (Tutar üzerinden, Vergi üzerinden)
-     */
-    @Column(name="DEST_TYPE")
-    @Enumerated(EnumType.ORDINAL)
-    private PaymentPlanDestType destType = PaymentPlanDestType.Total;
-    
-    @Column(name="RATE", precision=17, scale=2)
-    private BigDecimal rate = BigDecimal.ZERO;
 
-    public PaymentPlanItem clone() {
-    	PaymentPlanItem clonedppi = new PaymentPlanItem();
-    	clonedppi.setCalcType(calcType);
-    	clonedppi.setDay(day);
-    	clonedppi.setDestType(destType);
-    	clonedppi.setRate(rate);
-    	return clonedppi;
-    }
-    
-	public Long getId() {
-		return id;
-	}
+	/**
+	 * Hedef (Tutar üzerinden, Vergi üzerinden)
+	 */
+	@Column(name = "DEST_TYPE")
+	@Enumerated(EnumType.ORDINAL)
+	private PaymentPlanDestType destType = PaymentPlanDestType.Total;
 
-	public void setId(Long id) {
-		this.id = id;
+	@Column(name = "RATE", precision = 17, scale = 2)
+	private BigDecimal rate = BigDecimal.ZERO;
+
+	public PaymentPlanItem clone() {
+		PaymentPlanItem clonedppi = new PaymentPlanItem();
+		clonedppi.setCalcType(calcType);
+		clonedppi.setDay(day);
+		clonedppi.setDestType(destType);
+		clonedppi.setRate(rate);
+		return clonedppi;
 	}
 
 	public PaymentPlan getPaymentPlan() {
@@ -124,27 +108,13 @@ public class PaymentPlanItem implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (this.id != null ? this.id.hashCode() : 0);
+		hash += (getId() != null ? getId().hashCode() : 0);
 		return hash;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
-		// not set
-		if (!(object instanceof PaymentPlanItem)) {
-			return false;
-		}
-		PaymentPlanItem other = (PaymentPlanItem) object;
-		if (this.id != other.id
-				&& (this.id == null || !this.id.equals(other.id)))
-			return false;
-		return true;
+	public String toString() {
+		return "PaymentPlanItem[id=" + getId() + "]";
 	}
 
-	@Override
-	public String toString() {
-		return "com.ut.tekir.entities.PaymentPlanItem[id=" + id + "]";
-	}
-	
 }

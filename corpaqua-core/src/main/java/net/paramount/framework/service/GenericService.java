@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import net.paramount.exceptions.EcosphereException;
+import net.paramount.exceptions.AppException;
 import net.paramount.exceptions.ExecutionContextException;
 import net.paramount.framework.entity.RepoEntity;
 import net.paramount.framework.model.ExecutionContext;
@@ -30,9 +30,9 @@ public interface GenericService<T extends RepoEntity, K extends Serializable> ex
 
 	Long count(String countMethodName, Map<?, ?> parameters);
 
-	String nextSerial(String prefix) throws EcosphereException;
+	String nextSerial(String prefix) throws AppException;
 
-	Optional<T> getBusinessObject(Object key) throws EcosphereException;
+	Optional<T> getBusinessObject(Object key) throws AppException;
 	List<T> getObjects();
 
 	List<T> getVisibleObjects();
