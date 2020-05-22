@@ -11,11 +11,10 @@
 	</ui:define>
 	<ui:define name="title">
 		<adm:breadcrumb title="#{messages['lbl.systemAdministration']}"/>
-		Management-#{messages['lbl.systemAdministrationDashboard']}
+		#{messages['lbl.systemAdministrationDashboard']}
 	</ui:define>
 	<ui:define name="body">
-		<div class="box box-primary" style="font-family: 'Helvetica Neue';font-size: 15px">
-		</div>
+		<div class="box box-primary" style="font-family: 'Helvetica Neue';font-size: 15px"></div>
 		<!-- End of dashlet components -->
 		<div class="row">
 		  <div class="col-lg-3 col-6">
@@ -75,6 +74,19 @@
 		</div>
 		</div>
 		<div class="row">
+		  <div class="col-lg-3 col-6">
+		    <!-- small box -->
+			  <div class="small-box bg-info">
+			    <div class="inner">
+			      <h3>150</h3>
+			      <p>#{messages['lbl.dashboard.general']}</p>
+			    </div>
+			    <div class="icon">
+			      <i class="ion ion-bag"></i>
+			    </div>
+			    <a href="/pages/general/dashboard.jsf" class="small-box-footer">More info <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+			  </div>
+			</div>
 		  <div class="col-lg-3 col-6">
 		    <!-- small box -->
 			  <div class="small-box bg-info">

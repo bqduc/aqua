@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.domain.entity.general.CatalogueItem;
 import net.paramount.entity.base.BusinessEntity;
 import net.paramount.global.GlobalConstants;
@@ -46,11 +46,11 @@ public class BusinessUnit extends BusinessEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "publish_user_id")//issue_user_id
-	private SecurityAccountProfile publishUserAccount;
+	private UserAccountProfile publishUserAccount;
 
 	@ManyToOne
 	@JoinColumn(name = "issued_user_id")
-	private SecurityAccountProfile issuedUser;
+	private UserAccountProfile issuedUser;
 
 	@ManyToOne
 	@JoinColumn(name = "parent_id")
@@ -64,11 +64,11 @@ public class BusinessUnit extends BusinessEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "spoc_user_id")
-	private SecurityAccountProfile spocUser;
+	private UserAccountProfile spocUser;
 
 	@ManyToOne
 	@JoinColumn(name = "manager_user_id")
-	private SecurityAccountProfile managerUser;
+	private UserAccountProfile managerUser;
 
 	@ManyToOne
 	@JoinColumn(name = "level_id")

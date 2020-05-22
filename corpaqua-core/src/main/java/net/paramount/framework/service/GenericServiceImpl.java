@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.paramount.autx.SecurityServiceContextHelper;
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
@@ -101,11 +101,11 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		BaseRepository<ClassType, Key> repository = this.getRepository();
 		try {
 			if (operationSpec instanceof String) {
-				fetchedObject = CommonBeanUtils.invokeOperation(repository, (String)operationSpec, operationData, PACKAGE_PREFIX);
+				fetchedObject = BeanUtility.invokeOperation(repository, (String)operationSpec, operationData, PACKAGE_PREFIX);
 			} else if (operationSpec instanceof List) {
 				List<String> operationSpecs = (List<String>)operationSpec;
 				for (String currentOperationSpec :operationSpecs) {
-					fetchedObject = CommonBeanUtils.invokeOperation(repository, (String)operationSpec, operationData, PACKAGE_PREFIX);
+					fetchedObject = BeanUtility.invokeOperation(repository, (String)operationSpec, operationData, PACKAGE_PREFIX);
 					if (null != fetchedObject) {
 						break;
 					}
@@ -210,7 +210,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		Object retData = null;
 		long count = 0;
 		try {
-			retData = CommonBeanUtils.invokeOperation(this.getRepository(), methodName, parameters, PACKAGE_PREFIX);
+			retData = BeanUtility.invokeOperation(this.getRepository(), methodName, parameters, PACKAGE_PREFIX);
 			count = (Long)retData;
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException e) {
@@ -223,7 +223,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 		Object retData = null;
 		boolean exists = false;
 		try {
-			retData = CommonBeanUtils.invokeOperation(this.getRepository(), methodName, parameters, PACKAGE_PREFIX);
+			retData = BeanUtility.invokeOperation(this.getRepository(), methodName, parameters, PACKAGE_PREFIX);
 			exists = Boolean.TRUE.equals(retData);
 		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| InstantiationException e) {
@@ -262,22 +262,25 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
   @Override
   @Transactional(propagation = Propagation.REQUIRED)
   public ClassType save(ClassType entity) {
-  	ClassType mergedEntity = null;
-  	BaseRepository<ClassType, Key> respository = getRepository();
-  	if (null != respository){
-  		respository.saveAndFlush(entity);
-  	} else {
-  		log.info("There is no implemented repository for " + this.getClass().getSimpleName());
-    	if (null == entity.getId()){
-    		this.em.persist(entity);
-    	}else{
-    		mergedEntity = this.em.merge(entity);
-    		this.em.refresh(mergedEntity);
+  	try {
+    	ClassType mergedEntity = null;
+    	BaseRepository<ClassType, Key> respository = getRepository();
+    	if (null != respository){
+    		respository.saveAndFlush(entity);
+    	} else {
+    		log.info("There is no implemented repository for " + this.getClass().getSimpleName());
+      	if (null == entity.getId()){
+      		this.em.persist(entity);
+      	}else{
+      		mergedEntity = this.em.merge(entity);
+      		this.em.refresh(mergedEntity);
+      	}
+      	this.em.flush();
+    		log.info("Use the persistence context entity manager object instead of repository. ");
     	}
-    	this.em.flush();
-  		log.info("Use the persistence context entity manager object instead of repository. ");
-  	}
-
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
   	return entity;
   }
 

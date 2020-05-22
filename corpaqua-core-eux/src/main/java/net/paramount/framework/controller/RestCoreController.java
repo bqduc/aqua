@@ -4,6 +4,7 @@
 package net.paramount.framework.controller;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import org.springframework.web.context.request.WebRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import net.paramount.domain.RestErrorInfo;
+import net.paramount.domain.model.SearchCondition;
 import net.paramount.exceptions.EcosphereResourceException;
 import net.paramount.framework.service.IService;
 
@@ -50,11 +52,11 @@ public abstract class RestCoreController<T, PK extends Serializable> extends Roo
 	@ApiOperation(
 			value = "Create a aquafeed resource.", 
 			notes = "Returns the URL of the new resource in the Location header.")
-	public void createBusinessObject(
+	public @ResponseBody T createBusinessObject(
 			@RequestBody T clientObject, 
 			HttpServletRequest request, 
 			HttpServletResponse response) {
-		this.doCreateBusinessObject(clientObject);
+		return this.doCreateBusinessObject(clientObject);
 	}
 
 	@RequestMapping(value = "/fetch", method = RequestMethod.GET, produces = { "application/json", "application/xml" })
@@ -80,17 +82,30 @@ public abstract class RestCoreController<T, PK extends Serializable> extends Roo
 	}
 
 	@RequestMapping(
+			value = "/search", 
+			method = RequestMethod.POST, 
+			consumes = { "application/json", "application/xml" }, 
+			produces = { "application/json", "application/xml" })
+	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation(value = "Get a list of business objects.", notes = "You have to provide a valid search conditions.")
+	public @ResponseBody List<T> searchBusinessObjects(@RequestBody SearchCondition clientSearchConditions,
+			HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		return this.searchBusinessObjects(clientSearchConditions);
+	}
+
+	@RequestMapping(
 			value = "/update/{id}", 
 			method = RequestMethod.PUT, 
 			consumes = { "application/json", "application/xml" }, 
 			produces = { "application/json", "application/xml" })
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@ApiOperation(value = "Update a aquafeed resource.", notes = "You have to provide a valid aquafeed ID in the URL and in the payload. The ID attribute can not be updated.")
-	public void updateBusinessObject(@ApiParam(value = "The ID of the existing aquafeed resource.", required = true) @PathVariable("id") Long id,
+	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "Request to update a business object.", notes = "You have to provide a valid business pobject ID in the URL and in the payload. The business object ID attribute can not be updated.")
+	public @ResponseBody T updateBusinessObject(@ApiParam(value = "The ID of the existing aquafeed resource.", required = true) @PathVariable("id") Long id,
 			@RequestBody T updatedClientObject, 
 			HttpServletRequest request, 
 			HttpServletResponse response) {
-		this.doUpdateBusinessObject(updatedClientObject);
+		return this.doUpdateBusinessObject(updatedClientObject);
 	}
 
 	// TODO: @ApiImplicitParams, @ApiResponses
@@ -128,7 +143,8 @@ public abstract class RestCoreController<T, PK extends Serializable> extends Roo
 		return resource;
 	}
 
-	protected void doUpdateBusinessObject(T updatedClientObject) {
+	protected T doUpdateBusinessObject(T updatedClientObject) {
+		return null;
 	}
 
 	protected Page<T> doFetchBusinessObjects(Integer page, Integer size) {
@@ -140,13 +156,19 @@ public abstract class RestCoreController<T, PK extends Serializable> extends Roo
 		if (null==service)
 			return null;
 
+		@SuppressWarnings("unchecked")
 		T fetchedBizObject = (T) service.getObject(id);
 		return fetchedBizObject;
+	}
+
+	protected List<T> searchBusinessObjects(SearchCondition searchCondition) {
+		return null;
 	}
 
 	protected void doDeleteBusinessObject(Long id) {
 	}
 
-	protected void doCreateBusinessObject(T businessObject) {
+	protected T doCreateBusinessObject(T businessObject) {
+		return null;
 	}
 }

@@ -12,7 +12,7 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Component;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
@@ -35,10 +35,10 @@ public class GlobalDispatcher extends RootController {
 
 	private String failureMessage;
 
-	public SecurityPrincipalProfile getSecurityAccountProfile() {
-		SecurityPrincipalProfile securityAccountProfile = null;
+	public UserSecurityProfile getSecurityAccountProfile() {
+		UserSecurityProfile securityAccountProfile = null;
 		try {
-			securityAccountProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
+			securityAccountProfile = (UserSecurityProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -63,7 +63,7 @@ public class GlobalDispatcher extends RootController {
 		String imageContentsAsBase64 = null;
 		byte[] imageBytes = null;
 		try {
-			SecurityPrincipalProfile securityPrincipalProfile = this.getSecurityAccountProfile();
+			UserSecurityProfile securityPrincipalProfile = this.getSecurityAccountProfile();
 			if (null==securityPrincipalProfile || null==securityPrincipalProfile.getUserAccount() || null == securityPrincipalProfile.getUserAccount().getProfilePicture()) {
 				inputStream = servletContext.getResourceAsStream("/resources/images/anonymous-user-small.png");
 				imageBytes = CommonUtility.getByteArray(inputStream);

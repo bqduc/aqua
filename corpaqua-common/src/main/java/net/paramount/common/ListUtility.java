@@ -182,7 +182,7 @@ public class ListUtility {
 		Map<String, Object> objectAttributeMap = null;
 		for (Object businessObject : businessObjects) {
 			try {
-				objectAttributeMap = CommonBeanUtils.getObjectAttributes(businessObject, asSet(mappedAttributes.values()));
+				objectAttributeMap = BeanUtility.getObjectAttributes(businessObject, asSet(mappedAttributes.values()));
 			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 				e.printStackTrace();
 				//log.error(e.getMessage(), e); 

@@ -20,7 +20,7 @@ import org.springframework.util.ResourceUtils;
 
 import com.github.adminfaces.template.config.AdminConfig;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.comm.comp.Communicator;
 import net.paramount.comm.comp.CommunicatorServiceHelper;
 import net.paramount.comm.domain.CorpMimeMessage;
@@ -156,8 +156,8 @@ public class AuthenticationController extends RootController {
 		}
 	}
 
-	private SecurityAccountProfile getUserAccount() {
-		SecurityAccountProfile userAccount = SecurityAccountProfile.builder()
+	private UserAccountProfile getUserAccount() {
+		UserAccountProfile userAccount = UserAccountProfile.builder()
 				.firstName("Trụi")
 				.lastName("Trần Văn")
 				.build();

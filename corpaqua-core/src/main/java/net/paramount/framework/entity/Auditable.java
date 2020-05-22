@@ -28,30 +28,26 @@ import lombok.Setter;
 public abstract class Auditable<T> extends RepoEntity {
 	private static final long serialVersionUID = -4047672987189874306L;
 
-	@Setter
-  @Getter
+	/*@Setter @Getter
 	@CreatedBy
   @Column(name="created_by")
   protected T createdBy;
 
-  @Setter
-  @Getter
+  @Setter @Getter
   @CreatedDate
   @Temporal(TemporalType.TIMESTAMP)
   @Column(name="creation_date")
   protected Date creationDate;
 
-  @Setter
-  @Getter
+  @Setter @Getter
   @LastModifiedBy
   @Column(name="last_modified_by")
   private T lastModifiedBy;
 
-  @Setter
-  @Getter
+  @Setter @Getter
   @LastModifiedDate
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name="last_modified_date")
-  protected Date lastModifiedDate;
+  @Column(name="last_modified")
+  protected Date lastModified;*/
 
 }

@@ -13,8 +13,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
-import net.paramount.domain.entity.general.CatalogueItem;
-
 /**
  * @author bqduc
  *
@@ -28,8 +26,8 @@ public interface CodeNameRepository<T, PK extends Serializable> extends BaseRepo
 	)
 	Page<T> find(@Param("keyword") String keyword, Pageable pageable);
 
-	@Query("SELECT entity FROM #{#entityName} entity WHERE LOWER(entity.code) like LOWER(:keyword) or LOWER(entity.name) like LOWER(:keyword) ")
-	List<CatalogueItem> find(@Param("keyword") String keyword);
+	@Query("SELECT entity FROM #{#entityName} entity WHERE LOWER(entity.code) like LOWER(CONCAT('%',:keyword,'%')) or LOWER(entity.name) like LOWER(CONCAT('%',:keyword,'%')) ")
+	List<T> find(@Param("keyword") String keyword);
 	
 	Optional<T> findByCode(String code);
 	Optional<T> findByName(String name);

@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonUtility;
 import net.paramount.css.service.stock.InventoryService;
@@ -42,7 +42,7 @@ public class UserProfileImageServlet extends ServletCore {
 				businessService = (UserAccountService)this.getBean(UserAccountService.class);
 			}
 
-			SecurityAccountProfile businessObject = businessService.getObject(CommonUtility.parseLong(userProfileIdParam));
+			UserAccountProfile businessObject = businessService.getObject(CommonUtility.parseLong(userProfileIdParam));
 			if (null != businessObject && null != businessObject.getAttachment()) {
 				response.getOutputStream().write(businessObject.getAttachment().getData());
 			}

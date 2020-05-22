@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Component;
 
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.exceptions.AppException;
 import net.paramount.framework.entity.RepoEntity;
 import net.peaga.domain.base.Repository;
@@ -22,9 +22,9 @@ import net.peaga.domain.base.Repository;
 @Component
 public class SimpleDataObjectTransformer implements DataTransformer {
 	@Override
-	public RepoEntity marshall(final Repository proxyObject, RepoEntity targetBusinessObject) throws AppException {
+	public RepoEntity transformToBusiness(final Repository proxyObject, RepoEntity targetBusinessObject) throws AppException {
 		try {
-			CommonBeanUtils.copyBean(proxyObject, targetBusinessObject);
+			BeanUtility.copyBean(proxyObject, targetBusinessObject);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 			throw new AppException(e);
 		}
@@ -32,12 +32,17 @@ public class SimpleDataObjectTransformer implements DataTransformer {
 	}
 
 	@Override
-	public Repository unmarshall(final RepoEntity businessObject, Repository targetProxyObject) throws AppException {
+	public Repository transformToProxy(final RepoEntity businessObject, Repository targetProxyObject) throws AppException {
 		try {
-			CommonBeanUtils.copyBean(businessObject, targetProxyObject);
+			BeanUtility.copyBean(businessObject, targetProxyObject);
 		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 			throw new AppException(e);
 		}
 		return targetProxyObject;
+	}
+
+	@Override
+	public RepoEntity transformToBusiness(Repository proxyObject, RepoEntity targetBusinessObject, String[] excludedAttributes) throws AppException {
+		return (RepoEntity)BeanUtility.getInstance().copyBeanData(proxyObject, targetBusinessObject, excludedAttributes);
 	}
 }

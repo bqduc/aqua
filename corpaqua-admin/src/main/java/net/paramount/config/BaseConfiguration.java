@@ -28,7 +28,7 @@ import net.paramount.global.GlobalConstants;
 @EnableTransactionManagement
 @Import(value = {
 		ServletsConfiguration.class, 
-		AuditingConfiguration.class, 
+		//AuditingConfiguration.class, 
 		SecurityConfiguration.class,
 		//QuartzJobSchedulerConfiguration.class 
 })

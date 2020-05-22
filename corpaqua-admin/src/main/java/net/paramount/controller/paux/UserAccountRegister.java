@@ -28,8 +28,8 @@ import com.github.adminfaces.template.exception.AccessDeniedException;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.paramount.auth.domain.SecurityPrincipalProfile;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.comm.domain.CorpMimeMessage;
@@ -73,16 +73,16 @@ public class UserAccountRegister extends RootController {
 	private Long id;
 
 	private BusinessUnit businessUnit;
-	private SecurityAccountProfile entity;
+	private UserAccountProfile entity;
 
 	@Setter
 	@Getter
 	private UploadedFile uploadedFile;
 
-	private SecurityPrincipalProfile getAuthSecurityAccountProfile() {
-		SecurityPrincipalProfile securityAccountProfile = null;
+	private UserSecurityProfile getAuthSecurityAccountProfile() {
+		UserSecurityProfile securityAccountProfile = null;
 		try {
-			securityAccountProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
+			securityAccountProfile = (UserSecurityProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
 		} catch (Exception e) {
 			log.error(e);
 		}
@@ -104,14 +104,14 @@ public class UserAccountRegister extends RootController {
 			userId = Long.valueOf(super.request.getParameter("id"));
 			this.entity = businessService.getObject(userId);
 
-			SecurityPrincipalProfile securityPrincipalProfile = this.getAuthSecurityAccountProfile();
+			UserSecurityProfile securityPrincipalProfile = this.getAuthSecurityAccountProfile();
 			if (null == securityPrincipalProfile || null == securityPrincipalProfile.getUserAccount() || !userId.equals(securityPrincipalProfile.getUserAccount().getId())) {
 				//////////////////// Leak
 				log.info("Illegal access. ");
 				return;
 			}
 		} else {
-			this.entity = SecurityAccountProfile.builder().build();
+			this.entity = UserAccountProfile.builder().build();
 		}
 	}
 
@@ -170,7 +170,7 @@ public class UserAccountRegister extends RootController {
 			this.authorizationService.saveSecurityAccountProfile(this.entity);
 
 			//Synchronize back to session
-			SecurityPrincipalProfile securityPrincipalProfile = (SecurityPrincipalProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
+			UserSecurityProfile securityPrincipalProfile = (UserSecurityProfile)this.httpSession.getAttribute(GlobalConstants.AUTHENTICATED_PROFILE);
 			securityPrincipalProfile.setUserAccount(entity);
 			this.httpSession.setAttribute(GlobalConstants.AUTHENTICATED_PROFILE, securityPrincipalProfile);
 
@@ -192,7 +192,7 @@ public class UserAccountRegister extends RootController {
 	}
 
 	public void clear() {
-		this.entity = SecurityAccountProfile.builder().build();
+		this.entity = UserAccountProfile.builder().build();
 		id = null;
 	}
 
@@ -200,11 +200,11 @@ public class UserAccountRegister extends RootController {
 		return this.entity == null || this.entity.getId() == null;
 	}
 
-	public SecurityAccountProfile getEntity() {
+	public UserAccountProfile getEntity() {
 		return entity;
 	}
 
-	public void setEntity(SecurityAccountProfile entity) {
+	public void setEntity(UserAccountProfile entity) {
 		this.entity = entity;
 	}
 
@@ -240,7 +240,7 @@ public class UserAccountRegister extends RootController {
 				.locale(this.getCurrentLocale())
 				.build();
 
-		SecurityAccountProfile userAccount = (SecurityAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
+		UserAccountProfile userAccount = (UserAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT);
 		Map<String, Object> definitions = ListUtility.createMap();
 		definitions.put("userContact", userAccount);
 		definitions.put("location", "Bình Định-Sài Gòn");

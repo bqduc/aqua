@@ -41,7 +41,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
@@ -135,9 +135,9 @@ public abstract class BaseController extends RootController {
 		if (CommonUtility.isNotEmpty(objects)) {
 			for (Object object : objects) {
 				try {
-					objectId = (Long) CommonBeanUtils.getBeanProperty(object, "id");
-					objectCode = (String) CommonBeanUtils.getBeanProperty(object, "code");
-					objectName = (String) CommonBeanUtils.getBeanProperty(object, "name");
+					objectId = (Long) BeanUtility.getBeanProperty(object, "id");
+					objectCode = (String) BeanUtility.getBeanProperty(object, "code");
+					objectName = (String) BeanUtility.getBeanProperty(object, "name");
 					selectItems.add(SelectItem.builder().id(objectId).code(objectCode).name(objectName).build());
 				} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 					log.error(e);
@@ -154,9 +154,9 @@ public abstract class BaseController extends RootController {
 		List<SelectItem> selectItems = new ArrayList<>();
 		for (Object object : objects) {
 			try {
-				objectId = (Long) CommonBeanUtils.getBeanProperty(object, idProperty);
-				objectCode = (String) CommonBeanUtils.getBeanProperty(object, displayCodeProperty);
-				objectName = (String) CommonBeanUtils.getBeanProperty(object, displayNameProperty);
+				objectId = (Long) BeanUtility.getBeanProperty(object, idProperty);
+				objectCode = (String) BeanUtility.getBeanProperty(object, displayCodeProperty);
+				objectName = (String) BeanUtility.getBeanProperty(object, displayNameProperty);
 				selectItems.add(SelectItem.builder().id(objectId).code(objectCode).name(objectName).build());
 			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 				log.error(e);
@@ -171,9 +171,9 @@ public abstract class BaseController extends RootController {
 		List<SelectItem> selectItems = new ArrayList<>();
 		for (Object object : objects) {
 			try {
-				objectId = (Long) CommonBeanUtils.getBeanProperty(object, "id");
-				objectCode = (String) CommonBeanUtils.getBeanProperty(object, "code");
-				objectName = (String) CommonBeanUtils.getBeanProperty(object, "name");
+				objectId = (Long) BeanUtility.getBeanProperty(object, "id");
+				objectCode = (String) BeanUtility.getBeanProperty(object, "code");
+				objectName = (String) BeanUtility.getBeanProperty(object, "name");
 				selectItems.add(SelectItem.builder().id(objectId).code(objectCode).name(objectName).build());
 			} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
 				log.error(e);
@@ -188,9 +188,9 @@ public abstract class BaseController extends RootController {
 		Map<String, Object> displayValueMap = ListUtility.createMap();
 		for (Object object : objects) {
 			try {
-				objectId = (Long) CommonBeanUtils.getBeanProperty(object, keyProperty);
+				objectId = (Long) BeanUtility.getBeanProperty(object, keyProperty);
 				for (String displayProperty : displayProperties) {
-					displayValueMap.put(displayProperty, CommonBeanUtils.getBeanProperty(object, displayProperty));
+					displayValueMap.put(displayProperty, BeanUtility.getBeanProperty(object, displayProperty));
 				}
 
 				selectItems.add(SelectItem.builder().build().instance(objectId, displayValueMap));

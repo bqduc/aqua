@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -17,6 +19,12 @@ import net.paramount.entity.base.BaseTaxGroup;
 @EqualsAndHashCode(callSuper = true)
 public class TaxGroup extends BaseTaxGroup {
 	private static final long serialVersionUID = 1L;
+
+	@Setter
+	@Getter
+	@ManyToOne
+	@JoinColumn(name = "parent_id")
+	private TaxGroup parent;
 
 	@Setter
 	@Getter

@@ -1,11 +1,11 @@
 package net.paramount.exceptions;
 
 /**
- * The class {@code EcosysException} and its subclasses are a form of
+ * The class {@code AppRuntimeException} and its subclasses are a form of
  * {@code Throwable} that indicates conditions that a reasonable
  * application might want to catch.
  *
- * <p>The class {@code EcosysException} and any subclasses that are not also
+ * <p>The class {@code AppRuntimeException} and any subclasses that are not also
  * subclasses of {@link RuntimeException} are <em>checked
  * exceptions</em>.  Checked exceptions need to be declared in a
  * method or constructor's {@code throws} clause if they can be thrown
@@ -14,7 +14,7 @@ package net.paramount.exceptions;
  *
  * @author bqduc
  */
-public class EcosysException extends RuntimeException {
+public class AppRuntimeException extends RuntimeException {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class EcosysException extends RuntimeException {
    * The cause is not initialized, and may subsequently be initialized by a
    * call to {@link #initCause}.
    */
-  public EcosysException() {
+  public AppRuntimeException() {
       super();
   }
 
@@ -38,7 +38,7 @@ public class EcosysException extends RuntimeException {
    * @param   message   the detail message. The detail message is saved for
    *          later retrieval by the {@link #getMessage()} method.
    */
-  public EcosysException(String message) {
+  public AppRuntimeException(String message) {
       super(message);
   }
 
@@ -56,7 +56,7 @@ public class EcosysException extends RuntimeException {
    *         unknown.)
    * @since  1.4
    */
-  public EcosysException(String message, Throwable cause) {
+  public AppRuntimeException(String message, Throwable cause) {
       super(message, cause);
   }
 
@@ -74,7 +74,7 @@ public class EcosysException extends RuntimeException {
    *         unknown.)
    * @since  1.4
    */
-  public EcosysException(Throwable cause) {
+  public AppRuntimeException(Throwable cause) {
       super(cause);
   }
 
@@ -92,7 +92,7 @@ public class EcosysException extends RuntimeException {
    *                           be writable
    * @since 1.7
    */
-  protected EcosysException(String message, Throwable cause,
+  protected AppRuntimeException(String message, Throwable cause,
                       boolean enableSuppression,
                       boolean writableStackTrace) {
       super(message, cause, enableSuppression, writableStackTrace);

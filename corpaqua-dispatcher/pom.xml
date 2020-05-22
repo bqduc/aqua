@@ -16,6 +16,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>peaga-dispatcher-agent-domain</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>corpaqua-dmx</artifactId>
 			<version>${project.version}</version>
 		</dependency>	

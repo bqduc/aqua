@@ -19,11 +19,11 @@
       	<div id="main-buttons" class="hidden-sm hidden-xs">
 	        <p:commandButton action="taxGroupDetail?faces-redirect=true" icon="fa fa-plus" value="#{messages['lbl.general.new']}" styleClass="btn-primary"/>
 	        <p:spacer width="5"/>
-	        <p:commandButton value="#{messages['lbl.general.deleteSelected']}" icon="fa fa-trash" styleClass="btn-danger" action="#{taxGroupBrowser.delete}" disabled="#{empty taxGroupBrowser.businessObjects or taxGroupBrowser.businessObjects.size() == 0}" process="@this" update="@form">
+	        <p:commandButton value="#{messages['lbl.general.deleteSelected']}" icon="fa fa-trash" styleClass="btn-danger" action="#{taxGroupBrowser.delete}" disabled="#{empty taxGroupBrowser.selectedObjects or taxGroupBrowser.selectedObjects.size() == 0}" process="@this" update="@form">
 	        	<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
 	        </p:commandButton>
 	        <p:spacer width="5"/>
-	        <p:commandButton value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)" styleClass="btn-info" disabled="#{empty taxGroupBrowser.businessObjects or taxGroupBrowser.businessObjects.size() == 0}" oncomplete="PF('selectedObjectDialog').show()" icon="fa fa-search"/>
+	        <p:commandButton value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)" styleClass="btn-info" disabled="#{empty taxGroupBrowser.selectedObjects or taxGroupBrowser.selectedObjects.size() == 0}" oncomplete="PF('selectedObjectDialog').show()" icon="fa fa-search"/>
         </div>
 
 				<p:splitButton value="#{messages['lbl.general.new']}" action="car-form?faces-redirect=true" icon="fa fa-plus" styleClass="hidden-md hidden-lg btn-primary">
@@ -66,13 +66,12 @@
 				<p:spacer/>
       </h:form>
 
-	        <p:dialog header="Selected product" widgetVar="selectedObjectDialog" height="250"
-	                  width="400" responsive="true" styleClass="box-success">
+			<p:dialog header="#{messages['lbl.general.selectedObjects']}" widgetVar="selectedObjectDialog" height="250" width="400" responsive="true" styleClass="box-success">
 	            <p:dataList id="selectedCarsList" value="#{taxGroupBrowser.businessObjects}" var="car" type="definition">
-	                ID: #{bizObject.id} - Barcode: #{bizObject.barcode} - Name: #{bizObject.name} - Price: #{bizObject.id}
+	                ID: #{bizObject.id} - Name: #{bizObject.name} - Price: #{bizObject.id}
 	            </p:dataList>
-	        </p:dialog>
-        </p:panel>
-        <p:separator/>
-    </ui:define>
+	  	</p:dialog>
+  	</p:panel>
+  	<p:separator/>
+	</ui:define>
 </ui:composition>

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.springframework.context.MessageSource;
 
-import net.paramount.lingual.entity.Message;
+import net.paramount.lingual.entity.MessageLabel;
 
 /**
  * @author ducbq
@@ -17,6 +17,6 @@ import net.paramount.lingual.entity.Message;
  */
 public interface MessagePersistenceService extends MessageSource {
 	Map<String, String> getMessagesMap(Locale locale);
-	List<Message> getMessages(Locale locale);
+	List<MessageLabel> getMessages(Locale locale);
 	void saveMessage(String key, String content, Locale locale);
 }

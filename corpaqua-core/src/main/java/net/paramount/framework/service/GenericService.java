@@ -49,10 +49,10 @@ public interface GenericService<T extends RepoEntity, K extends Serializable> ex
 	Page<T> getObjects(Integer pageNumber, Integer size);
 	Page<T> searchObjects(String keyword, Pageable pageable);
 	Page<T> search(Map<String, Object> parameters);
-	Page<T> search(String keyword);
+	//Page<T> search(String keyword);
 	Page<T> search(String keyword, Pageable pageable);
 
 	List<T> imports(Map<Object, Object> parameters);
-
+	List<T> search(String keyword);
 	ExecutionContext load(ExecutionContext executionContext) throws ExecutionContextException;
 }

@@ -35,7 +35,7 @@ import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.stock.ProductType;
 import net.paramount.entity.trade.ITenderDetail;
@@ -96,7 +96,7 @@ public class TekirInvoiceDetail extends TenderDetailBase implements ITenderDetai
     @Getter
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private SecurityAccountProfile clerk;
+    private UserAccountProfile clerk;
 
     //TODO:Acaba tüm bir satırı iade etmektense, siparişte olduğu gibi
     //satırdan istenilen miktarda iade edilebilmesi sağlanmalı mı? 

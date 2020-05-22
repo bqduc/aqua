@@ -23,7 +23,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.entity.contact.CTAContact;
 import net.paramount.entity.contact.ContactAddress;
 import net.paramount.entity.contact.ContactAssignment;
@@ -73,7 +73,7 @@ public class OrderNote extends DocumentBase {
 	@Getter
   @ManyToOne
   @JoinColumn(name="CLERK_ID")
-  private SecurityAccountProfile clerk;
+  private UserAccountProfile clerk;
 
   /*@OneToMany(mappedBy = "owner", cascade=CascadeType.ALL )
   @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)*/

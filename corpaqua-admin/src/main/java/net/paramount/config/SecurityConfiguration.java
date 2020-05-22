@@ -28,6 +28,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import net.paramount.auth.comp.DigesterEncryptorReporistory;
 import net.paramount.auth.comp.JsonWebTokenService;
@@ -81,6 +83,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			
 					.apply(new JwtSecurityConfigurer(jwtTokenProvider))
 			;
+			
+      CharacterEncodingFilter filter = new CharacterEncodingFilter();
+      filter.setEncoding("UTF-8");
+      filter.setForceEncoding(true);
+      http.addFilterBefore(filter, CsrfFilter.class);			
 		}
 	}
 

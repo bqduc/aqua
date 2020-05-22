@@ -16,10 +16,10 @@ import org.springframework.util.PathMatcher;
 
 import net.paramount.auth.comp.JsonWebTokenServiceProvider;
 import net.paramount.auth.core.AuthorizationServiceBase;
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.AuthorizationService;
@@ -54,17 +54,17 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	private AccessDecisionPolicyService accessDecisionPolicyService;
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String ssoId, String password) throws NgepAuthException {
+	public UserSecurityProfile authenticate(String ssoId, String password) throws NgepAuthException {
 		return this.generateSecurityPrincipalProfile(ssoId, password);
 	}
 
 	@Override
-	public SecurityPrincipalProfile authenticate(String loginToken) throws NgepAuthException {
+	public UserSecurityProfile authenticate(String loginToken) throws NgepAuthException {
 		return this.generateSecurityPrincipalProfile(loginToken, null);
 	}
 
 	@Override
-	public SecurityPrincipalProfile getActiveSecuredProfile() throws NgepAuthException {
+	public UserSecurityProfile getActiveSecuredProfile() throws NgepAuthException {
 		return this.getCurrentSecuredProfile();
 	}
 
@@ -75,12 +75,12 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public SecurityPrincipalProfile register(ExecutionContext context) throws NgepAuthException {
+	public UserSecurityProfile register(ExecutionContext context) throws NgepAuthException {
 		String confirmLink = null;
-		SecurityPrincipalProfile registrationProfile = null;
+		UserSecurityProfile registrationProfile = null;
 		CorpMimeMessage mimeMessage = null;
 		try {
-			registrationProfile = userAccountService.register((SecurityAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
+			registrationProfile = userAccountService.register((UserAccountProfile)context.get(CommunicatorConstants.CTX_USER_ACCOUNT));
 
 			mimeMessage = (CorpMimeMessage)context.get(CommunicatorConstants.CTX_MIME_MESSAGE);
 			if (null==mimeMessage) {
@@ -105,14 +105,14 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public SecurityAccountProfile getUserAccount(String ssoId) throws ObjectNotFoundException {
+	public UserAccountProfile getUserAccount(String ssoId) throws ObjectNotFoundException {
 		return userAccountService.get(ssoId);
 	}
 
 	@Override
-	public SecurityPrincipalProfile confirmByToken(String token) throws ObjectNotFoundException {
-		SecurityPrincipalProfile confirmedSecurityAccountProfile = SecurityPrincipalProfile.builder().build();
-		SecurityAccountProfile confirnUserAccount = null;
+	public UserSecurityProfile confirmByToken(String token) throws ObjectNotFoundException {
+		UserSecurityProfile confirmedSecurityAccountProfile = UserSecurityProfile.builder().build();
+		UserAccountProfile confirnUserAccount = null;
 		AuthenticationDetails userDetails = tokenProvider.generateAuthenticationDetails(token);
 		if (userDetails != null) {
 			confirnUserAccount = this.getUserAccount(userDetails.getSsoId());
@@ -178,9 +178,9 @@ public class AuthorizationServiceImpl extends AuthorizationServiceBase implement
 	}
 
 	@Override
-	public SecurityAccountProfile saveSecurityAccountProfile(SecurityAccountProfile securityAccountProfile) throws NgepAuthException {
+	public UserAccountProfile saveSecurityAccountProfile(UserAccountProfile securityAccountProfile) throws NgepAuthException {
 		if (CommonUtility.isEmpty(securityAccountProfile.getPassword())) {
-			SecurityAccountProfile verifySecurityAccountProfile = this.userAccountService.getObject(securityAccountProfile.getId());
+			UserAccountProfile verifySecurityAccountProfile = this.userAccountService.getObject(securityAccountProfile.getId());
 			securityAccountProfile.setPassword(verifySecurityAccountProfile.getPassword());
 		}
 		this.userAccountService.save(securityAccountProfile);

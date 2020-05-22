@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.AuthorizationService;
 
 /**
@@ -36,7 +36,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
 		//User userDetails = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		SecurityAccountProfile userAccount = null;
+		UserAccountProfile userAccount = null;
 		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof String) {
 			userAccount = authorizationService.getUserAccount((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		}

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
-import net.paramount.lingual.entity.Message;
-import net.paramount.lingual.repository.MessageRepository;
+import net.paramount.lingual.entity.MessageLabel;
+import net.paramount.lingual.repository.MessageLabelRepository;
 
 /**
  * @author ducbq
@@ -26,7 +26,7 @@ import net.paramount.lingual.repository.MessageRepository;
 @Component("persistenceMessageSource")
 public class DatabaseMessageServiceImpl implements MessagePersistenceService{
 	@Inject
-	private MessageRepository labelRepository;
+	private MessageLabelRepository labelRepository;
 
 	/**
 	 * Try to resolve the message. Return default message if no message was found.
@@ -98,7 +98,7 @@ public class DatabaseMessageServiceImpl implements MessagePersistenceService{
 	}
 
 	private String resolveMessage(String code, Object[] args, Locale locale) {
-		Message messageSourceEntity = labelRepository.findByKeyAndLocale(code, getProcessingLocaleString(locale));
+		MessageLabel messageSourceEntity = labelRepository.findByKeyAndLanguage(code, getProcessingLocaleString(locale));
 		String resolvedMessage = (null != messageSourceEntity)?messageSourceEntity.getContent():code;
 		if (CommonUtility.isNotEmpty(args)) {
 			resolvedMessage = MessageFormat.format(messageSourceEntity.getContent(), args);
@@ -108,12 +108,12 @@ public class DatabaseMessageServiceImpl implements MessagePersistenceService{
 
 	@Override
 	public void saveMessage(String key, String content, Locale locale) {
-		Message messageEntity = this.labelRepository.findByKeyAndLocale(key, getProcessingLocaleString(locale));
+		MessageLabel messageEntity = this.labelRepository.findByKeyAndLanguage(key, getProcessingLocaleString(locale));
 		if (null==messageEntity) {
-			messageEntity = Message.builder()
+			messageEntity = MessageLabel.builder()
 					.key(key)
 					.content(content)
-					.locale(getProcessingLocaleString(locale))
+					.language(getProcessingLocaleString(locale))
 					.build();
 		} else {
 			messageEntity.setContent(content);
@@ -122,8 +122,8 @@ public class DatabaseMessageServiceImpl implements MessagePersistenceService{
 	}
 
 	@Override
-	public List<Message> getMessages(Locale locale) {
-		return this.labelRepository.findByLocale(getProcessingLocaleString(locale));
+	public List<MessageLabel> getMessages(Locale locale) {
+		return this.labelRepository.findByLanguage(getProcessingLocaleString(locale));
 	}
 
 	private String getProcessingLocaleString(Locale locale) {
@@ -132,9 +132,9 @@ public class DatabaseMessageServiceImpl implements MessagePersistenceService{
 
 	@Override
 	public Map<String, String> getMessagesMap(Locale locale) {
-		List<Message> messages = this.getMessages(locale);
+		List<MessageLabel> messages = this.getMessages(locale);
 		Map<String, String> messagesMap = ListUtility.createMap();
-		for (Message mse :messages) {
+		for (MessageLabel mse :messages) {
 			messagesMap.put(mse.getKey(), mse.getContent());
 		}
 		return messagesMap;

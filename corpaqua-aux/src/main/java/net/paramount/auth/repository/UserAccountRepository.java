@@ -18,11 +18,11 @@ package net.paramount.auth.repository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.framework.repository.BaseRepository;
 
 /**
- * Repository interface for the {@link SecurityAccountProfile} entity. It contains methods for
+ * Repository interface for the {@link UserAccountProfile} entity. It contains methods for
  * regular <code>CRUD</code> operations
  * 
  * @author bqduc
@@ -30,28 +30,28 @@ import net.paramount.framework.repository.BaseRepository;
  */
 @Repository
 @Transactional
-public interface UserAccountRepository extends BaseRepository<SecurityAccountProfile, Long> {
+public interface UserAccountRepository extends BaseRepository<UserAccountProfile, Long> {
 	/**
-	 * Retrieves a {@link SecurityAccountProfile} entity from the underlying data store by its
+	 * Retrieves a {@link UserAccountProfile} entity from the underlying data store by its
 	 * ResetKey
 	 * 
 	 * @param ssoId
 	 *            the login
 	 * @return a User entity
-	 * @see SecurityAccountProfile#getResetKey()
+	 * @see UserAccountProfile#getResetKey()
 	 */
-	SecurityAccountProfile findBySsoId(String ssoId);
+	UserAccountProfile findBySsoId(String ssoId);
 
 	/**
-	 * Retrieves a {@link SecurityAccountProfile} entity from the underlying datastore by its
+	 * Retrieves a {@link UserAccountProfile} entity from the underlying datastore by its
 	 * Email
 	 * 
 	 * @param email
 	 *            the User's email
 	 * @return a User entity
-	 * @see SecurityAccountProfile#getEmail()
+	 * @see UserAccountProfile#getEmail()
 	 */
-	SecurityAccountProfile findByEmail(String email);
+	UserAccountProfile findByEmail(String email);
 
 	/**
 	 * Retrieves the number of entities from the underlying data store by its
@@ -60,7 +60,7 @@ public interface UserAccountRepository extends BaseRepository<SecurityAccountPro
 	 * @param login
 	 *            the user name
 	 * @return a User entity
-	 * @see SecurityAccountProfile#getLogin()
+	 * @see UserAccountProfile#getLogin()
 	 */
 	Long countBySsoId(String login);
 	

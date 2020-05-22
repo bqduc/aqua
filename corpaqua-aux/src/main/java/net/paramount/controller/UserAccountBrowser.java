@@ -9,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
@@ -28,22 +28,21 @@ public class UserAccountBrowser implements Serializable {
 	private static final long serialVersionUID = -3867358136696124359L;
 	@Inject
 	private UserAccountService businessService;
-	private List<SecurityAccountProfile> selectedObjects;
-	private List<SecurityAccountProfile> businessObjects;
-	private Filter<SecurityAccountProfile> bizFilter = new Filter<>(new SecurityAccountProfile());
-	private List<SecurityAccountProfile> filteredObjects;// datatable filteredValue attribute (column filters)
+	private List<UserAccountProfile> selectedObjects;
+	private List<UserAccountProfile> businessObjects;
+	private Filter<UserAccountProfile> bizFilter = new Filter<>(new UserAccountProfile());
+	private List<UserAccountProfile> filteredObjects;// datatable filteredValue attribute (column filters)
 
 	private String instantSearch;
 	Long id;
 
-	Filter<SecurityAccountProfile> filter = new Filter<>(new SecurityAccountProfile());
+	Filter<UserAccountProfile> filter = new Filter<>(new UserAccountProfile());
 
-	List<SecurityAccountProfile> filteredValue;// datatable filteredValue attribute (column filters)
+	List<UserAccountProfile> filteredValue;// datatable filteredValue attribute (column filters)
 
 	@PostConstruct
 	public void initDataModel() {
 		try {
-			System.out.println("==>Come to authority browser!");
 			this.businessObjects = businessService.getObjects();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,7 +50,7 @@ public class UserAccountBrowser implements Serializable {
 	}
 
 	public void clear() {
-		filter = new Filter<SecurityAccountProfile>(new SecurityAccountProfile());
+		filter = new Filter<UserAccountProfile>(new UserAccountProfile());
 	}
 
 	public List<String> completeModel(String query) {
@@ -69,7 +68,7 @@ public class UserAccountBrowser implements Serializable {
 
 	public void delete() {
 		if (CommonUtility.isNotEmpty(this.selectedObjects)) {
-			for (SecurityAccountProfile removalItem : this.selectedObjects) {
+			for (UserAccountProfile removalItem : this.selectedObjects) {
 				System.out.println("#" + removalItem.getDisplayName());
 				this.businessObjects.remove(removalItem);
 			}
@@ -77,19 +76,19 @@ public class UserAccountBrowser implements Serializable {
 		}
 	}
 
-	public List<SecurityAccountProfile> getFilteredValue() {
+	public List<UserAccountProfile> getFilteredValue() {
 		return filteredValue;
 	}
 
-	public void setFilteredValue(List<SecurityAccountProfile> filteredValue) {
+	public void setFilteredValue(List<UserAccountProfile> filteredValue) {
 		this.filteredValue = filteredValue;
 	}
 
-	public Filter<SecurityAccountProfile> getFilter() {
+	public Filter<UserAccountProfile> getFilter() {
 		return filter;
 	}
 
-	public void setFilter(Filter<SecurityAccountProfile> filter) {
+	public void setFilter(Filter<UserAccountProfile> filter) {
 		this.filter = filter;
 	}
 
@@ -101,35 +100,40 @@ public class UserAccountBrowser implements Serializable {
 		this.id = id;
 	}
 
-	public List<SecurityAccountProfile> getBusinessObjects() {
+	public List<UserAccountProfile> getBusinessObjects() {
+		System.out.println("Biz objects: " + businessObjects.size());
 		return businessObjects;
 	}
 
-	public void setBusinessObjects(List<SecurityAccountProfile> businessObjects) {
+	public void setBusinessObjects(List<UserAccountProfile> businessObjects) {
 		this.businessObjects = businessObjects;
 	}
 
-	public List<SecurityAccountProfile> getSelectedObjects() {
+	public List<UserAccountProfile> getSelectedObjects() {
+		if (null != selectedObjects) {
+			System.out.println("Sel objects: " + selectedObjects.size());
+		}
+
 		return selectedObjects;
 	}
 
-	public void setSelectedObjects(List<SecurityAccountProfile> selectedObjects) {
+	public void setSelectedObjects(List<UserAccountProfile> selectedObjects) {
 		this.selectedObjects = selectedObjects;
 	}
 
-	public Filter<SecurityAccountProfile> getBizFilter() {
+	public Filter<UserAccountProfile> getBizFilter() {
 		return bizFilter;
 	}
 
-	public void setBizFilter(Filter<SecurityAccountProfile> bizFilter) {
+	public void setBizFilter(Filter<UserAccountProfile> bizFilter) {
 		this.bizFilter = bizFilter;
 	}
 
-	public List<SecurityAccountProfile> getFilteredObjects() {
+	public List<UserAccountProfile> getFilteredObjects() {
 		return filteredObjects;
 	}
 
-	public void setFilteredObjects(List<SecurityAccountProfile> filteredObjects) {
+	public void setFilteredObjects(List<UserAccountProfile> filteredObjects) {
 		this.filteredObjects = filteredObjects;
 	}
 

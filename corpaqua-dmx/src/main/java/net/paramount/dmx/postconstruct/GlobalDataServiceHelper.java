@@ -13,7 +13,7 @@ import net.paramount.auth.comp.JsonWebTokenService;
 import net.paramount.auth.domain.BaseACL;
 import net.paramount.auth.entity.AccessDecisionPolicy;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.model.AccessDecision;
 import net.paramount.auth.service.AccessDecisionPolicyService;
 import net.paramount.auth.service.AuthorityService;
@@ -190,10 +190,10 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 	private void setupMasterUsers() {
 		String propSsoId = "ssoId";
-		SecurityAccountProfile securityAccountProfile = null;
+		UserAccountProfile securityAccountProfile = null;
 		if (!this.userAccountService.exists(propSsoId, BaseACL.ADMINISTRATOR.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.ADMINISTRATOR.getFirstName(), 
 		  				BaseACL.ADMINISTRATOR.getLastName(), 
 		  				BaseACL.ADMINISTRATOR.getUser(), 
@@ -205,7 +205,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.MANAGER.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.MANAGER.getFirstName(), 
 		  				BaseACL.MANAGER.getLastName(), 
 		  				BaseACL.MANAGER.getUser(), 
@@ -217,7 +217,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.COORDINATOR.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.COORDINATOR.getFirstName(), 
 		  				BaseACL.COORDINATOR.getLastName(), 
 		  				BaseACL.COORDINATOR.getUser(), 
@@ -229,7 +229,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER.getFirstName(), 
 		  				BaseACL.SUBSCRIBER.getLastName(), 
 		  				BaseACL.SUBSCRIBER.getUser(), 
@@ -241,7 +241,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_EXTERNAL.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getLastName(), 
 		  				BaseACL.SUBSCRIBER_EXTERNAL.getUser(), 
@@ -253,7 +253,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.SUBSCRIBER_INTERNAL.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.SUBSCRIBER_INTERNAL.getFirstName(), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getLastName(), 
 		  				BaseACL.SUBSCRIBER_INTERNAL.getUser(), 
@@ -265,7 +265,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.CRSX.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.CRSX.getFirstName(), 
 		  				BaseACL.CRSX.getLastName(), 
 		  				BaseACL.CRSX.getUser(), 
@@ -277,7 +277,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 
 		if (!this.userAccountService.exists(propSsoId, BaseACL.OSX.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
-		  		SecurityAccountProfile.getInsance(
+		  		UserAccountProfile.getInsance(
 		  				BaseACL.OSX.getFirstName(), 
 		  				BaseACL.OSX.getLastName(), 
 		  				BaseACL.OSX.getUser(), 
@@ -288,7 +288,7 @@ public class GlobalDataServiceHelper extends ComponentBase {
 		}
 	}
 
-	private SecurityAccountProfile updateJWebToken(SecurityAccountProfile securityAccountProfile) {
+	private UserAccountProfile updateJWebToken(UserAccountProfile securityAccountProfile) {
 		securityAccountProfile.setActivationKey(this.jwtServiceProvider.generateIndefiniteToken(securityAccountProfile));
 		return this.userAccountService.saveOrUpdate(securityAccountProfile);
 	}

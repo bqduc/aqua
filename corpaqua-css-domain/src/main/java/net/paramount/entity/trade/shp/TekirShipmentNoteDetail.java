@@ -34,7 +34,7 @@ import org.hibernate.annotations.Cascade;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.entity.general.MoneySet;
 import net.paramount.entity.stock.ProductType;
 import net.paramount.entity.trade.ITenderDetail;
@@ -98,7 +98,7 @@ public class TekirShipmentNoteDetail extends TenderDetailBase implements ITender
     @Getter
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private SecurityAccountProfile clerk;
+    private UserAccountProfile clerk;
 
     @Override
 	public List<TekirShipmentNoteDetail> getChildList() {

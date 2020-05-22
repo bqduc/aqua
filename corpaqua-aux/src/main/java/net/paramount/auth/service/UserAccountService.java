@@ -3,13 +3,13 @@ package net.paramount.auth.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.exceptions.NgepAuthException;
 import net.paramount.exceptions.ObjectNotFoundException;
 import net.paramount.framework.service.GenericService;
 
-public interface UserAccountService extends GenericService<SecurityAccountProfile, Long>, UserDetailsService{
+public interface UserAccountService extends GenericService<UserAccountProfile, Long>, UserDetailsService{
     /**
      * Finds the user with the provided name.
      * 
@@ -17,17 +17,17 @@ public interface UserAccountService extends GenericService<SecurityAccountProfil
      * @return The user
      * @throws ObjectNotFoundException If no such user exists.
      */
-	SecurityAccountProfile get(String username) throws ObjectNotFoundException;
+	UserAccountProfile get(String username) throws ObjectNotFoundException;
 
 	/**
 	 * Create a new user with the supplied details.
 	 */
-	SecurityPrincipalProfile register(SecurityAccountProfile user) throws NgepAuthException;
+	UserSecurityProfile register(UserAccountProfile user) throws NgepAuthException;
 
 	/**
 	 * Update the specified user.
 	 */
-	void updateUser(SecurityAccountProfile user);
+	void updateUser(UserAccountProfile user);
 
 	/**
 	 * Remove the user with the given login name from the system.
@@ -56,10 +56,10 @@ public interface UserAccountService extends GenericService<SecurityAccountProfil
 	int countByLogin(String login);
 
 	UserDetails loadUserByEmail(final String email);
-	SecurityAccountProfile save(SecurityAccountProfile user);
-	SecurityAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException;
-	SecurityAccountProfile getUserAccount(String userToken) throws NgepAuthException;
-	SecurityAccountProfile confirm(String confirmedEmail) throws NgepAuthException;
+	UserAccountProfile save(UserAccountProfile user);
+	UserAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException;
+	UserAccountProfile getUserAccount(String userToken) throws NgepAuthException;
+	UserAccountProfile confirm(String confirmedEmail) throws NgepAuthException;
 	void initializeMasterData() throws NgepAuthException;
 
 	

@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import lombok.Builder;
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.domain.model.SelectItem;
 
 /**
@@ -26,7 +26,7 @@ public class GlobalServicesRepository {
 
 	public Object buildNoneObject(Object targetBean, Map<String, Object> beanProperties) throws RuntimeException {
 		try {
-			return CommonBeanUtils.buildObject(targetBean, beanProperties);
+			return BeanUtility.buildObject(targetBean, beanProperties);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

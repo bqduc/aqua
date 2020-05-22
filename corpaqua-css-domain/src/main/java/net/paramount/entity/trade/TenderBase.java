@@ -27,7 +27,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.common.CommonConstants;
 import net.paramount.embeddable.Address;
 import net.paramount.entity.contact.CTAContact;
@@ -311,7 +311,7 @@ public class TenderBase extends RepoAuditable {
      */
     @ManyToOne
     @JoinColumn(name="CLERK_ID")
-    private SecurityAccountProfile clerk;
+    private UserAccountProfile clerk;
 
     /**
      * Dökümanın iptal edilip edilmediği bilgisini tutar.
@@ -537,11 +537,11 @@ public class TenderBase extends RepoAuditable {
 		this.totalDocumentDiscount = totalDocumentDiscount;
 	}
 
-    public SecurityAccountProfile getClerk() {
+    public UserAccountProfile getClerk() {
         return clerk;
     }
 
-    public void setClerk(SecurityAccountProfile clerk) {
+    public void setClerk(UserAccountProfile clerk) {
         this.clerk = clerk;
     }
 

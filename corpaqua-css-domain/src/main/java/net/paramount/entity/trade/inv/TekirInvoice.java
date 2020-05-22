@@ -205,8 +205,8 @@ public class TekirInvoice extends TenderBase implements ITender, PaymentPlanHold
 		clonedInv.setClerk(getClerk());
 		clonedInv.setCode(getCode());
 		clonedInv.setContact(getContact());
-		clonedInv.setCreationDate(getCreationDate());
-		clonedInv.setCreatedBy(getCreatedBy());
+		//clonedInv.setCreationDate(getCreationDate());
+		//clonedInv.setCreatedBy(getCreatedBy());
 		clonedInv.setDate(getDate());
 		clonedInv.setDeliverer(getDeliverer());
 		clonedInv.setDeliveryAddress(getDeliveryAddress());
@@ -249,8 +249,8 @@ public class TekirInvoice extends TenderBase implements ITender, PaymentPlanHold
 		clonedInv.setTotalTax(getTotalTax());
 		clonedInv.setTotalTaxExcludedAmount(getTotalTaxExcludedAmount());
 		clonedInv.setTradeAction(getTradeAction());
-		clonedInv.setLastModifiedDate(getLastModifiedDate());
-		clonedInv.setLastModifiedBy(getLastModifiedBy());
+		//clonedInv.setLastModified(getLastModified());
+		//clonedInv.setLastModifiedBy(getLastModifiedBy());
 		clonedInv.setWarehouse(getWarehouse());
 		
 //		clonedInv.getShipmentList()

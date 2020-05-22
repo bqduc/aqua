@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonUtility;
 import net.paramount.exceptions.NgepAuthException;
@@ -57,7 +57,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 
 	private Authentication authenticateBySsoId(String ssoId, String password) throws NgepAuthException {
 		Authentication authObject = null;
-		SecurityPrincipalProfile securityPrincipalProfile = null;
+		UserSecurityProfile securityPrincipalProfile = null;
 		try {
 			securityPrincipalProfile = authorizationService.authenticate(ssoId, password);
 			if (null != securityPrincipalProfile) {
@@ -75,7 +75,7 @@ public class CustomAuthenticationProvider extends CompCore implements Authentica
 
 	private Authentication authenticateByToken(String token) throws NgepAuthException {
 		Authentication authByToken = null;
-		SecurityPrincipalProfile userAccountProfile = null;
+		UserSecurityProfile userAccountProfile = null;
 		try {
 			userAccountProfile = authorizationService.authenticate(token);
 			if (null != userAccountProfile) {

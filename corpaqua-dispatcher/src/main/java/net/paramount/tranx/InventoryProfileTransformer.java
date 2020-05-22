@@ -49,13 +49,19 @@ public class InventoryProfileTransformer implements DataTransformer {
 	}
 
 	@Override
-	public RepoEntity marshall(final Repository proxyObject, RepoEntity targetBusinessObject) throws AppException {
+	public RepoEntity transformToBusiness(final Repository proxyObject, RepoEntity targetBusinessObject) throws AppException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Repository unmarshall(final RepoEntity businessObject, Repository targetProxyObject) throws AppException {
+	public Repository transformToProxy(final RepoEntity businessObject, Repository targetProxyObject) throws AppException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RepoEntity transformToBusiness(Repository proxyObject, RepoEntity targetBusinessObject, String[] excludedAttributes) throws AppException {
 		// TODO Auto-generated method stub
 		return null;
 	}

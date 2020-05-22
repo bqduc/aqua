@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.common.CommonConstants;
 import net.paramount.common.ListUtility;
 import net.paramount.exceptions.AppRuntimeException;
@@ -73,10 +73,15 @@ public abstract class ServiceImpl<EntityType extends RepoEntity, Key extends Ser
 		return performSearch(keyword, pageable);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	/*@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Page<EntityType> search(String keyword){
 		Pageable pageable = this.createDefaultPageable();
 		return performSearch(keyword, pageable);
+	}*/
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<EntityType> search(String keyword){
+		return performSearch(keyword);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -99,7 +104,7 @@ public abstract class ServiceImpl<EntityType extends RepoEntity, Key extends Ser
 		Object findingResult = null;
 		List<EntityType> searchResult = null;
 		try {
-			findingResult = CommonBeanUtils.callMethod(this.getRepository(), "find", ListUtility.createMap("keyword", parameter), PACKAGE_PREFIX);
+			findingResult = BeanUtility.callMethod(this.getRepository(), "find", ListUtility.createMap("keyword", parameter), PACKAGE_PREFIX);
 			if (findingResult instanceof List) {
 				searchResult = (List<EntityType>)findingResult;
 			}

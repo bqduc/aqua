@@ -5,14 +5,12 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:adm="http://github.com/adminfaces"
                 template="#{customLayoutMB.template}">
-
-
     <ui:define name="metadata">
         <ui:param name="enableSlideMenu" value="false"/> <!-- disables slide menu (only on this page) on small screens -->
         <ui:param name="autoShowNavbar" value="false"/> <!-- disables auto show navbar (only on this page) on small devices -->
     </ui:define>
     <ui:define name="body">
-        <adm:breadcrumb title="Datatable"/>
+        <adm:breadcrumb title="#{messages['lbl.browse.taxRate']}"/>
         <p:panel styleClass="card box-primary" header="#{messages['menu.generalSettings.browse.contactBrowse']}">
             <h:form prependId="false">
                     <div id="main-buttons" class="hidden-sm hidden-xs">
@@ -20,39 +18,39 @@
                                          value="#{messages['lbl.general.new']}" styleClass="btn-primary"/>
                         <p:spacer width="5"/>
                         <p:commandButton value="#{messages['lbl.general.deleteSelected']}" icon="fa fa-trash" styleClass="btn-danger"
-                                         action="#{inventoryBrowser.delete}"
-                                         disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
+                                         action="#{taxRateBrowser.delete}"
+                                         disabled="#{empty taxRateBrowser.selectedObjects or taxRateBrowser.selectedObjects.size() == 0}"
                                          process="@this" update="@form"
                         >
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:commandButton>
                         <p:spacer width="5"/>
                         <p:commandButton value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)" styleClass="btn-info"
-                                         disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
-                                         oncomplete="PF('selectedProduct').show()" icon="fa fa-search"/>
+                                         disabled="#{empty taxRateBrowser.selectedObjects or taxRateBrowser.selectedObjects.size() == 0}"
+                                         oncomplete="PF('uiSelectedBizObject').show()" icon="fa fa-search"/>
                     </div>
 
                     <p:splitButton value="#{messages['lbl.general.new']}" action="car-form?faces-redirect=true"
                                    icon="fa fa-plus"
                                    styleClass="hidden-md hidden-lg btn-primary">
-                        <p:menuitem value="#{messages['lbl.general.deleteSelected']}" action="#{inventoryBrowser.delete}"
+                        <p:menuitem value="#{messages['lbl.general.deleteSelected']}" action="#{taxRateBrowser.delete}"
                                     process="@this" update="@form"
-                                    disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
+                                    disabled="#{empty taxRateBrowser.selectedObjects or taxRateBrowser.selectedObjects.size() == 0}"
                                     icon="fa fa-trash">
                             <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-danger"/>
                         </p:menuitem>
                         <p:menuitem value="#{messages['lbl.general.viewSelected']}" update="@(.ui-dialog)"
-                                    oncomplete="PF('selectedProduct').show()"
-                                    disabled="#{empty inventoryBrowser.businessObjects or inventoryBrowser.businessObjects.size() == 0}"
+                                    oncomplete="PF('uiSelectedBizObject').show()"
+                                    disabled="#{empty taxRateBrowser.selectedObjects or taxRateBrowser.selectedObjects.size() == 0}"
                                     icon="fa fa-search"
                         />
                     </p:splitButton>
                 <div id="datatable">
-                    <p:dataTable var="bizObject" value="#{inventoryBrowser.businessObjects}" widgetVar="bizObjectTable" paginator="true" styleClass="header-right #{customLayoutMB.borderless ? 'no-border':''}"
+                    <p:dataTable var="bizObject" value="#{taxRateBrowser.businessObjects}" widgetVar="bizObjectTable" paginator="true" styleClass="header-right #{customLayoutMB.borderless ? 'no-border':''}"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,15,20,50,100,250" rows="50" rowKey="#{bizObject.id}"
-                                 emptyMessage="No product objects found with given criteria" stickyHeader="true" selection="#{inventoryBrowser.selectedObjects}"
-                                 filteredValue="#{inventoryBrowser.filteredObjects}">
+                                 emptyMessage="No product objects found with given criteria" stickyHeader="true" selection="#{taxRateBrowser.selectedObjects}"
+                                 filteredValue="#{taxRateBrowser.filteredObjects}">
 
                         <p:ajax event="rowSelectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
                         <p:ajax event="rowUnselectCheckbox" update="@(.ui-button, .ui-confirm-dialog)"/>
@@ -75,7 +73,7 @@
                             </p:link>
                         </p:column>
 
-                        <p:column filterBy="#{bizObject.openDate}" sortBy="#{bizObject.openDate}" headerText="Year" footerText="lte" filterMatchMode="lte" priority="2">
+                        <p:column filterBy="#{bizObject.beginDate}" sortBy="#{bizObject.beginDate}" headerText="Year" footerText="lte" filterMatchMode="lte" priority="2">
                             <f:facet name="filter">
                                 <p:calendar pattern="dd/MM/yyyy" navigator="true">
                                     <f:converter converterId="calendarYearConverter"/>
@@ -83,19 +81,19 @@
                                     <p:ajax process="@this" event="dateSelect" oncomplete="PF('bizObjectTable').filter()"/>
                                 </p:calendar>
                             </f:facet>
-                            <h:outputText value="#{bizObject.openDate}"/>
+                            <h:outputText value="#{bizObject.beginDate}"/>
                         </p:column>
 
                         <p:column filterBy="#{bizObject.name}" headerText="Brand" footerText="exact" filterMatchMode="exact" priority="2">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('bizObjectTable').filter()">
                                     <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true"/>
-                                    <!-- <f:selectItems value="#{inventoryBrowser.brands}"/> -->
+                                    <!-- <f:selectItems value="#{taxRateBrowser.brands}"/> -->
                                 </p:selectOneMenu>
                             </f:facet>
                             <h:outputText value="#{bizObject.name}"/>
                         </p:column>
-
+<!--
                         <p:column filterBy="#{bizObject.code}" headerText="Color" footerText="in" filterMatchMode="in" priority="3">
                             <f:facet name="filter">
                                 <p:selectCheckboxMenu label="Colors" onchange="PF('bizObjectTable').filter()" panelStyle="width:125px" scrollHeight="150">
@@ -111,14 +109,15 @@
                         <p:column filterBy="#{bizObject.barcode}" headerText="Status" footerText="equals" filterMatchMode="equals" priority="3">
                             <h:outputText value="#{bizObject.info}"/>
                         </p:column>
+                        -->
                     </p:dataTable>
                 </div>
                 <p:spacer/>
             </h:form>
 
-	        <p:dialog header="Selected product" widgetVar="selectedProduct" height="250"
+	        <p:dialog header="#{messages['lbl.general.selectedObjects']}" widgetVar="uiSelectedBizObject" height="250"
 	                  width="400" responsive="true" styleClass="box-success">
-	            <p:dataList id="selectedCarsList" value="#{inventoryBrowser.businessObjects}" var="car" type="definition">
+	            <p:dataList id="selectedCarsList" value="#{taxRateBrowser.businessObjects}" var="car" type="definition">
 	                ID: #{bizObject.id} - Barcode: #{bizObject.barcode} - Name: #{bizObject.name} - Price: #{bizObject.id}
 	            </p:dataList>
 	        </p:dialog>

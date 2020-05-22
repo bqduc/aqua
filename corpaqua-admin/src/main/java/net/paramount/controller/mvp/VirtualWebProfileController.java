@@ -20,7 +20,7 @@ import org.springframework.core.io.ResourceLoader;
 
 import com.github.adminfaces.template.exception.BusinessException;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.helper.AuxServiceHelper;
 import net.paramount.comp.helper.ResourcesServicesHelper;
 import net.paramount.dmx.helper.ResourcesStorageServiceHelper;
@@ -57,7 +57,7 @@ public class VirtualWebProfileController extends BaseController {
   	@Inject
   	private AuxServiceHelper auxServiceHelper;
 
-  	private SecurityPrincipalProfile  userAccountProfile;
+  	private UserSecurityProfile  userAccountProfile;
 
   	@Override
     public void doPostConstruct() {

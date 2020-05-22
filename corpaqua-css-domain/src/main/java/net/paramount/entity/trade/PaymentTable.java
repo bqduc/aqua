@@ -73,10 +73,10 @@ public class PaymentTable extends RepoAuditable {
 				e.printStackTrace();
 			}*/
     	PaymentTable clonedpt = new PaymentTable();
-    	clonedpt.setCreationDate(getCreationDate());
+    	/*clonedpt.setCreationDate(getCreationDate());
     	clonedpt.setCreatedBy(this.getCreatedBy());
-    	clonedpt.setLastModifiedDate(getLastModifiedDate());
-    	clonedpt.setLastModifiedBy(getLastModifiedBy());
+    	clonedpt.setLastModified(getLastModified());
+    	clonedpt.setLastModifiedBy(getLastModifiedBy());*/
 
     	PaymentTableDetail clonedptd = null;
     	for (PaymentTableDetail ptd : getDetailList()) {

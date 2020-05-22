@@ -21,23 +21,21 @@ public abstract class BrowserHome<E, F extends FilterBase> extends Home <E, F> {
 
 	@Setter
 	@Getter
-	private F filterModel; 
+	protected F filterModel; 
 
 	@Setter
 	@Getter
-	private String instantSearch;
+	protected String instantSearch;
 
-	@Setter
-	@Getter
 	private List<E> businessObjects = ListUtility.createList();
 
 	@Setter
 	@Getter
-	private List<E> selectedObjects = ListUtility.createList();
+	protected List<E> selectedObjects = ListUtility.createList();
 
 	@Setter
 	@Getter
-  private List<E> filteredObjects = ListUtility.createList();
+  protected List<E> filteredObjects = ListUtility.createList();
 
 	protected abstract List<E> doGetBusinessObjects();
 
@@ -52,5 +50,13 @@ public abstract class BrowserHome<E, F extends FilterBase> extends Home <E, F> {
   public F createFilterModel() {
   	return null;
   }
+
+	public List<E> getBusinessObjects() {
+		return businessObjects;
+	}
+
+	public void setBusinessObjects(List<E> businessObjects) {
+		this.businessObjects = businessObjects;
+	}
 
 }

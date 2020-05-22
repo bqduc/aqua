@@ -24,17 +24,17 @@ public class UserAccountPrivilege extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "user_account_id")
-	private SecurityAccountProfile userAccount;
+	private UserAccountProfile userAccount;
 
 	@ManyToOne
 	@JoinColumn(name = "authority_id")
 	private Authority authority;
 
-	public SecurityAccountProfile getUserAccount() {
+	public UserAccountProfile getUserAccount() {
 		return userAccount;
 	}
 
-	public void setUserAccount(SecurityAccountProfile userAccount) {
+	public void setUserAccount(UserAccountProfile userAccount) {
 		this.userAccount = userAccount;
 	}
 

@@ -31,7 +31,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.common.ListUtility;
 import net.paramount.framework.entity.RepoAuditable;
 
@@ -100,13 +100,13 @@ public class ContactProfile extends RepoAuditable {
 
 	@ManyToOne
 	@JoinColumn(name = "owned_user_id")
-	private SecurityAccountProfile ownedUser;
+	private UserAccountProfile ownedUser;
 
   @Column(name="issued_date")
   private Date issuedDate;
 
 	@ManyToOne
   @JoinColumn(name="issued_user_id")
-  private SecurityAccountProfile issuedUser;
+  private UserAccountProfile issuedUser;
 
 }

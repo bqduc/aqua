@@ -9,8 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.entity.UserAccountPrivilege;
 import net.paramount.auth.service.UserAccountService;
 import net.paramount.common.CommonConstants;
@@ -26,9 +26,9 @@ public abstract class AuthorizationServiceBase {
 	@Inject
 	protected UserAccountService userAccountService;
 
-	protected SecurityPrincipalProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws NgepAuthException {
-		SecurityAccountProfile userAccount = null;
-		SecurityPrincipalProfile securityAccountProfile = null;
+	protected UserSecurityProfile generateSecurityPrincipalProfile(String authenticateToken, String password) throws NgepAuthException {
+		UserAccountProfile userAccount = null;
+		UserSecurityProfile securityAccountProfile = null;
 		if (CommonUtility.isEmpty(password)) {
 			userAccount = this.userAccountService.getUserAccount(authenticateToken);
 		} else {
@@ -38,7 +38,7 @@ public abstract class AuthorizationServiceBase {
 		if (null==userAccount)
 			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, "There is empty authentication user account");
 
-		securityAccountProfile = SecurityPrincipalProfile.builder()
+		securityAccountProfile = UserSecurityProfile.builder()
 		.userAccount(userAccount)
 		.build();
 		for (UserAccountPrivilege userAccountPrivilege :userAccount.getPrivileges()) {
@@ -48,25 +48,25 @@ public abstract class AuthorizationServiceBase {
 		return securityAccountProfile;
 	}
 
-	protected SecurityPrincipalProfile getCurrentSecuredProfile() throws NgepAuthException {
-		SecurityPrincipalProfile fetchedResponse = null;
+	protected UserSecurityProfile getCurrentSecuredProfile() throws NgepAuthException {
+		UserSecurityProfile fetchedResponse = null;
 		Object systemPrincipal = getSystemPrincipal();
-		SecurityAccountProfile userAccount = null;
-		if (systemPrincipal instanceof User || systemPrincipal instanceof SecurityAccountProfile) {
+		UserAccountProfile userAccount = null;
+		if (systemPrincipal instanceof User || systemPrincipal instanceof UserAccountProfile) {
 			userAccount = this.userAccountService.get(((User)systemPrincipal).getUsername());
-			fetchedResponse = SecurityPrincipalProfile
+			fetchedResponse = UserSecurityProfile
 			.builder()
 			.displayName(new StringBuilder(userAccount.getFirstName()).append(CommonConstants.STRING_SPACE).append(userAccount.getLastName()).toString())
 			.userAccount(userAccount)
 			.build();
 		} else if (systemPrincipal instanceof String){ //Anonymous user - Not logged in
 			if (CommonConstants.ANONYMOUS_USER.equalsIgnoreCase((String)systemPrincipal)) {
-				fetchedResponse = SecurityPrincipalProfile.builder()
+				fetchedResponse = UserSecurityProfile.builder()
 						.displayName((String)systemPrincipal)
 						.build();
 			} else {
 				userAccount = this.userAccountService.get((String)systemPrincipal);
-				fetchedResponse = SecurityPrincipalProfile
+				fetchedResponse = UserSecurityProfile
 				.builder()
 				.displayName(new StringBuilder(userAccount.getFirstName()).append(CommonConstants.STRING_SPACE).append(userAccount.getLastName()).toString())
 				.userAccount(userAccount)

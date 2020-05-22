@@ -24,16 +24,16 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.service.UserAccountService;
 
 @Service(value="userAccountConverter")
-public class UserAccountConverter implements Converter<SecurityAccountProfile> {
+public class UserAccountConverter implements Converter<UserAccountProfile> {
 	@Inject
 	private UserAccountService service;
 
-	public SecurityAccountProfile getAsObject(FacesContext fc, UIComponent uic, String value) {
-		SecurityAccountProfile asObject = null;
+	public UserAccountProfile getAsObject(FacesContext fc, UIComponent uic, String value) {
+		UserAccountProfile asObject = null;
 		if (value != null && value.trim().length() > 0) {
 			try {
 				asObject = service.getObject(Long.parseLong(value));
@@ -44,7 +44,7 @@ public class UserAccountConverter implements Converter<SecurityAccountProfile> {
 		return asObject;
 	}
 
-	public String getAsString(FacesContext fc, UIComponent uic, SecurityAccountProfile object) {
+	public String getAsString(FacesContext fc, UIComponent uic, UserAccountProfile object) {
 		if (object != null) {
 			return String.valueOf(object.getId());//object.toString();
 		} else {

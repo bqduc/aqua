@@ -18,14 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import net.paramount.auth.comp.JsonWebTokenService;
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.entity.Authority;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.auth.model.AuthorityGroup;
 import net.paramount.auth.repository.UserAccountRepository;
 import net.paramount.auth.service.AuthorityService;
 import net.paramount.auth.service.UserAccountService;
-import net.paramount.common.CommonBeanUtils;
+import net.paramount.common.BeanUtility;
 import net.paramount.common.CommonUtility;
 import net.paramount.common.DateTimeUtility;
 import net.paramount.exceptions.EcosExceptionCode;
@@ -36,7 +36,7 @@ import net.paramount.framework.service.GenericServiceImpl;
 
 
 @Service
-public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountProfile, Long> implements UserAccountService {
+public class UserAccountServiceImpl extends GenericServiceImpl<UserAccountProfile, Long> implements UserAccountService {
     /**
 	 * 
 	 */
@@ -55,12 +55,12 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	private JsonWebTokenService jwtServiceProvider;
 
 	@Override
-  protected BaseRepository<SecurityAccountProfile, Long> getRepository() {
+  protected BaseRepository<UserAccountProfile, Long> getRepository() {
       return repository;
   }
 
 	@Override
-	public SecurityAccountProfile get(String username) throws ObjectNotFoundException {
+	public UserAccountProfile get(String username) throws ObjectNotFoundException {
 		return repository.findBySsoId(username);
 	}
 
@@ -68,7 +68,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	public UserDetails loadUserByUsername(String login) throws NgepAuthException {
 		log.debug("Authenticating {}", login);
 		String lowercaseLogin = login;//.toLowerCase();
-		SecurityAccountProfile userFromDatabase = repository.findBySsoId(login);
+		UserAccountProfile userFromDatabase = repository.findBySsoId(login);
 
 		if (null==userFromDatabase)
 			throw new NgepAuthException(EcosExceptionCode.ERROR_INVALID_PROFILE, String.format("User %s was not found in the database", lowercaseLogin));
@@ -84,7 +84,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 
 	@Override
 	public UserDetails loadUserByEmail(String email) {
-		SecurityAccountProfile userFromDatabase = repository.findByEmail(email);
+		UserAccountProfile userFromDatabase = repository.findByEmail(email);
 		//TODO: Remove after then
 		if (null == userFromDatabase) {
 			throw new UsernameNotFoundException(String.format("User with email %s was not found in the database", email));
@@ -98,11 +98,11 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	public SecurityPrincipalProfile register(SecurityAccountProfile userAccount) throws NgepAuthException {
-		SecurityAccountProfile updatedUserAccount = null;
-		SecurityPrincipalProfile registrationProfile = null;
+	public UserSecurityProfile register(UserAccountProfile userAccount) throws NgepAuthException {
+		UserAccountProfile updatedUserAccount = null;
+		UserSecurityProfile registrationProfile = null;
 		try {
-			updatedUserAccount = (SecurityAccountProfile)CommonBeanUtils.clone(userAccount);
+			updatedUserAccount = (UserAccountProfile)BeanUtility.clone(userAccount);
 			updatedUserAccount.setRegisteredDate(DateTimeUtility.getSystemDateTime());
 
 			updatedUserAccount.setPassword(passwordEncoder.encode(updatedUserAccount.getPassword()));
@@ -111,7 +111,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 			updatedUserAccount.setActivationKey(jwtServiceProvider.generateToken(updatedUserAccount));
 			updatedUserAccount = this.saveOrUpdate(updatedUserAccount);
 
-			registrationProfile = SecurityPrincipalProfile.builder()
+			registrationProfile = UserSecurityProfile.builder()
 					.displayName(updatedUserAccount.getDisplayName())
 					.userAccount(updatedUserAccount)
 					.build();
@@ -131,13 +131,13 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}*/
 
 	@Override
-	public void updateUser(SecurityAccountProfile user) {
+	public void updateUser(UserAccountProfile user) {
 		this.repository.saveAndFlush(user);
 	}
 
 	@Override
 	public void deleteUser(String username) {
-		SecurityAccountProfile removedObject = this.repository.findBySsoId(username);
+		UserAccountProfile removedObject = this.repository.findBySsoId(username);
 		if (null != removedObject) {
 			this.repository.delete(removedObject);
 		}
@@ -151,7 +151,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 
 	@Override
 	public boolean userExists(String username) {
-		SecurityAccountProfile removedObject = this.repository.findBySsoId(username);
+		UserAccountProfile removedObject = this.repository.findBySsoId(username);
 		return (null != removedObject);
 	}
 
@@ -161,7 +161,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	protected Page<SecurityAccountProfile> performSearch(String keyword, Pageable pageable) {
+	protected Page<UserAccountProfile> performSearch(String keyword, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -175,10 +175,10 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}*/
 
 	@Override
-	public SecurityAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException {
-		SecurityAccountProfile authenticatedUser = null;
+	public UserAccountProfile getUserAccount(String loginId, String password) throws NgepAuthException {
+		UserAccountProfile authenticatedUser = null;
 		UserDetails userDetails = null;
-		SecurityAccountProfile repositoryUser = null;
+		UserAccountProfile repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(loginId)){
 			repositoryUser = repository.findByEmail(loginId);
 		}else{
@@ -201,8 +201,8 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	public SecurityAccountProfile getUserAccount(String userToken) throws NgepAuthException {
-		SecurityAccountProfile repositoryUser = null;
+	public UserAccountProfile getUserAccount(String userToken) throws NgepAuthException {
+		UserAccountProfile repositoryUser = null;
 		if (CommonUtility.isEmailAddreess(userToken)){
 			repositoryUser = repository.findByEmail(userToken);
 		}else{
@@ -305,8 +305,8 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 	}
 
 	@Override
-	public SecurityAccountProfile confirm(String confirmedEmail) throws NgepAuthException {
-		SecurityAccountProfile confirmUser = repository.findByEmail(confirmedEmail);
+	public UserAccountProfile confirm(String confirmedEmail) throws NgepAuthException {
+		UserAccountProfile confirmUser = repository.findByEmail(confirmedEmail);
 		if (null == confirmUser)
 			throw new NgepAuthException("The email not found in database: " + confirmedEmail);
 
@@ -315,7 +315,7 @@ public class UserAccountServiceImpl extends GenericServiceImpl<SecurityAccountPr
 		return confirmUser;
 	}
 
-	private UserDetails buildUserDetails(SecurityAccountProfile userProfile){
+	private UserDetails buildUserDetails(UserAccountProfile userProfile){
 		List<GrantedAuthority> grantedAuthorities = userProfile.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthority())).collect(Collectors.toList());
 

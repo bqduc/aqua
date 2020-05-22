@@ -36,28 +36,28 @@ public class ClientUserAccount extends RepoAuditable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_account_id")
-	private SecurityAccountProfile userAccount;
+	private UserAccountProfile userAccount;
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "last_approved_user_id")
-	private SecurityAccountProfile lastApprovedBy;
+	private UserAccountProfile lastApprovedBy;
 
 	@Column(name = "last_approved_date")
 	private Date lastApprovedDate;
 
-	public SecurityAccountProfile getUserAccount() {
+	public UserAccountProfile getUserAccount() {
 		return userAccount;
 	}
 
-	public void setUserAccount(SecurityAccountProfile userAccount) {
+	public void setUserAccount(UserAccountProfile userAccount) {
 		this.userAccount = userAccount;
 	}
 
-	public SecurityAccountProfile getLastApprovedBy() {
+	public UserAccountProfile getLastApprovedBy() {
 		return lastApprovedBy;
 	}
 
-	public void setLastApprovedBy(SecurityAccountProfile lastApprovedBy) {
+	public void setLastApprovedBy(UserAccountProfile lastApprovedBy) {
 		this.lastApprovedBy = lastApprovedBy;
 	}
 

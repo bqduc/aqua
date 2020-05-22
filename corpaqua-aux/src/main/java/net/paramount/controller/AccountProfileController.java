@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import net.paramount.auth.comp.JsonWebTokenServiceProvider;
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.domain.model.ServerResponse;
 import net.paramount.domain.model.ServerResponseCode;
@@ -44,7 +44,7 @@ public class AccountProfileController extends BaseController {
 			value = "/confirm/{token}", 
 			method = RequestMethod.GET)
 	public ModelAndView confirm(HttpServletRequest request, HttpServletResponse response, @PathVariable("token") String token){
-		SecurityPrincipalProfile confirmedSecurityAccountProfile = null;
+		UserSecurityProfile confirmedSecurityAccountProfile = null;
 		try {
 			confirmedSecurityAccountProfile = authorizationService.confirmByToken(token);
 			if (null != confirmedSecurityAccountProfile) {

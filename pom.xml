@@ -7,8 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<!-- <version>2.2.6.RELEASE</version> -->
-		<version>2.3.0.M4</version>
+		<version>2.3.0.RELEASE</version>
 		<relativePath />
 	</parent>	
 	
@@ -64,9 +63,9 @@
 		
 	</properties>
  
-    <modules>
-		<!-- <module>admin-template-1.1.0</module> -->
-	
+	<modules>
+		<module>peaga-dispatcher-agent-domain</module>
+		<!-- <module>corpaqua-admin-template</module> -->
 		<module>corpaqua-common</module>
 		<module>corpaqua-codec</module>
 		<module>corpaqua-core</module>
@@ -86,6 +85,7 @@
 		<module>corpaqua-edbx</module>
 		<module>corpaqua-communicator</module>
 		<module>corpaqua-dispatcher</module>
+		<module>corpaqua-admin-dispatcher</module>
 		<module>corpaqua-admin</module>
     </modules>
 

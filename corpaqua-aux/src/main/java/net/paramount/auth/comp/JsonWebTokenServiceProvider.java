@@ -17,7 +17,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.common.Base64Utils;
 import net.paramount.framework.component.CompCore;
 import net.paramount.framework.entity.auth.AuthenticationDetails;
@@ -81,7 +81,7 @@ public class JsonWebTokenServiceProvider extends CompCore implements JsonWebToke
 	}
 
   private AuthenticationDetails initiateUserDetails() {
-  	AuthenticationDetails userDetails = new SecurityAccountProfile();
+  	AuthenticationDetails userDetails = new UserAccountProfile();
   	return userDetails;
   }
 

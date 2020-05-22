@@ -22,7 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.auth.entity.SecurityAccountProfile;
+import net.paramount.auth.entity.UserAccountProfile;
 import net.paramount.entity.contact.ContactAddress;
 import net.paramount.entity.contact.ContactAssignment;
 import net.paramount.entity.contact.ContactCommunication;

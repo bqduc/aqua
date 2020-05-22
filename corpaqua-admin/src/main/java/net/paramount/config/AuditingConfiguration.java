@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import net.paramount.auth.domain.SecurityPrincipalProfile;
+import net.paramount.auth.domain.UserSecurityProfile;
 import net.paramount.auth.service.AuthorizationService;
 import net.paramount.common.CommonConstants;
 import net.paramount.framework.component.CompCore;
@@ -22,7 +22,7 @@ import net.paramount.framework.component.CompCore;
  *
  */
 @Configuration
-@EnableJpaAuditing
+//@EnableJpaAuditing
 public class AuditingConfiguration extends CompCore {
 	/**
 	 * 
@@ -32,46 +32,43 @@ public class AuditingConfiguration extends CompCore {
 	@Inject 
 	private AuthorizationService authorizationService;
 
-	/*@Bean
-	public AuditorAware<String> auditorProviderByKey() {
-		return new AuditorAwareImpl();
-	}*/
+	private UserSecurityProfile getUserSecurityProfile() {
+		UserSecurityProfile securityProfile = null;
+		if (authorizationService != null) {
+			securityProfile = authorizationService.getActiveSecuredProfile();
+		}
+		return securityProfile;
+	}
 
+	@Bean
+	public AuditorAware<String> auditorProvider() {
+		return new AuditorAwareImpl();
+	}
+
+	/*
 	@Bean
 	public AuditorAware<Long> auditorProvider() {
 		return new AuditorAwareByKeyImpl();
 	}
+	*/
 
-	/*class AuditorAwareImpl implements AuditorAware<String> {
+	class AuditorAwareImpl implements AuditorAware<String> {
 		@Override
 		public Optional<String> getCurrentAuditor() {
-			Authentication auth = null;
-			SecurityPrincipalProfile securityPrincipalProfile = authorizationService.getActiveSecuredProfile();
-			if (null != securityPrincipalProfile) {
-				auth = securityPrincipalProfile.getAuthentication();
+			UserSecurityProfile userSecurityProfile = getUserSecurityProfile();
+
+			if (null != userSecurityProfile && null != userSecurityProfile.getUserAccount()) {
+				return Optional.of(userSecurityProfile.getUserAccount().getSsoId());
 			}
 
-			if (auth==null)
-				return Optional.of("NOANNO");//None-Anonymous;//Optional.empty();
-
-			if (auth.getPrincipal() instanceof String) {
-				return Optional.of((String)auth.getPrincipal());
-			}
-
-			User authUser = (User)auth.getPrincipal();
-			return Optional.of(authUser.getUsername());
+			return Optional.of(CommonConstants.ANONYMOUS_USER);//None-Anonymous;//Optional.empty();
 		}
 	}
-*/
+
 	class AuditorAwareByKeyImpl implements AuditorAware<Long> {
 		@Override
 		public Optional<Long> getCurrentAuditor() {
-			SecurityPrincipalProfile securityPrincipalProfile = null;
-			try {
-				securityPrincipalProfile = authorizationService.getActiveSecuredProfile();
-			} catch (Exception e) {
-				log.error(e);
-			}
+			UserSecurityProfile securityPrincipalProfile = getUserSecurityProfile();
 
 			if (null != securityPrincipalProfile && null != securityPrincipalProfile.getUserAccount()) {
 				return Optional.of(securityPrincipalProfile.getUserAccount().getId());

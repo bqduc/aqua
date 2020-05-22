@@ -29,7 +29,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import net.paramount.framework.entity.RepoAuditable;
+import net.paramount.framework.entity.RepoEntity;
 import net.paramount.global.GlobalConstants;
 
 /**
@@ -44,7 +44,7 @@ import net.paramount.global.GlobalConstants;
 @Entity
 @Table(name = "currency")
 @EqualsAndHashCode(callSuper = true)
-public class Currency extends RepoAuditable {
+public class Currency extends RepoEntity {
 	private static final long serialVersionUID = 2260919441709332618L;
 
 	@NotNull
@@ -52,27 +52,17 @@ public class Currency extends RepoAuditable {
 	@Column(name="code", unique = true)
 	private String code;
 
-  @Column(name="NAME", length=50)
+  @Column(name="NAME", length=100)
   private String name;
 
-	@Lob
+  @Column(name="symbol", length=20)
+  private String symbol;
+
+  @Column(name="fractional_Unit", length=20)
+  private String fractionalUnit;
+
+  @Lob
 	@Column(name = "info", columnDefinition = "TEXT")
 	@Type(type = "org.hibernate.type.TextType")
 	private String info;
-
-  /*
-  @Column(name="COUNTRY", length=30)
-  private String country;
-  
-  @Builder.Default
-  @Column(name="PIP")
-  private Integer pip = 0;
-	
-  @Size(max = GlobalConstants.SIZE_CURRENCY_CODE)
-	@Column(name="numeric_code")
-	private String numericCode;
-
-	@Column(name="decimal_places")
-	private Byte decimalPlaces; //The number of digits after the decimal separator. 
-	*/
 }
