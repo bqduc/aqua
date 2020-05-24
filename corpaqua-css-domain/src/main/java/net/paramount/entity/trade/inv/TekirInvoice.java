@@ -198,7 +198,7 @@ public class TekirInvoice extends TenderBase implements ITender, PaymentPlanHold
 	public TekirInvoice clone() {
 		TekirInvoice clonedInv = new TekirInvoice();
 		clonedInv.setAccount(account);
-		clonedInv.setActive(getActive());
+		clonedInv.setVisible(getVisible());
 		clonedInv.setCancelDate(getCancelDate());
 		clonedInv.setCancelInfo(getCancelInfo());
 		clonedInv.setCancelled(isCancelled());

@@ -151,6 +151,20 @@ public class GlobalDataServiceHelper extends ComponentBase {
 	private void setupMasterAuthorities() {
 		String propName = "name";
 		//Setup master data for authorities
+		if (!authorityService.exists(propName, BaseACL.SYS_ADMIN.getAuthority())) {
+			authorityService.saveOrUpdate(Authority.builder()
+					.name(BaseACL.SYS_ADMIN.getAuthority())
+					.displayName(BaseACL.SYS_ADMIN.getAuthorityDisplayName())
+					.build());
+		}
+
+		if (!authorityService.exists(propName, BaseACL.SYSTEM_ADMINISTRATOR.getAuthority())) {
+			authorityService.saveOrUpdate(Authority.builder()
+					.name(BaseACL.SYSTEM_ADMINISTRATOR.getAuthority())
+					.displayName(BaseACL.SYSTEM_ADMINISTRATOR.getAuthorityDisplayName())
+					.build());
+		}
+
 		if (!authorityService.exists(propName, BaseACL.ADMINISTRATOR.getAuthority())) {
 			authorityService.saveOrUpdate(Authority.builder().name(BaseACL.ADMINISTRATOR.getAuthority()).displayName(BaseACL.ADMINISTRATOR.getAuthorityDisplayName()).build());
 		}
@@ -191,6 +205,30 @@ public class GlobalDataServiceHelper extends ComponentBase {
 	private void setupMasterUsers() {
 		String propSsoId = "ssoId";
 		UserAccountProfile securityAccountProfile = null;
+		if (!this.userAccountService.exists(propSsoId, BaseACL.SYS_ADMIN.getUser())) {
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
+		  		UserAccountProfile.getInsance(
+		  				BaseACL.SYS_ADMIN.getFirstName(), 
+		  				BaseACL.SYS_ADMIN.getLastName(), 
+		  				BaseACL.SYS_ADMIN.getUser(), 
+		  				passwordEncoder.encode(BaseACL.SYS_ADMIN.getUser()), 
+		  				BaseACL.SYS_ADMIN.getEmail(), 
+		  				new Authority[] {authorityService.getByName(BaseACL.SYS_ADMIN.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
+		}
+
+		if (!this.userAccountService.exists(propSsoId, BaseACL.SYSTEM_ADMINISTRATOR.getUser())) {
+			securityAccountProfile = this.userAccountService.saveOrUpdate(
+		  		UserAccountProfile.getInsance(
+		  				BaseACL.SYSTEM_ADMINISTRATOR.getFirstName(), 
+		  				BaseACL.SYSTEM_ADMINISTRATOR.getLastName(), 
+		  				BaseACL.SYSTEM_ADMINISTRATOR.getUser(), 
+		  				passwordEncoder.encode(BaseACL.SYSTEM_ADMINISTRATOR.getUser()), 
+		  				BaseACL.SYSTEM_ADMINISTRATOR.getEmail(), 
+		  				new Authority[] {authorityService.getByName(BaseACL.SYSTEM_ADMINISTRATOR.getAuthority())}));
+			updateJWebToken(securityAccountProfile);
+		}
+
 		if (!this.userAccountService.exists(propSsoId, BaseACL.ADMINISTRATOR.getUser())) {
 			securityAccountProfile = this.userAccountService.saveOrUpdate(
 		  		UserAccountProfile.getInsance(

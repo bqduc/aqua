@@ -3,6 +3,8 @@
  */
 package net.paramount.starter;
 
+import java.util.Locale;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 

@@ -24,7 +24,7 @@ public interface Document {
      * 
      * @return True if active
      */
-    Boolean getActive();
+    Boolean getVisible();
 
     /**
      * Returns document special code. Use for reporting.
@@ -66,7 +66,7 @@ public interface Document {
      * 
      * @param active Document activity status
      */
-    void setActive(Boolean active);
+    void setVisible(Boolean active);
 
     /**
      * Sets document code.

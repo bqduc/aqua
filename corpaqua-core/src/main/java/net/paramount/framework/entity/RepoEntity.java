@@ -15,14 +15,12 @@ import lombok.Setter;
 public abstract class RepoEntity implements Entity {
 	private static final long serialVersionUID = 5174493359368640877L;
 
-  @Setter
-  @Getter
+  @Setter @Getter
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private java.lang.Long id;
 
-  @Setter
-  @Getter
+  @Setter @Getter
 	@Column(name = "system")
 	private Boolean system = Boolean.TRUE;
 

@@ -38,6 +38,7 @@ import net.paramount.common.CommonUtility;
 import net.paramount.common.ListUtility;
 import net.paramount.context.DatabaseMessageServiceImpl;
 import net.paramount.context.MessagePersistenceService;
+import net.paramount.controller.LocaleManager;
 
 /**
  * <code>MultiplePropertiesResourceBundle</code> is an abstract base implementation to allow to
@@ -122,7 +123,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	/** private Logger instance */
 	private static final Logger LOG = Logger.getLogger(CLASS);
 
-	private Locale locale = GlobalDataRepository.builder().build().getDefaultLocale();
+	//private Locale locale = GlobalDataRepository.builder().build().getDefaultLocale();
 	/**
 	 * The base name for the ResourceBundles to load in.
 	 */
@@ -137,6 +138,9 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	@Inject
 	private MessageSource persistenceMessageSource;
 
+	/*@Inject 
+	private LocaleManager localeManager;*/
+
 	/**
 	 * A Map containing the combined resources of all parts building this
 	 * MultiplePropertiesResourceBundle.
@@ -144,6 +148,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 	//private Map<String, Object> mappedMessages = null;
 
 	private Map<String, String> localMessages = null;
+	private Map<String, String> messages = null;
 
 	/**
 	 * Construct a <code>MultiplePropertiesResourceBundle</code> for the passed in base-name.
@@ -190,12 +195,12 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 			throw new NullPointerException();
 		}
 
-		return getMessageContent(key);//mappedMessages.get(key);
+		return getMessageContent(key, getCurrentLocale());//mappedMessages.get(key);
 	}
 
 	@PostConstruct
 	public void onInit() {
-		loadPersistenceMessages();
+		//loadPersistenceMessages();
 	}
 
 	@Override
@@ -206,13 +211,13 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 				: null);
 	}
 
-	private String getMessageContent(String key) {
+	private String getMessageContent(String key, Locale locale) {
 		if (null==key) {
 			LOG.log(Level.ALL, "Empty key!!!.");
 			return CommonConstants.STRING_BLANK;
 		}
 
-		if (CommonUtility.isEmpty(this.localMessages)) {
+		/*if (CommonUtility.isEmpty(this.localMessages)) {
 			//Load all messages from database
 			loadPersistenceMessages();
 		} else if (!this.localMessages.containsKey(key)) {
@@ -223,15 +228,40 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 			}
 
 			return message;
+		}*/ 
+		
+		if (CommonUtility.isEmpty(this.localMessages) || CommonUtility.isEmpty(this.messages)) {
+			//Load all messages from database
+			loadPersistenceMessages();
 		} 
 
-		if (!this.localMessages.containsKey(key)) {
-			LOG.log(Level.ALL, "Invalid key: " + key);
-			// Actually did not contain the message with the key in database
-			return key;
+		String message = null;
+		MessagePersistenceService persistenceMessageService = null;
+		if (CommonUtility.LOCALE_VIETNAMESE.equals(locale)) {
+			if (!this.localMessages.containsKey(key)) {
+				persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
+				message = persistenceMessageService.getMessage(key, null, locale);
+				if (CommonUtility.isNotEmpty(message) && !message.equals(key)) {
+					this.localMessages.put(key, message);
+				}
+			}
+			return this.localMessages.get(key);
 		}
 
-		return this.localMessages.get(key);
+		//Default is English
+		if (!this.messages.containsKey(key)) {
+			persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
+			message = persistenceMessageService.getMessage(key, null, locale);
+			if (CommonUtility.isNotEmpty(message) && !message.equals(key)) {
+				this.messages.put(key, message);
+			}
+		} 
+
+		return this.messages.get(key);
+
+		/*LOG.log(Level.ALL, "Invalid key: " + key);
+		// Actually did not contain the message with the key in database
+		return key;*/
 	}
 
 	private MessageSource getMessageSource() {
@@ -247,7 +277,24 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 
 	private void loadPersistenceMessages() {
 		MessagePersistenceService persistenceMessageService = (MessagePersistenceService)this.getMessageSource();
-		this.localMessages = persistenceMessageService.getMessagesMap(locale);
+		this.localMessages = persistenceMessageService.getMessagesMap(CommonUtility.LOCALE_VIETNAMESE);
+		this.messages = persistenceMessageService.getMessagesMap(CommonUtility.LOCALE_US);
+	}
+
+	private Locale getCurrentLocale() {
+		Locale currentLocale = null;
+		LocaleManager localeManager;
+		ExternalContext externalContext = null;
+    ServletContext servletContext = null;
+		if (null != FacesContext.getCurrentInstance()){
+			externalContext = FacesContext.getCurrentInstance().getExternalContext();
+      servletContext = (ServletContext) externalContext.getContext();
+      localeManager = WebApplicationContextUtils.getWebApplicationContext(servletContext).getAutowireCapableBeanFactory().getBean(LocaleManager.class);
+      currentLocale = localeManager.getLocale();
+		} else {
+			currentLocale = CommonUtility.LOCALE_VIETNAMESE;
+		}
+		return currentLocale;
 	}
 
 	/**
@@ -276,13 +323,13 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 		ResourceBundle bundle = null;
 		Enumeration<String> keys = null;
 		String key = null;
-		String currentLocaleInfo = this.locale.toString();
+		String currentLocaleInfo = this.getCurrentLocale().toString();
 		List<String> bundleNames = findBaseNames(baseName);
 		for (String bundleName : bundleNames) {
 			if (!bundleName.contains(currentLocaleInfo))
 				continue;
 
-			bundle = ResourceBundle.getBundle(bundleName, this.locale);
+			bundle = ResourceBundle.getBundle(bundleName, this.getCurrentLocale());
 			keys = bundle.getKeys();
 			while (keys.hasMoreElements()) {
 				key = keys.nextElement();
@@ -425,7 +472,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 				Resource[] resources = resolver.getResources(resourceName);
 				for (Resource resource :resources) {//resource.getFile().getName()
 					try {
-						bundle = ResourceBundle.getBundle(resourcePath + "/" + resource.getFilename().replace(".properties", ""), this.locale);
+						bundle = ResourceBundle.getBundle(resourcePath + "/" + resource.getFilename().replace(".properties", ""), this.getCurrentLocale());
 					} catch (NullPointerException | MissingResourceException e) {
 						bundle = null;
 					}
@@ -474,7 +521,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 						//innerResolver = new PathMatchingResourcePatternResolver(classLoader);
 						//innerResources = innerResolver.getResources(resource.getURL().getPath()+"i18n/");
 						//resourceBundle = ResourceBundle.getBundle("i18n/messagesEMX", this.locale, classLoader);
-						resourceBundle = ResourceBundle.getBundle("i18n/messages", this.locale, classLoader);
+						resourceBundle = ResourceBundle.getBundle("i18n/messages", this.getCurrentLocale(), classLoader);
 						if (resourceBundle.keySet().size() > 0 && !scannedResources.contains(resourceBundle.getBaseBundleName())) {
 							scannedResources.add(resourceBundle.getBaseBundleName());
 							/*
@@ -503,7 +550,7 @@ public class MultiplePropertiesResourceBundle extends ResourceBundle {
 		ResourceBundle bundle = null;
 		for (Resource resource :resources) {
 			try {
-				bundle = ResourceBundle.getBundle(resourcePath + "/" + resource.getFilename().replace(".properties", ""), this.locale);
+				bundle = ResourceBundle.getBundle(resourcePath + "/" + resource.getFilename().replace(".properties", ""), this.getCurrentLocale());
 			} catch (NullPointerException | MissingResourceException e) {
 				bundle = null;
 			}

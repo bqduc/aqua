@@ -131,7 +131,7 @@ public class ProductTxn extends RepoAuditable {
 		setQuantity(new Quantity(transferItem.getQuantity()));
 		setUnitPrice(new MoneySet());
 		setProductType(transferItem.getProduct().getProductType());
-		setActive(owner.getActive());
+		setVisible(owner.getVisible());
 		setSerial(owner.getSerial());
 		setReference(owner.getReference());
 		setInfo(transferItem.getInfo());

@@ -329,7 +329,7 @@ public abstract class GenericServiceImpl<ClassType extends RepoEntity, Key exten
 			return Optional.empty();
 
 		if (fetchedBizObject.get() instanceof RepoAuditable && 
-				(!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getActive())||!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getSystem()))) {
+				(!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getVisible())||!Boolean.TRUE.equals(((RepoAuditable)fetchedBizObject.get()).getSystem()))) {
 			log.error("The business object with key: [" + key + "] not activated or visible yet. ");
 			return Optional.empty();
 		}

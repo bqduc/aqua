@@ -13,10 +13,9 @@ import lombok.Setter;
 public abstract class RepoAuditable extends Auditable<Long> {
 	private static final long serialVersionUID = -8994521728871616441L;
 
-	@Setter
-  @Getter
-	@Column(name = "is_active")
-	private Boolean active = Boolean.FALSE;
+	@Setter @Getter
+	@Column(name = "visible")
+	private Boolean visible = Boolean.FALSE;
 
 	@Transient
 	public boolean isSelected(Long id){

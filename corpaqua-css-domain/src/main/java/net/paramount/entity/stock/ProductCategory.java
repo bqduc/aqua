@@ -34,7 +34,7 @@ import net.paramount.framework.entity.RepoAuditable;
 @NamedQueries({ @NamedQuery(name = "ProductCategory.findAll", query = "SELECT p FROM ProductCategory p"),
 		@NamedQuery(name = "ProductCategory.findById", query = "SELECT p FROM ProductCategory p WHERE p.id = :id"),
 		// @NamedQuery(name = "ProductCategory.findByName", query = "SELECT p FROM ProductCategory p WHERE p.name = :name"),
-		@NamedQuery(name = "ProductCategory.findByActive", query = "SELECT p FROM ProductCategory p WHERE p.active = :active") })
+		@NamedQuery(name = "ProductCategory.findByVisible", query = "SELECT p FROM ProductCategory p WHERE p.visible = :active") })
 public class ProductCategory extends RepoAuditable {
 
 	private static final long serialVersionUID = 1L;

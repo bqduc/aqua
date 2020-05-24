@@ -26,13 +26,14 @@ public class GlobalDataRepository {
 	private static Map<String, Locale> supportedLocaleMap = ListUtility.createMap();
 
 	@Builder.Default
-	private Locale defaultLocale = getVietnameseLocale();
-
-	private static Locale getVietnameseLocale() {
-		return new Locale("vi", "VN");
-	}
+	private Locale defaultLocale = CommonUtility.LOCALE_VIETNAMESE;// = getVietnameseLocale();
 
 	public Locale getDefaultLocale() {
+		return this.defaultLocale;
+	}
+
+	public Locale switchLocale(Locale locale) {
+		this.defaultLocale = locale;
 		return this.defaultLocale;
 	}
 

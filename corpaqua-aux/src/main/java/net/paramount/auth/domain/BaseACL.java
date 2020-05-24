@@ -14,6 +14,8 @@ public enum BaseACL {
 	DEPARTMENT_MANAGER ("", "DepartmentManager", "Department Managerial", "", "", "", ""), 
 
 	//Vertical - System privileges
+	SYS_ADMIN ("/spaces/**", "SysAdmin", "SysAdmin Authority", "sysmadmin", "sysadmin@ecosphere.net", "SysAdmin", "Nguyễn Ngô Trần"), 
+	SYSTEM_ADMINISTRATOR ("/spaces/**", "SystemAdmin", "System Administrator Authority", "systemadmin", "systemadmin@ecosphere.net", "SystemAdmin", "Hồ Lê Phạm Nguyễn Trần"), 
 	ADMINISTRATOR ("/spaces/administration/**", "administration", "Administration Authority", "administrator", "administrator@ecosphere.net", "Admin", "Nguyễn Trần"), 
 	MANAGER ("/spaces/management/**", "management", "Management Authority", "manager", "manager@ecosphere.net", "Lê Văn", "Manager"), 
 	COORDINATOR ("/spaces/coordination/**", "coordination", "Coordination Authority", "coordinator", "coordination@ecosphere.net", "Coordinator", "Hồ Hoàng"), 

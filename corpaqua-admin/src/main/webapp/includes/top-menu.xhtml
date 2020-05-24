@@ -385,13 +385,13 @@
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">#{messages['lbl.Language']}</a>
                             <ul class="dropdown-menu">
                                 <li> 
-								    <p:commandLink actionListener="#{localeController.changeLanguage('en')}" ajax="true">
-										<h:outputText value="#{messages.LanguageEnglish}" />
+								    <p:commandLink actionListener="#{localeManager.setLanguage('en')}" ajax="true">
+										<h:outputText value="#{messages['lbl.english']}" />
 									</p:commandLink>
 								</li>
                                 <li> 
-								    <p:commandLink actionListener="#{localeController.changeLanguage('vi')}" ajax="true">
-										<h:outputText value="#{messages.LanguageVietnamese}" />
+								    <p:commandLink actionListener="#{localeManager.setLanguage('vi')}" ajax="true">
+										<h:outputText value="#{messages['lbl.vietnamese']}" />
 									</p:commandLink>
 								</li>
                             </ul>
